@@ -111,3 +111,117 @@ export async function getProfile() {
     .maybeSingle()
   return data
 }
+
+export type GoalMedia = {
+  id: string
+  kind: 'image' | 'link'
+  url: string | null
+  title: string | null
+  altText: string | null
+  /** Short-lived signed URL for private images. */
+  src: string | null
+}
+
+export type GoalSheet = GoalSummary & {
+  hue: number | null
+  descriptionDoc: unknown
+  imaginedOutcome: string | null
+  whereWith: string | null
+  why: string | null
+  benefits: string | null
+  firstStep: string | null
+  notes: string | null
+  visibility: 'private' | 'circle' | 'community'
+  valueKeys: string[]
+  customValues: string[]
+  media: GoalMedia[]
+}
+
+/** Everything the sheet and the detail page need, with signed image URLs. */
+export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('goals')
+    .select(
+      `${cardColumns}, hue, description_doc, imagined_outcome, where_with, why, benefits, first_step, notes, visibility, goal_values(value_key, custom_label), goal_media(id, kind, url, title, alt_text, storage_path, position)`,
+    )
+    .eq('id', id)
+    .is('deleted_at', null)
+    .maybeSingle()
+  if (error) throw error
+  if (!data) return null
+
+  const row = data as unknown as Row & {
+    hue: number | null
+    description_doc: unknown
+    imagined_outcome: string | null
+    where_with: string | null
+    why: string | null
+    benefits: string | null
+    first_step: string | null
+    notes: string | null
+    visibility: GoalSheet['visibility']
+    goal_values: { value_key: string | null; custom_label: string | null }[]
+    goal_media: {
+      id: string
+      kind: 'image' | 'link'
+      url: string | null
+      title: string | null
+      alt_text: string | null
+      storage_path: string | null
+      position: number
+    }[]
+  }
+
+  const media = row.goal_media.toSorted((a, b) => a.position - b.position)
+  const paths = media.map((m) => m.storage_path).filter((p): p is string => Boolean(p))
+  const signed = new Map<string, string>()
+  if (paths.length > 0) {
+    const { data: urls } = await supabase.storage.from('goal-media').createSignedUrls(paths, 3600)
+    for (const u of urls ?? []) if (u.path && u.signedUrl) signed.set(u.path, u.signedUrl)
+  }
+
+  return {
+    ...toSummary(row),
+    hue: row.hue,
+    descriptionDoc: row.description_doc,
+    imaginedOutcome: row.imagined_outcome,
+    whereWith: row.where_with,
+    why: row.why,
+    benefits: row.benefits,
+    firstStep: row.first_step,
+    notes: row.notes,
+    visibility: row.visibility,
+    valueKeys: row.goal_values.map((v) => v.value_key).filter((k): k is string => Boolean(k)),
+    customValues: row.goal_values.map((v) => v.custom_label).filter((k): k is string => Boolean(k)),
+    media: media.map((m) => ({
+      id: m.id,
+      kind: m.kind,
+      url: m.url,
+      title: m.title,
+      altText: m.alt_text,
+      src: m.storage_path ? (signed.get(m.storage_path) ?? null) : null,
+    })),
+  }
+}
+
+export async function listRevisions(goalId: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('goal_revisions')
+    .select('id, reason, created_at, snapshot')
+    .eq('goal_id', goalId)
+    .order('created_at', { ascending: false })
+    .limit(50)
+  if (error) throw error
+  return data.map((r) => {
+    const goal = (r.snapshot as { goal?: { title?: string; tagline?: string | null } } | null)?.goal
+    return {
+      id: r.id,
+      reason: r.reason,
+      createdAt: r.created_at,
+      title: goal?.title ?? '',
+      tagline: goal?.tagline ?? null,
+    }
+  })
+}

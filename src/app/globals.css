@@ -161,3 +161,34 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Tiptap content inside the description editor */
+.prose-elan > * + * {
+  margin-top: 0.75rem;
+}
+.prose-elan h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+}
+.prose-elan ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.prose-elan ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.prose-elan a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-elan p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--ink-3);
+  font-style: italic;
+}

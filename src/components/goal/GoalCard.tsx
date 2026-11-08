@@ -14,6 +14,8 @@ export type GoalCardData = {
   emoji?: string | null
   categories?: readonly CategoryKey[]
   status?: GoalStatus | null
+  /** Ribbon colour chosen on the wish; overrides the category hue. */
+  hue?: number | null
 }
 
 type GoalCardProps = GoalCardData & {
@@ -33,6 +35,7 @@ export function GoalCard({
   emoji,
   categories = [],
   status,
+  hue: chosenHue,
   href,
   size = 'large',
   justKept,
@@ -41,7 +44,7 @@ export function GoalCard({
 }: GoalCardProps) {
   const t = useTranslations('goal.card')
   const first = categories[0]
-  const hue = first ? categoryHue[first] : null
+  const hue = chosenHue ?? (first ? categoryHue[first] : null)
 
   return (
     <article

@@ -34,7 +34,11 @@ const HardBreak = z.object({ type: z.literal('hardBreak') }).strict()
 const Inline = z.union([Text, HardBreak])
 
 const Paragraph = z
-  .object({ type: z.literal('paragraph'), content: z.array(Inline).max(500).optional() })
+  .object({
+    type: z.literal('paragraph'),
+    attrs: z.record(z.string(), z.unknown()).optional(),
+    content: z.array(Inline).max(500).optional(),
+  })
   .strict()
 
 const Heading = z
@@ -46,7 +50,11 @@ const Heading = z
   .strict()
 
 type ListNode = { type: 'bulletList' | 'orderedList'; attrs?: unknown; content: ListItemNode[] }
-type ListItemNode = { type: 'listItem'; content: (z.infer<typeof Paragraph> | ListNode)[] }
+type ListItemNode = {
+  type: 'listItem'
+  attrs?: unknown
+  content: (z.infer<typeof Paragraph> | ListNode)[]
+}
 
 const List: z.ZodType<ListNode> = z.lazy(() =>
   z
