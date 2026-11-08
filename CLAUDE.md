@@ -69,6 +69,7 @@ Cette liste fait foi.
 
 - **Next.js 16.4** : plusieurs conventions ont changé (`proxy.ts` au lieu de `middleware.ts`, Cache Components activé). Lire la doc fournie dans `node_modules/next/dist/docs/` avant d'utiliser une API (voir `AGENTS.md`).
 - **Cache Components** : toute lecture de session (`cookies()`) se fait dans un composant placé sous `<Suspense>` avec un squelette, jamais au niveau d'un layout.
+- **Environnement cloud derrière un proxy** : Node n'utilise pas `HTTPS_PROXY` par défaut. Lancer le serveur ou les tests avec `NODE_USE_ENV_PROXY=1` pour que le code serveur joigne Supabase (sinon `ENOTFOUND`, et toute requête authentifiée répond 401).
 - **Tests E2E** : `playwright.config.ts` construit et lance son propre serveur ; arrêter tout `next start` qui tournerait déjà sur le port 3100.
 
 ## Définition de « terminé »

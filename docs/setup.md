@@ -45,6 +45,8 @@ pnpm exec supabase db push
 
 Le `ref` est dans l'URL du tableau de bord (`/project/<ref>`).
 
+**Sans terminal** : on peut aussi coller le schéma complet dans **SQL Editor → New query → Run**. Le fichier s'obtient avec `python3 scripts/db-local/bundle-schema.py > elan-schema.sql` ; il enregistre les migrations comme appliquées, pour que `supabase db push` ne les rejoue pas ensuite. C'est ainsi que le projet `kbsyxvwywzrsewxevoue` a été initialisé le 8 novembre 2026.
+
 ### 2.4 Réglages d'authentification
 
 Authentication → **Sign In / Providers** :
