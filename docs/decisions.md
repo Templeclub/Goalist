@@ -221,3 +221,13 @@ Conformément à D-030 et aux politiques Storage, une session anonyme peut ajout
 ### D-049 · Pages gardées en mémoire par Next (React Activity) — Acceptée
 
 Avec Cache Components, Next garde jusqu'à 3 pages visitées dans le DOM, cachées. Le formulaire de la fiche est donc indexé sur la version de l'envie (`key` incluant `version`) : après une restauration ou une modification faite ailleurs, il est remonté avec les données à jour au lieu de réafficher (et de réenregistrer) un état périmé. Les tests E2E ne regardent que la page visible.
+
+## Phase 3
+
+### D-050 · SMART dans le parcours, en cinq étapes internes — Acceptée
+
+L'assistant est la section 4 du parcours (`/edit/smart`), une question à la fois avec une barre S·M·A·R·T cliquable. Les réponses vont dans `smart_answers` (`PATCH /api/goals/:id/smart`, upsert). La phrase est réassemblée côté client à chaque réponse tant que la personne ne l'a pas modifiée (`assembled_edited`), par des gabarits du catalogue de messages : aucune reformulation automatique.
+
+### D-051 · Catégories, tags et mot de statut comme sous-ressources — Acceptée
+
+`PUT /api/goals/:id/categories` (ordre conservé : la première donne la teinte du signet), `PUT /api/goals/:id/tags` (les nouveaux libellés deviennent des tags personnels), `POST /api/categories` (catégorie personnelle : nom + l'une des 12 teintes), `PATCH /api/goals/:id/status-note` (mot facultatif sur le dernier changement de statut). Tags et noms de catégories alimentent `search_extra` pour la recherche de la phase 4. La complétude compte désormais les catégories et les critères SMART.
