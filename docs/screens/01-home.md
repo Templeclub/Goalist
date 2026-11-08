@@ -3,6 +3,7 @@
 **Rôle** : donner envie d'écrire, en un geste. Retrouver ses dernières envies sans effort.
 
 ## Hiérarchie (mobile)
+
 1. **En-tête** : date du jour (`text-sm`, `ink-3`), salutation selon l'heure en serif `text-2xl` (« Bonjour, Camille » / « Bonsoir, Camille »), avatar à droite (vers « Moi »).
 2. **Geste principal** : grand champ-bouton « J'aimerais… » (hauteur 64 px, fond `card`, police de titrage, icône « + » dans un cercle accent). Il ouvre la capture express.
 3. **Tes dernières envies** : 3 cartes `GoalCard` (taille large), lien discret « Tout voir ».
@@ -10,13 +11,16 @@
 5. **Navigation basse** : Accueil · Mes envies · « + » · Moi.
 
 ## Desktop
+
 Rail de navigation à gauche. Colonne centrale de 720 px max : salutation, champ « J'aimerais… » (raccourci `N` affiché), dernières envies en grille de 3, « Fiches à compléter » en colonne latérale droite.
 
 ## États
+
 - **Aucune envie** : illustration au trait (un carnet ouvert et une plume), « Ton carnet est prêt. Une envie, même petite, suffit pour commencer. », 3 exemples à tapoter (« Dormir une nuit à la belle étoile », « Apprendre à faire son pain », « Écrire à une vieille amie ») qui préremplissent la capture.
 - **Rien à compléter** : le bloc disparaît, sans message.
 - **Chargement** : squelettes de cartes.
 - **Hors ligne** : bandeau discret sous l'en-tête « Hors ligne. Tu peux continuer d'écrire. »
 
 ## Micro-copies
+
 `home.greeting.morning` Bonjour, {name} · `home.greeting.evening` Bonsoir, {name} · `home.capture.cta` J'aimerais… · `home.recent.title` Tes dernières envies · `home.recent.seeAll` Tout voir · `home.toComplete.title` Fiches à compléter · `home.toComplete.intro` {count, plural, one {Une envie attend} other {# envies attendent}} un peu d'attention, quand tu veux. · `home.toComplete.action` Compléter

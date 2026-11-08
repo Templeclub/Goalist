@@ -50,19 +50,19 @@ Détails et justifications : [`docs/plan.md`](docs/plan.md) et [`docs/decisions.
 
 À créer en phase 0 ; cette liste fait foi une fois le projet initialisé.
 
-| Commande | Rôle |
-|---|---|
-| `pnpm dev` | Serveur de développement |
-| `pnpm build` / `pnpm start` | Build et serveur de production |
-| `pnpm lint` / `pnpm typecheck` / `pnpm format` | Qualité |
-| `pnpm test` | Tests unitaires et composants (Vitest) |
-| `pnpm e2e` | Tests Playwright (`pnpm e2e -- --trace off` en local) |
-| `pnpm e2e:visual` | Tests de non-régression visuelle |
-| `pnpm storybook` / `pnpm storybook:build` | Storybook |
-| `pnpm db:start` / `pnpm db:reset` | Supabase local (Docker) |
-| `pnpm db:migrate:new <nom>` | Nouvelle migration SQL |
-| `pnpm db:test` | Tests pgTAP (RLS, contraintes) |
-| `pnpm db:types` | Régénère `src/lib/supabase/database.types.ts` |
+| Commande                                       | Rôle                                                  |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| `pnpm dev`                                     | Serveur de développement                              |
+| `pnpm build` / `pnpm start`                    | Build et serveur de production                        |
+| `pnpm lint` / `pnpm typecheck` / `pnpm format` | Qualité                                               |
+| `pnpm test`                                    | Tests unitaires et composants (Vitest)                |
+| `pnpm e2e`                                     | Tests Playwright (`pnpm e2e -- --trace off` en local) |
+| `pnpm e2e:visual`                              | Tests de non-régression visuelle                      |
+| `pnpm storybook` / `pnpm storybook:build`      | Storybook                                             |
+| `pnpm db:start` / `pnpm db:reset`              | Supabase local (Docker)                               |
+| `pnpm db:migrate:new <nom>`                    | Nouvelle migration SQL                                |
+| `pnpm db:test`                                 | Tests pgTAP (RLS, contraintes)                        |
+| `pnpm db:types`                                | Régénère `src/lib/supabase/database.types.ts`         |
 
 ## Définition de « terminé »
 
