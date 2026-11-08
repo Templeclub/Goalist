@@ -1,0 +1,819 @@
+<title>Maquettes Élan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..650;1,9..144,400&family=Figtree:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Nunito+Sans:opsz,wght@6..12,400..700&family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: page de présentation neutre (chrome) qui encadre des écrans d'app ; les écrans lisent les tokens de la direction choisie. */
+:root{
+  --c-bg:#E8E6E1; --c-surface:#F4F2EE; --c-fg:#23211E; --c-muted:#5C5852; --c-line:#D2CEC6; --c-sel:#23211E; --c-sel-ink:#F4F2EE;
+  --f-chrome:"Figtree",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --c-bg:#121211; --c-surface:#1C1B19; --c-fg:#ECEAE6; --c-muted:#A9A49C; --c-line:#35332F; --c-sel:#ECEAE6; --c-sel-ink:#121211; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --c-bg:#121211; --c-surface:#1C1B19; --c-fg:#ECEAE6; --c-muted:#A9A49C; --c-line:#35332F; --c-sel:#ECEAE6; --c-sel-ink:#121211; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--c-bg);color:var(--c-fg);font-family:var(--f-chrome);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--c-bg)}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+.intro{max-width:68ch;display:grid;gap:10px}
+.eyebrow{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted)}
+.intro h1{margin:0;font-family:"Fraunces",Georgia,serif;font-weight:520;font-size:clamp(2rem,5vw,3rem);line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+.intro p{margin:0;color:var(--c-muted);text-wrap:pretty}
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-top:28px;background:var(--c-bg);padding-block:12px;border-bottom:1px solid var(--c-line);display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+.ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ctl>span{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted)}
+.seg{display:inline-flex;border:1px solid var(--c-line);border-radius:999px;padding:3px;background:var(--c-surface);flex-wrap:wrap}
+.seg button{font:inherit;font-size:15px;border:0;background:transparent;color:var(--c-fg);padding:8px 14px;border-radius:999px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--c-sel);color:var(--c-sel-ink)}
+.seg button:focus-visible,.dircard:focus-visible{outline:2px solid var(--c-fg);outline-offset:2px}
+h2.part{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.6rem;margin:56px 0 6px;letter-spacing:-.005em}
+p.part-sub{margin:0 0 24px;color:var(--c-muted);max-width:70ch}
+
+/* ---------- Directions (tokens) ---------- */
+[data-mode="light"]{--rib:0.70 0.11;--pbg:0.93 0.035;--pfg:0.42 0.08;--sbg:0.93 0.025;--sfg:0.40 0.05;color-scheme:light}
+[data-mode="dark"]{--rib:0.72 0.10;--pbg:0.30 0.04;--pfg:0.86 0.06;--sbg:0.30 0.03;--sfg:0.86 0.05;color-scheme:dark}
+[data-dir="a"]{--f-display:"Fraunces",Georgia,serif;--f-ui:"Figtree",system-ui,sans-serif;--w-d:560;--r-card:14px;--r-ctl:12px}
+[data-dir="b"]{--f-display:"Newsreader",Georgia,serif;--f-ui:"Nunito Sans",system-ui,sans-serif;--w-d:500;--r-card:12px;--r-ctl:10px}
+[data-dir="c"]{--f-display:"Literata",Georgia,serif;--f-ui:"Atkinson Hyperlegible",system-ui,sans-serif;--w-d:540;--r-card:16px;--r-ctl:12px}
+[data-dir="a"][data-mode="light"]{--paper:#F6F1E9;--paper-2:#EFE7DB;--card:#FFFCF7;--ink:#2A211C;--ink-2:#5E5249;--ink-3:#6F6257;--line:#E2D6C6;--line-strong:#CBBBA7;--accent:#A84B2A;--accent-ink:#FFF8F2;--accent-soft:#F4DFD3;--accent-strong:#843518;--gilt:#B8842A;--sh-card:0 1px 2px rgb(70 45 25/.06),0 8px 22px -10px rgb(70 45 25/.22);--card-bd:transparent}
+[data-dir="a"][data-mode="dark"]{--paper:#1C1814;--paper-2:#161310;--card:#26201B;--ink:#F1E8DD;--ink-2:#C9BBAB;--ink-3:#A39484;--line:#3A322B;--line-strong:#54493F;--accent:#E59873;--accent-ink:#2A1408;--accent-soft:#3E2A1F;--accent-strong:#F4BDA2;--gilt:#D9A94F;--sh-card:0 1px 0 rgb(0 0 0/.35);--card-bd:#332B24}
+[data-dir="b"][data-mode="light"]{--paper:#F1F2EC;--paper-2:#E7E9E0;--card:#FBFBF7;--ink:#1F2622;--ink-2:#4C5850;--ink-3:#5F6A62;--line:#D6DBD0;--line-strong:#B9C1B4;--accent:#3B6852;--accent-ink:#F4FAF6;--accent-soft:#DCE8DF;--accent-strong:#2A5240;--gilt:#A88A3A;--sh-card:none;--card-bd:#D6DBD0}
+[data-dir="b"][data-mode="dark"]{--paper:#151A17;--paper-2:#101411;--card:#1D2420;--ink:#E6ECE6;--ink-2:#B6C2B9;--ink-3:#93A096;--line:#2F3A33;--line-strong:#46544A;--accent:#93C5A8;--accent-ink:#0F2318;--accent-soft:#213328;--accent-strong:#B6DCC5;--gilt:#CDB26A;--sh-card:none;--card-bd:#2F3A33}
+[data-dir="c"][data-mode="light"]{--paper:#F2EFE9;--paper-2:#E8E4DC;--card:#FDFBF8;--ink:#1D2233;--ink-2:#4A5066;--ink-3:#5D6275;--line:#DCD7CD;--line-strong:#BFB9AD;--accent:#33467A;--accent-ink:#F5F6FC;--accent-soft:#E0E4F1;--accent-strong:#26376A;--gilt:#B8842A;--sh-card:0 2px 6px -3px rgb(20 26 51/.18);--card-bd:#E2DDD3}
+[data-dir="c"][data-mode="dark"]{--paper:#131725;--paper-2:#0F1220;--card:#1B2033;--ink:#ECE7DE;--ink-2:#C0BCCB;--ink-3:#9A97A8;--line:#2C3248;--line-strong:#434A66;--accent:#AEBDEB;--accent-ink:#141A33;--accent-soft:#242C4A;--accent-strong:#CBD5F4;--gilt:#D9A94F;--sh-card:0 1px 0 rgb(0 0 0/.35);--card-bd:#2C3248}
+
+/* catégories (teinte seule) */
+.c-family{--h:0}.c-social{--h:30}.c-travel{--h:60}.c-practical{--h:90}.c-finance{--h:120}.c-sport{--h:150}.c-wellbeing{--h:180}.c-home{--h:210}.c-learning{--h:240}.c-work{--h:270}.c-volunteering{--h:300}.c-creative{--h:330}
+/* statuts */
+.st-idea{--h:70}.st-preparing{--h:80}.st-progress{--h:240}.st-done{--h:150}.st-paused{--h:290}.st-letgo{--h:70}
+
+/* ---------- Direction cards ---------- */
+.dirs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:28px}
+.dircard{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:14px;padding:20px;border-radius:18px;background:var(--paper);color:var(--ink);font-family:var(--f-ui);border:2px solid transparent;min-width:0}
+.dircard[aria-pressed="true"]{border-color:var(--accent)}
+.dc-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dc-name{font-family:var(--f-display);font-weight:var(--w-d);font-size:1.5rem;line-height:1.1}
+.dc-letter{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.dc-mood{margin:0;color:var(--ink-2);font-size:15px;line-height:1.5}
+.sw{display:flex;gap:6px}
+.sw span{flex:1;height:36px;border-radius:8px;border:1px solid var(--line)}
+.dc-type{display:grid;gap:4px;padding-top:4px;border-top:1px solid var(--line)}
+.dc-type .d{font-family:var(--f-display);font-weight:var(--w-d);font-size:1.35rem;line-height:1.15;letter-spacing:-.01em}
+.dc-type .u{font-size:14px;color:var(--ink-3)}
+.dc-sel{font-size:14px;font-weight:600;color:var(--accent)}
+
+/* ---------- App base ---------- */
+.app{font-family:var(--f-ui);color:var(--ink);background:var(--paper);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app button{font:inherit;color:inherit}
+.app :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app h3,.app h4,.app h5,.app p{margin:0}
+.serif{font-family:var(--f-display);font-weight:var(--w-d)}
+.label{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),375px));gap:44px 32px;justify-content:center}
+figure.shot{margin:0;display:grid;gap:14px;min-width:0}
+figcaption{display:grid;gap:2px;padding-inline:6px}
+figcaption b{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.15rem}
+figcaption span{color:var(--c-muted);font-size:14px}
+.phone{position:relative;width:100%;max-width:375px;height:780px;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--c-line);box-shadow:0 30px 60px -30px rgb(0 0 0/.35)}
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:12px 26px 6px;font-size:14px;font-weight:600;flex:none}
+.sbar i{display:inline-block;width:22px;height:10px;border:1.5px solid currentColor;border-radius:3px;opacity:.7}
+.scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden}
+.pad{padding:8px 20px 24px;display:flex;flex-direction:column;gap:28px}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.s{width:16px;height:16px}
+.icon-btn{all:unset;box-sizing:border-box;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;cursor:pointer;color:var(--ink-2)}
+.icon-btn:focus-visible{outline:2px solid var(--accent)}
+
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border-radius:var(--r-ctl);font-weight:600;font-size:16px;text-align:center}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.secondary{border:1px solid var(--line-strong);color:var(--ink)}
+.btn.ghost{color:var(--ink-2);padding:0 12px}
+.btn.sm{min-height:40px;padding:0 14px;font-size:15px}
+.btn.block{width:100%}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);font-size:15px;transition:background-color .15s,border-color .15s}
+.chip[aria-pressed="true"],.chip[aria-checked="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong);font-weight:600}
+.chip[aria-pressed="true"]::before,.chip[aria-checked="true"]::before{content:"";width:15px;height:15px;background:currentColor;-webkit-mask:var(--ck) center/contain no-repeat;mask:var(--ck) center/contain no-repeat}
+.chip.add{border-style:dashed;color:var(--ink-2)}
+.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{--ck:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")}
+
+.pill{display:inline-flex;align-items:center;gap:5px;min-height:28px;padding:2px 10px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.2}
+.pill.cat,.pill.st{background:oklch(var(--pbg) var(--h));color:oklch(var(--pfg) var(--h))}
+.pill.st{background:oklch(var(--sbg) var(--h));color:oklch(var(--sfg) var(--h))}
+.pill.st-confirmed{background:var(--accent-soft);color:var(--accent-strong)}
+.pill.plain{background:transparent;color:var(--ink-2);font-weight:500;padding-inline:4px}
+
+/* Carte d'envie + signet */
+.gcard{position:relative;background:var(--card);border:1px solid var(--card-bd);box-shadow:var(--sh-card);border-radius:var(--r-card);padding:16px 50px 16px 18px;display:grid;gap:6px}
+.signet{position:absolute;top:-5px;right:18px;width:16px;height:36px;background:oklch(var(--rib) var(--h));clip-path:polygon(0 0,100% 0,100% 100%,50% 74%,0 100%);border-radius:2px 2px 0 0}
+.gcard .emo{font-size:24px;line-height:1}
+.gcard h5{font-family:var(--f-display);font-weight:var(--w-d);font-size:20px;line-height:1.2;letter-spacing:-.005em;text-wrap:balance}
+.gcard p{color:var(--ink-2);font-size:15px;line-height:1.45}
+.gcard .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cards{display:grid;gap:14px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.link{color:var(--accent);font-weight:600;font-size:15px;text-decoration:none}
+
+/* Nav basse */
+.bnav{flex:none;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;padding:6px 8px 22px;background:var(--card);border-top:1px solid var(--line)}
+.bnav a{display:grid;justify-items:center;gap:2px;color:var(--ink-3);font-size:12.5px;text-decoration:none;min-height:48px;align-content:center}
+.bnav a[aria-current="page"]{color:var(--accent);font-weight:700}
+.bnav .plus{width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;justify-self:center}
+.bnav .plus svg{width:24px;height:24px}
+
+/* Accueil */
+.home-top{display:flex;justify-content:space-between;align-items:flex-start;padding-top:12px}
+.date{font-size:14px;color:var(--ink-3)}
+.hello{font-family:var(--f-display);font-weight:var(--w-d);font-size:31px;line-height:1.1;letter-spacing:-.01em;margin-top:2px}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-strong);font-weight:700}
+.capture-cta{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:68px;padding:0 12px 0 20px;background:var(--card);border:1px solid var(--line-strong);border-radius:16px;box-shadow:var(--sh-card)}
+.capture-cta span:first-child{font-family:var(--f-display);font-size:22px;color:var(--ink-3);font-style:italic}
+.plus-dot{width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.capture-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tocomplete{background:var(--paper-2);border-radius:var(--r-card);padding:18px;display:grid;gap:12px}
+.tocomplete>p{color:var(--ink-2);font-size:15px}
+.tocomplete ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.tocomplete li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.tocomplete li>div{min-width:0}
+.tocomplete b{display:block;font-weight:600;font-size:15px;line-height:1.3}
+.tocomplete small{display:block;color:var(--ink-3);font-size:13.5px;line-height:1.35}
+.emo-sm{font-size:20px}
+
+/* Capture express */
+.scrim-top{flex:none;height:34px;background:color-mix(in oklab,var(--ink) 45%,var(--paper))}
+.sheet{flex:1;min-height:0;background:var(--card);border-radius:24px 24px 0 0;margin-top:-10px;display:flex;flex-direction:column;padding:8px 20px 14px;gap:16px}
+.handle{width:40px;height:5px;border-radius:3px;background:var(--line-strong);margin:0 auto}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-inline:-8px}
+.express{font-family:var(--f-display);font-weight:var(--w-d);font-size:26px;line-height:1.25;letter-spacing:-.005em;min-height:110px;color:var(--ink)}
+.caret{display:inline-block;width:2px;height:1.05em;background:var(--accent);vertical-align:-3px;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hint{color:var(--ink-3);font-size:15px}
+.sheet .spacer{flex:1}
+.kbd{flex:none;background:var(--paper-2);padding:8px 4px 26px;display:grid;gap:8px}
+.kbd .row{display:flex;gap:5px;justify-content:center}
+.kbd .k{flex:1;max-width:32px;height:40px;border-radius:6px;background:var(--card);display:grid;place-items:center;font-size:15px;color:var(--ink-2);box-shadow:0 1px 0 var(--line-strong)}
+.kbd .k.w{max-width:none;flex:5}.kbd .k.m{max-width:48px;flex:1.4}
+
+.toast{position:absolute;left:12px;right:12px;bottom:92px;background:var(--ink);color:var(--paper);border-radius:16px;padding:16px;display:grid;gap:12px;box-shadow:0 18px 40px -18px rgb(0 0 0/.5)}
+.toast p{font-size:15px;line-height:1.45}
+.toast .t-q{font-weight:600}
+.toast .row{display:flex;gap:8px;justify-content:flex-end}
+.toast .btn{min-height:44px}
+.toast .btn.ghost{color:var(--paper);opacity:.85}
+.toast .btn.primary{background:var(--paper);color:var(--ink)}
+.just-saved{animation:land .22s cubic-bezier(.34,1.4,.64,1) both}
+@keyframes land{from{transform:scale(.96);opacity:.4}}
+
+/* Parcours */
+.flow-top{flex:none;display:flex;align-items:center;gap:4px;padding:0 10px 0 8px}
+.ft-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px;color:var(--ink-2)}
+.saved{display:inline-flex;align-items:center;gap:4px;font-size:13.5px;color:var(--ink-3);white-space:nowrap}
+.progress{flex:none;display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:6px 20px 0}
+.progress span{height:4px;border-radius:2px;background:var(--line)}
+.progress .done{background:var(--accent)}
+.progress .cur{background:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.progress .skip{background:repeating-linear-gradient(90deg,var(--line-strong) 0 4px,transparent 4px 7px)}
+.prog-label{flex:none;padding:8px 20px 0;font-size:13.5px;color:var(--ink-3)}
+.q-row{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.q{font-family:var(--f-display);font-weight:var(--w-d);font-size:26px;line-height:1.2;letter-spacing:-.005em;text-wrap:balance}
+.help{all:unset;box-sizing:border-box;cursor:pointer;flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:var(--accent)}
+.help span{width:30px;height:30px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-weight:700;font-size:15px}
+.help[aria-expanded="true"] span{background:var(--accent-soft)}
+.help:focus-visible{outline:2px solid var(--accent)}
+.helpbox{background:var(--paper-2);border-radius:var(--r-ctl);padding:14px 16px;display:grid;gap:10px;font-size:15px;color:var(--ink-2)}
+.ex{display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:baseline}
+.ex-l{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.ex .after{color:var(--ink)}
+.area{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--r-ctl);padding:14px 16px;min-height:96px;font-size:17px;line-height:1.55;color:var(--ink)}
+.area.empty{color:var(--ink-3);font-style:italic}
+.group{display:grid;gap:12px}
+.q2{font-family:var(--f-display);font-weight:var(--w-d);font-size:21px;line-height:1.25}
+.sub{color:var(--ink-3);font-size:15px;margin-top:-6px}
+.flow-foot{flex:none;padding:12px 16px 24px;background:var(--paper);border-top:1px solid var(--line);display:grid;gap:10px}
+.meter{display:flex;align-items:center;gap:4px;font-size:14px;color:var(--ink-2)}
+.meter i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.meter i.on{background:var(--accent)}
+.meter b{font-weight:600;margin-left:8px}
+.foot-btns{display:flex;gap:8px;justify-content:space-between}
+.foot-btns .primary{flex:1}
+
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:700;font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+legend small{font-weight:400;color:var(--ink-3);font-size:14px}
+.stepper{position:relative;display:grid;grid-template-columns:repeat(5,1fr)}
+.stepper::before{content:"";position:absolute;left:10%;right:10%;top:21px;height:2px;background:var(--line-strong)}
+.stepper label{position:relative;display:grid;justify-items:center;gap:6px;cursor:pointer;min-height:44px;padding-top:10px;text-align:center}
+.stepper input,.radiocards input{position:absolute;opacity:0;width:1px;height:1px}
+.stepper .dot{width:22px;height:22px;border-radius:50%;background:var(--paper);border:2px solid var(--line-strong);transition:transform .15s}
+.stepper .sl{font-size:13px;line-height:1.25;color:var(--ink-3)}
+.stepper input:checked+.dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px var(--accent-soft)}
+.stepper input:checked~.sl{color:var(--ink);font-weight:700}
+.stepper input:focus-visible+.dot{outline:2px solid var(--accent);outline-offset:4px}
+.step-desc{margin-top:12px;font-size:15px;color:var(--ink-2);background:var(--paper-2);border-radius:10px;padding:10px 12px}
+.radiocards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.radiocards label{position:relative;cursor:pointer;display:grid;justify-items:center;gap:6px;padding:14px 6px 12px;border-radius:var(--r-ctl);border:1px solid var(--line-strong);background:var(--card);font-size:15px;text-align:center;min-height:44px}
+.radiocards label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--accent-strong);font-weight:700}
+.radiocards label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.radiocards svg.i{width:24px;height:24px}
+
+/* Détail */
+.dtop{flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 8px}
+.back{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:2px;min-height:44px;padding-right:8px;color:var(--accent);font-weight:600;font-size:15px}
+.page{position:relative;background-color:var(--paper);background-image:radial-gradient(circle,color-mix(in oklab,var(--ink) 11%,transparent) 1px,transparent 1.4px);background-size:20px 20px;background-position:10px 6px}
+[data-dir="c"] .page{background-image:linear-gradient(to bottom,transparent 31px,color-mix(in oklab,var(--accent) 12%,transparent) 31px,color-mix(in oklab,var(--accent) 12%,transparent) 32px);background-size:100% 32px;background-position:0 10px}
+.page .pad{gap:22px;padding-top:24px}
+.signet-long{position:absolute;top:0;right:28px;width:22px;height:86px;background:oklch(var(--rib) var(--h));clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)}
+.lettrine{font-size:42px;line-height:1}
+.g-title{font-family:var(--f-display);font-weight:var(--w-d);font-size:38px;line-height:1.05;letter-spacing:-.015em;text-wrap:balance;margin-top:-8px;padding-right:24px}
+.g-tag{font-family:var(--f-display);font-style:italic;font-size:19px;line-height:1.4;color:var(--ink-2);margin-top:-10px}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px}
+details{border-top:1px solid var(--line);padding-top:12px}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:36px}
+summary::-webkit-details-marker{display:none}
+summary svg{transition:transform .2s;color:var(--ink-3)}
+details[open] summary svg{transform:rotate(180deg)}
+details>*:not(summary){margin-top:8px}
+.prose{font-size:17px;line-height:1.6;max-width:65ch;text-wrap:pretty}
+.kv{font-size:15px;color:var(--ink-2)}
+.kv b{color:var(--ink);font-weight:600}
+.vals{display:flex;flex-wrap:wrap;gap:6px}
+.vals span{font-size:14px;padding:3px 10px;border-radius:999px;border:1px solid var(--line-strong);color:var(--ink-2)}
+blockquote{margin:8px 0 0;padding:14px 16px;font-family:var(--f-display);font-size:18px;line-height:1.5;background:var(--card);border-radius:var(--r-ctl);border:1px solid var(--card-bd);box-shadow:var(--sh-card)}
+.clarity{font-size:14px;color:var(--ink-3)}
+dl.facts{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;margin:10px 0 0}
+dl.facts div{display:grid;gap:2px;min-width:0}
+dl.facts dt{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--ink-3)}
+dl.facts dd{margin:0;font-weight:600;font-size:15px;line-height:1.3}
+.dots{display:inline-flex;gap:3px;margin-right:6px;vertical-align:1px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line-strong)}
+.dots i.on{background:var(--accent)}
+.firststep{background:var(--accent-soft);color:var(--accent-strong);border-radius:var(--r-card);padding:16px 18px;display:grid;gap:4px}
+.firststep .label{color:var(--accent-strong);display:flex;gap:6px;align-items:center}
+.firststep p{font-family:var(--f-display);font-size:19px;line-height:1.35;color:var(--ink)}
+.firststep small{font-size:14px}
+.todo-box{border:1.5px dashed var(--line-strong);border-radius:var(--r-card);padding:14px 16px;display:grid;gap:10px}
+.foot-meta{font-size:13.5px;color:var(--ink-3)}
+.dbar{flex:none;display:flex;gap:8px;padding:10px 16px 26px;background:var(--card);border-top:1px solid var(--line)}
+.dbar .primary{flex:1}
+
+/* Desktop */
+.desk-scroll{overflow-x:auto;padding-bottom:12px}
+.desk{width:1240px;height:780px;border-radius:16px;overflow:hidden;border:1px solid var(--c-line);display:grid;grid-template-columns:64px 236px 1fr 340px;box-shadow:0 30px 60px -30px rgb(0 0 0/.35)}
+.rail{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 0}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:20px;margin-bottom:14px}
+.rail .icon-btn.on{background:var(--accent-soft);color:var(--accent-strong)}
+.toc{padding:28px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:16px;background:var(--paper)}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc li a{display:flex;align-items:center;gap:10px;min-height:42px;padding:0 10px;border-radius:10px;color:var(--ink-2);text-decoration:none;font-size:15px}
+.toc li a .st{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line-strong);flex:none;font-size:12px;color:var(--ink-3)}
+.toc li.done .st{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.toc li.part .st{border-color:var(--accent);background:linear-gradient(90deg,var(--accent) 50%,transparent 50%)}
+.toc li.cur a{background:var(--card);color:var(--ink);font-weight:700;box-shadow:var(--sh-card);border:1px solid var(--card-bd)}
+.toc li.cur .st{border-color:var(--accent);color:var(--accent)}
+.toc-foot{margin-top:auto;font-size:14px;color:var(--ink-3)}
+.dform{overflow-y:auto;min-width:0}
+.dform-top{position:sticky;top:0;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 40px;background:var(--paper);border-bottom:1px solid var(--line)}
+.crumb{font-size:14px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;align-items:center;gap:4px}
+.dsec{max-width:640px;margin:0 auto;padding:32px 40px 8px;display:grid;gap:28px}
+.dq{font-family:var(--f-display);font-weight:var(--w-d);font-size:34px;line-height:1.1;letter-spacing:-.01em;margin-top:-18px}
+.field{display:grid;gap:10px}
+.flabel{display:flex;justify-content:space-between;align-items:center}
+.flabel label,.field>label{font-weight:700}
+.editor{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--r-ctl);overflow:hidden}
+.tb{display:flex;gap:2px;padding:4px 6px;border-bottom:1px solid var(--line);background:var(--paper-2)}
+.tb .icon-btn{width:38px;height:38px}
+.tb .sep{width:1px;background:var(--line-strong);margin:8px 6px}
+.ed-body{padding:16px 18px;font-size:17px;line-height:1.6;display:grid;gap:10px;outline:none}
+.ed-body h6{margin:6px 0 -4px;font-family:var(--f-display);font-weight:var(--w-d);font-size:19px}
+.ed-body p,.ed-body ul{margin:0}
+.ed-body ul{padding-left:22px}
+.relances{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.relances .chip{min-height:38px;font-size:14px}
+.media{display:flex;gap:10px;flex-wrap:wrap}
+.img-tile{width:150px;height:104px;border-radius:10px;position:relative;overflow:hidden;background:radial-gradient(1.2px 1.2px at 18% 22%,#fff 60%,transparent),radial-gradient(1px 1px at 42% 14%,#fff 60%,transparent),radial-gradient(1.4px 1.4px at 70% 30%,#fff 60%,transparent),radial-gradient(1px 1px at 85% 12%,#fff 60%,transparent),radial-gradient(1px 1px at 60% 48%,#fff 60%,transparent),radial-gradient(1px 1px at 28% 44%,#fff 60%,transparent),linear-gradient(#141a35,#2d3466 62%,#6a5a74)}
+.img-tile::after{content:"";position:absolute;inset:auto 0 0;height:42%;background:#0d1020;clip-path:polygon(0 60%,18% 30%,30% 52%,48% 12%,62% 46%,78% 26%,100% 58%,100% 100%,0 100%)}
+.add-tile{all:unset;box-sizing:border-box;cursor:pointer;width:150px;height:104px;border-radius:10px;border:1.5px dashed var(--line-strong);display:grid;place-items:center;align-content:center;gap:4px;color:var(--ink-2);font-size:14px;text-align:center}
+.dnext{max-width:640px;margin:0 auto;padding:16px 40px 40px;display:flex;justify-content:space-between}
+.dprev{background:var(--paper-2);border-left:1px solid var(--line);padding:28px 24px;display:flex;flex-direction:column;gap:18px}
+.keys{margin-top:auto;display:grid;gap:8px;font-size:14px;color:var(--ink-2)}
+kbd{font-family:var(--f-ui);font-size:13px;min-width:28px;display:inline-grid;place-items:center;padding:2px 7px;border-radius:6px;background:var(--card);border:1px solid var(--line-strong);box-shadow:0 1px 0 var(--line-strong);margin-right:8px;color:var(--ink)}
+
+footer.notes{margin-top:56px;padding-top:20px;border-top:1px solid var(--c-line);color:var(--c-muted);font-size:15px;max-width:72ch;display:grid;gap:8px}
+footer.notes p{margin:0}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+    <symbol id="i-bold" viewBox="0 0 24 24"><path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/></symbol>
+    <symbol id="i-italic" viewBox="0 0 24 24"><path d="M19 4h-9"/><path d="M14 20H5"/><path d="M15 4 9 20"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></symbol>
+    <symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 12h12"/><path d="M6 20V4"/><path d="M18 20V4"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+    <symbol id="i-tent" viewBox="0 0 24 24"><path d="M3.5 21 14 3"/><path d="M20.5 21 10 3"/><path d="M15.5 21 12 15l-3.5 6"/><path d="M2 21h20"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></symbol>
+    <symbol id="i-party" viewBox="0 0 24 24"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></symbol>
+    <symbol id="i-feather" viewBox="0 0 24 24"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-mountain" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="i-bat1" viewBox="0 0 24 24"><rect width="16" height="10" x="2" y="7" rx="2"/><path d="M22 11v2"/><path d="M6 11v2"/></symbol>
+    <symbol id="i-bat2" viewBox="0 0 24 24"><rect width="16" height="10" x="2" y="7" rx="2"/><path d="M22 11v2"/><path d="M6 11v2"/><path d="M10 11v2"/></symbol>
+    <symbol id="i-bat3" viewBox="0 0 24 24"><rect width="16" height="10" x="2" y="7" rx="2"/><path d="M22 11v2"/><path d="M6 11v2"/><path d="M10 11v2"/><path d="M14 11v2"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-steps" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Élan · maquettes v0.1 · 8 novembre 2026</p>
+    <h1>Trois carnets possibles</h1>
+    <p>Choisis une direction et un thème : les six écrans plus bas changent en direct. La signature (le signet, la page de carnet, le titre composé comme un titre de page) reste la même partout ; seuls la palette, les polices et le traitement des surfaces varient. Les chips, le curseur de difficulté, les cartes d’énergie et le bouton « ? » réagissent au toucher.</p>
+  </header>
+
+  <div class="controls" role="group" aria-label="Réglages de la maquette">
+    <div class="ctl"><span id="lbl-dir">Direction</span>
+      <div class="seg" role="group" aria-labelledby="lbl-dir">
+        <button type="button" id="btn-dir-a" data-set-dir="a" aria-pressed="true">A · Atelier</button>
+        <button type="button" id="btn-dir-b" data-set-dir="b" aria-pressed="false">B · Herbier</button>
+        <button type="button" id="btn-dir-c" data-set-dir="c" aria-pressed="false">C · Encre</button>
+      </div>
+    </div>
+    <div class="ctl"><span id="lbl-mode">Écrans en</span>
+      <div class="seg" role="group" aria-labelledby="lbl-mode">
+        <button type="button" id="btn-mode-light" data-set-mode="light" aria-pressed="true">Clair</button>
+        <button type="button" id="btn-mode-dark" data-set-mode="dark" aria-pressed="false">Sombre</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="dirs" aria-label="Les trois directions">
+    <button type="button" class="dircard" id="card-a" data-dir="a" data-mode="light" data-set-dir="a" aria-pressed="true">
+      <div class="dc-head"><span class="dc-name">Atelier</span><span class="dc-letter">A · terre cuite</span></div>
+      <p class="dc-mood">Papier crème, argile, lumière de fin d’après-midi. La plus chaleureuse, la plus « objet ». Ombres douces, sans bordure.</p>
+      <div class="sw" aria-hidden="true"><span style="background:var(--paper)"></span><span style="background:var(--card)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--accent)"></span><span style="background:var(--ink)"></span></div>
+      <div class="dc-type"><span class="d">Dormir une nuit à la belle étoile</span><span class="u">Fraunces · Figtree</span></div>
+      <span class="dc-sel">Direction affichée</span>
+    </button>
+    <button type="button" class="dircard" id="card-b" data-dir="b" data-mode="light" data-set-dir="b" aria-pressed="false">
+      <div class="dc-head"><span class="dc-name">Herbier</span><span class="dc-letter">B · vert sauge</span></div>
+      <p class="dc-mood">Papier vert-gris, feuilles pressées, calme d’une serre. La plus apaisante. Fines bordures, posé à plat.</p>
+      <div class="sw" aria-hidden="true"><span style="background:var(--paper)"></span><span style="background:var(--card)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--accent)"></span><span style="background:var(--ink)"></span></div>
+      <div class="dc-type"><span class="d">Dormir une nuit à la belle étoile</span><span class="u">Newsreader · Nunito Sans</span></div>
+      <span class="dc-sel">Afficher cette direction</span>
+    </button>
+    <button type="button" class="dircard" id="card-c" data-dir="c" data-mode="light" data-set-dir="c" aria-pressed="false">
+      <div class="dc-head"><span class="dc-name">Encre</span><span class="dc-letter">C · bleu nuit</span></div>
+      <p class="dc-mood">Couverture bleu nuit, encre, un fil d’ocre. La plus lisible (Atkinson Hyperlegible) et la plus belle en sombre. Lignes de cahier.</p>
+      <div class="sw" aria-hidden="true"><span style="background:var(--paper)"></span><span style="background:var(--card)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--accent)"></span><span style="background:var(--ink)"></span></div>
+      <div class="dc-type"><span class="d">Dormir une nuit à la belle étoile</span><span class="u">Literata · Atkinson Hyperlegible</span></div>
+      <span class="dc-sel">Afficher cette direction</span>
+    </button>
+  </section>
+
+  <div class="stage" id="stage" data-dir="a" data-mode="light">
+    <h2 class="part">Mobile</h2>
+    <p class="part-sub">375 × 780, l’écran défile à l’intérieur du cadre. Textes repris de <code>docs/screens/</code>.</p>
+
+    <div class="frames">
+      <!-- 1 · ACCUEIL -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="scroll"><div class="pad">
+            <div class="home-top">
+              <div><p class="date">Dimanche 8 novembre</p><h3 class="hello">Bonsoir, Camille</h3></div>
+              <span class="avatar" aria-label="Moi">C</span>
+            </div>
+            <button type="button" class="capture-cta" id="home-cta"><span>J’aimerais…</span><span class="plus-dot"><svg class="i"><use href="#i-plus"/></svg></span></button>
+            <div>
+              <div class="sec-head"><h4 class="label">Tes dernières envies</h4><a class="link" href="#stage">Tout voir</a></div>
+              <div class="cards">
+                <article class="gcard c-travel"><span class="signet" aria-hidden="true"></span><span class="emo">🌌</span><h5>Dormir une nuit à la belle étoile</h5><p>Voir la Voie lactée de mes propres yeux, sans tente.</p><div class="meta"><span class="pill cat c-travel"><svg class="i s"><use href="#i-tent"/></svg>Voyage & aventure</span><span class="pill st st-confirmed"><svg class="i s"><use href="#i-heart"/></svg>Envie confirmée</span></div></article>
+                <article class="gcard c-creative"><span class="signet" aria-hidden="true"></span><span class="emo">🎻</span><h5>Apprendre le violoncelle</h5><p>Jouer un morceau entier pour les 80 ans de ma grand-mère.</p><div class="meta"><span class="pill cat c-creative"><svg class="i s"><use href="#i-palette"/></svg>Créatif</span><span class="pill st st-idea"><svg class="i s"><use href="#i-feather"/></svg>Idée</span></div></article>
+                <article class="gcard c-social"><span class="signet" aria-hidden="true"></span><span class="emo">🍲</span><h5>Organiser un repas de quartier</h5><p>Que la rue se connaisse un peu mieux.</p><div class="meta"><span class="pill cat c-social"><svg class="i s"><use href="#i-party"/></svg>Social</span><span class="pill st st-preparing"><svg class="i s"><use href="#i-compass"/></svg>En préparation</span></div></article>
+              </div>
+            </div>
+            <section class="tocomplete" aria-labelledby="tc-h">
+              <h4 class="label" id="tc-h">Fiches à compléter</h4>
+              <p>Deux envies attendent un peu d’attention, quand tu veux.</p>
+              <ul>
+                <li><span class="emo-sm">🌱</span><div><b>Transformer le balcon en potager</b><small>On pourrait ajouter : le pourquoi, les repères</small></div><button type="button" class="btn secondary sm">Compléter</button></li>
+                <li><span class="emo-sm">🏃</span><div><b>Courir 5 km d’affilée</b><small>On pourrait ajouter : une description</small></div><button type="button" class="btn secondary sm">Compléter</button></li>
+              </ul>
+            </section>
+          </div></div>
+          <nav class="bnav" aria-label="Navigation principale">
+            <a href="#stage" aria-current="page"><svg class="i"><use href="#i-home"/></svg>Accueil</a>
+            <a href="#stage"><svg class="i"><use href="#i-book"/></svg>Mes envies</a>
+            <a href="#stage" aria-label="Nouvelle envie"><span class="plus"><svg class="i"><use href="#i-plus"/></svg></span></a>
+            <a href="#stage"><svg class="i"><use href="#i-user"/></svg>Moi</a>
+          </nav>
+        </div>
+        <figcaption><b>1 · Accueil</b><span>Un geste principal, « J’aimerais… ». Les fiches à compléter sont présentées comme une invitation, sans compteur.</span></figcaption>
+      </figure>
+
+      <!-- 2a · CAPTURE -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar" style="background:color-mix(in oklab,var(--ink) 45%,var(--paper));color:var(--paper)"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="scrim-top" aria-hidden="true"></div>
+          <div class="sheet" role="dialog" aria-label="Nouvelle envie">
+            <div class="handle" aria-hidden="true"></div>
+            <div class="sheet-head"><button type="button" class="icon-btn" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button><span class="label">Une envie, en une phrase</span><span style="width:44px" aria-hidden="true"></span></div>
+            <div class="express" id="express-field" role="textbox" aria-label="Ton envie" aria-multiline="true">Dormir une nuit à la belle étoile<span class="caret" aria-hidden="true"></span></div>
+            <p class="hint">Seul le titre compte pour l’instant. Tu pourras tout préciser plus tard.</p>
+            <div class="spacer"></div>
+            <button type="button" class="btn primary block" id="express-keep">Garder</button>
+          </div>
+          <div class="kbd" id="kbd" aria-hidden="true"></div>
+        </div>
+        <figcaption><b>2 · Capture express</b><span>Sheet plein écran, clavier ouvert, un seul champ. « Garder » reste au-dessus du clavier, à portée de pouce.</span></figcaption>
+      </figure>
+
+      <!-- 2b · APRÈS GARDER -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="scroll"><div class="pad">
+            <div class="home-top">
+              <div><p class="date">Dimanche 8 novembre</p><h3 class="hello">Bonsoir, Camille</h3></div>
+              <span class="avatar" aria-label="Moi">C</span>
+            </div>
+            <button type="button" class="capture-cta" id="home-cta-2"><span>J’aimerais…</span><span class="plus-dot"><svg class="i"><use href="#i-plus"/></svg></span></button>
+            <div>
+              <div class="sec-head"><h4 class="label">Tes dernières envies</h4></div>
+              <div class="cards">
+                <article class="gcard c-other just-saved" style="--h:60"><span class="signet" aria-hidden="true" style="background:var(--line-strong)"></span><h5>Dormir une nuit à la belle étoile</h5><div class="meta"><span class="pill st st-idea"><svg class="i s"><use href="#i-feather"/></svg>Idée</span></div></article>
+              </div>
+            </div>
+          </div></div>
+          <div class="toast" role="status">
+            <p>Ta première envie est écrite. C’est souvent le pas le plus difficile.</p>
+            <p class="t-q">Compléter la fiche maintenant ?</p>
+            <div class="row"><button type="button" class="btn ghost sm">Plus tard</button><button type="button" class="btn primary sm">Oui</button></div>
+          </div>
+          <nav class="bnav" aria-label="Navigation principale">
+            <a href="#stage" aria-current="page"><svg class="i"><use href="#i-home"/></svg>Accueil</a>
+            <a href="#stage"><svg class="i"><use href="#i-book"/></svg>Mes envies</a>
+            <a href="#stage" aria-label="Nouvelle envie"><span class="plus"><svg class="i"><use href="#i-plus"/></svg></span></a>
+            <a href="#stage"><svg class="i"><use href="#i-user"/></svg>Moi</a>
+          </nav>
+        </div>
+        <figcaption><b>2 bis · Juste après « Garder »</b><span>La carte se pose avec un léger rebond. Message sobre, une seule fois, puis une proposition qu’on peut refuser.</span></figcaption>
+      </figure>
+
+      <!-- 3a · PARCOURS : LE POURQUOI -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="flow-top">
+            <button type="button" class="icon-btn" aria-label="Fermer le parcours"><svg class="i"><use href="#i-x"/></svg></button>
+            <span class="ft-title">🌌 Dormir une nuit à la belle étoile</span>
+            <span class="saved" role="status"><svg class="i s"><use href="#i-check"/></svg>Enregistré</span>
+          </div>
+          <div class="progress" aria-hidden="true"><span class="done"></span><span class="done"></span><span class="cur"></span><span></span><span></span><span></span><span></span></div>
+          <p class="prog-label">Le pourquoi · 3 sur 7</p>
+          <div class="scroll"><div class="pad" style="gap:22px;padding-top:18px">
+            <div class="group">
+              <div class="q-row"><h3 class="q" id="why-q">Pourquoi c’est important pour toi ?</h3><button type="button" class="help" id="help-why" aria-expanded="true" aria-controls="helpbox-why" aria-label="Aide pour cette question"><span>?</span></button></div>
+              <div class="helpbox" id="helpbox-why">
+                <p>Pas besoin d’une grande raison. Une sensation, un souvenir ou une intuition suffisent.</p>
+                <div class="ex"><span class="ex-l">Avant</span><span>« Parce que c’est bien. »</span></div>
+                <div class="ex"><span class="ex-l">Après</span><span class="after">« Parce que je ne me souviens plus de la dernière fois où j’ai vu la Voie lactée, et que ça me manque. »</span></div>
+              </div>
+              <div class="area" id="why-field" role="textbox" aria-labelledby="why-q" aria-multiline="true">Parce que je ne me souviens plus de la dernière fois où j’ai vu la Voie lactée. Et parce que Léa m’en parle depuis deux étés.</div>
+            </div>
+            <div class="group">
+              <h4 class="q2" id="benefits-q">Qu’est-ce que ça t’apporterait ?</h4>
+              <p class="sub">Coche ce qui te parle, autant que tu veux.</p>
+              <div class="chips" role="group" aria-labelledby="benefits-q" data-multi>
+                <button type="button" class="chip" id="v-liberte" aria-pressed="true">Liberté</button>
+                <button type="button" class="chip" id="v-detente" aria-pressed="true">Me détendre</button>
+                <button type="button" class="chip" id="v-partager" aria-pressed="true">Partager</button>
+                <button type="button" class="chip" id="v-emerveil" aria-pressed="false">M’émerveiller</button>
+                <button type="button" class="chip" id="v-apprendre" aria-pressed="false">Apprendre</button>
+                <button type="button" class="chip" id="v-depasser" aria-pressed="false">Me dépasser</button>
+                <button type="button" class="chip" id="v-transmettre" aria-pressed="false">Transmettre</button>
+                <button type="button" class="chip add" id="v-autre">+ Autre…</button>
+              </div>
+            </div>
+          </div></div>
+          <div class="flow-foot">
+            <div class="meter"><i class="on"></i><i class="on"></i><i></i><b>Fiche en bonne voie</b></div>
+            <div class="foot-btns"><button type="button" class="btn ghost">Passer pour l’instant</button><button type="button" class="btn primary">Continuer</button></div>
+          </div>
+        </div>
+        <figcaption><b>3 · Parcours, « Le pourquoi »</b><span>Une idée par écran. Le « ? » ouvre l’aide avec un exemple avant → après. « Passer pour l’instant » ne marque jamais la section comme manquante.</span></figcaption>
+      </figure>
+
+      <!-- 3b · PARCOURS : QUALIFIER -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="flow-top">
+            <button type="button" class="icon-btn" aria-label="Fermer le parcours"><svg class="i"><use href="#i-x"/></svg></button>
+            <span class="ft-title">🌌 Dormir une nuit à la belle étoile</span>
+            <span class="saved" role="status"><svg class="i s"><use href="#i-check"/></svg>Enregistré</span>
+          </div>
+          <div class="progress" aria-hidden="true"><span class="done"></span><span class="done"></span><span class="done"></span><span class="skip"></span><span class="cur"></span><span></span><span></span></div>
+          <p class="prog-label">Qualifier · 5 sur 7</p>
+          <div class="scroll"><div class="pad" style="gap:26px;padding-top:18px">
+            <div class="group">
+              <h3 class="q">Comment tu la vois ?</h3>
+              <p class="sub" style="margin-top:-4px">Tout est facultatif, et modifiable à tout moment.</p>
+            </div>
+            <fieldset>
+              <legend>Difficulté</legend>
+              <div class="stepper" id="diff">
+                <label><input type="radio" name="diff" id="diff-1" value="1"><span class="dot"></span><span class="sl">Facile</span></label>
+                <label><input type="radio" name="diff" id="diff-2" value="2"><span class="dot"></span><span class="sl">À ma portée</span></label>
+                <label><input type="radio" name="diff" id="diff-3" value="3" checked><span class="dot"></span><span class="sl">Exigeant</span></label>
+                <label><input type="radio" name="diff" id="diff-4" value="4"><span class="dot"></span><span class="sl">Ambitieux</span></label>
+                <label><input type="radio" name="diff" id="diff-5" value="5"><span class="dot"></span><span class="sl">Défi majeur</span></label>
+              </div>
+              <p class="step-desc" id="diff-desc" aria-live="polite">Exigeant : ça demande de l’organisation et un peu de courage.</p>
+            </fieldset>
+            <fieldset>
+              <legend>Énergie requise</legend>
+              <div class="radiocards">
+                <label><input type="radio" name="energy" id="en-low" value="low"><svg class="i"><use href="#i-bat1"/></svg>Faible</label>
+                <label><input type="radio" name="energy" id="en-mid" value="medium" checked><svg class="i"><use href="#i-bat2"/></svg>Moyenne</label>
+                <label><input type="radio" name="energy" id="en-high" value="high"><svg class="i"><use href="#i-bat3"/></svg>Forte</label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Budget</legend>
+              <div class="chips" role="radiogroup" aria-label="Budget">
+                <button type="button" class="chip" id="b-none" role="radio" aria-checked="false">Aucun</button>
+                <button type="button" class="chip" id="b-low" role="radio" aria-checked="true">Faible</button>
+                <button type="button" class="chip" id="b-mid" role="radio" aria-checked="false">Moyen</button>
+                <button type="button" class="chip" id="b-high" role="radio" aria-checked="false">Élevé</button>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Horizon</legend>
+              <div class="chips" role="radiogroup" aria-label="Horizon">
+                <button type="button" class="chip" id="h-short" role="radio" aria-checked="true">Court · moins de 3 mois</button>
+                <button type="button" class="chip" id="h-mid" role="radio" aria-checked="false">Moyen · 3 à 12 mois</button>
+                <button type="button" class="chip" id="h-long" role="radio" aria-checked="false">Long · plus d’un an</button>
+                <button type="button" class="chip" id="h-some" role="radio" aria-checked="false">Un jour</button>
+              </div>
+              <button type="button" class="chip add" id="h-date" style="margin-top:8px"><svg class="i s"><use href="#i-cal"/></svg>Avant fin août</button>
+            </fieldset>
+            <fieldset>
+              <legend>Saison, contexte <small>plusieurs choix</small></legend>
+              <div class="chips" role="group" aria-label="Saison, contexte">
+                <button type="button" class="chip" id="s-ete" aria-pressed="true">Été</button>
+                <button type="button" class="chip" id="s-we" aria-pressed="true">Week-end</button>
+                <button type="button" class="chip" id="s-vac" aria-pressed="false">Vacances</button>
+                <button type="button" class="chip" id="s-hiver" aria-pressed="false">Hiver</button>
+                <button type="button" class="chip" id="s-temps" aria-pressed="false">Quand j’aurai du temps</button>
+              </div>
+            </fieldset>
+          </div></div>
+          <div class="flow-foot">
+            <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><b>Fiche bien remplie</b></div>
+            <div class="foot-btns"><button type="button" class="btn ghost">Passer pour l’instant</button><button type="button" class="btn primary">Continuer</button></div>
+          </div>
+        </div>
+        <figcaption><b>3 bis · Parcours, « Qualifier »</b><span>Contrôles tactiles : curseur à étapes avec libellés, cartes à icône, chips. Aucun menu déroulant. La section 4 (SMART) a été passée : segment en pointillé.</span></figcaption>
+      </figure>
+
+      <!-- 6 · DÉTAIL -->
+      <figure class="shot">
+        <div class="phone app">
+          <div class="sbar"><span>9:41</span><i aria-hidden="true"></i></div>
+          <div class="dtop">
+            <button type="button" class="back"><svg class="i"><use href="#i-left"/></svg>Mes envies</button>
+            <div style="display:flex"><button type="button" class="icon-btn" aria-label="Modifier"><svg class="i"><use href="#i-pencil"/></svg></button><button type="button" class="icon-btn" aria-label="Plus d’options"><svg class="i"><use href="#i-more"/></svg></button></div>
+          </div>
+          <div class="scroll page">
+            <span class="signet-long c-travel" aria-hidden="true"></span>
+            <div class="pad">
+              <span class="lettrine">🌌</span>
+              <h3 class="g-title">Dormir une nuit à la belle étoile</h3>
+              <p class="g-tag">Voir la Voie lactée de mes propres yeux, sans tente, juste un duvet.</p>
+              <div class="meta-row">
+                <span class="pill st st-confirmed"><svg class="i s"><use href="#i-heart"/></svg>Envie confirmée</span>
+                <span class="pill cat c-travel"><svg class="i s"><use href="#i-tent"/></svg>Voyage & aventure</span>
+                <span class="pill plain"><svg class="i s"><use href="#i-cal"/></svg>Avant fin août</span>
+              </div>
+              <details open><summary><span class="label">Ce que j’imagine</span><svg class="i s"><use href="#i-down"/></svg></summary>
+                <p class="prose">Un plateau du Vercors en août. La chaleur qui retombe, le duvet étalé sur l’herbe sèche, et ce moment où les yeux s’habituent et où le ciel se remplit d’un coup.</p>
+                <p class="kv"><b>Où, avec qui :</b> plateau d’Ambel, avec Léa.</p>
+              </details>
+              <details open><summary><span class="label">Pourquoi c’est important</span><svg class="i s"><use href="#i-down"/></svg></summary>
+                <p class="prose">Parce que je ne me souviens plus de la dernière fois où j’ai vu la Voie lactée. Et parce que Léa m’en parle depuis deux étés.</p>
+                <div class="vals"><span>Liberté</span><span>Me détendre</span><span>Partager</span></div>
+              </details>
+              <details open><summary><span class="label">En clair</span><svg class="i s"><use href="#i-down"/></svg></summary>
+                <blockquote>D’ici fin août, passer une nuit dehors sans tente sur le plateau d’Ambel avec Léa, en ayant repéré un bivouac autorisé et une nuit sans lune.</blockquote>
+                <p class="clarity">4 critères sur 5 renseignés · <a class="link" href="#stage">Préciser</a></p>
+              </details>
+              <details open><summary><span class="label">Repères</span><svg class="i s"><use href="#i-down"/></svg></summary>
+                <dl class="facts">
+                  <div><dt><svg class="i s"><use href="#i-mountain"/></svg>Difficulté</dt><dd><span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>Exigeant</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-wrench"/></svg>Préparation</dt><dd>Moyenne, quelques jours</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-bat2"/></svg>Énergie</dt><dd>Moyenne</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-wallet"/></svg>Budget</dt><dd>Faible</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-clock"/></svg>Temps</dt><dd>Un week-end</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-users"/></svg>Mode</dt><dd>Avec d’autres</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-sun"/></svg>Saison</dt><dd>Été, week-end</dd></div>
+                  <div><dt><svg class="i s"><use href="#i-pin"/></svg>Lieu</dt><dd>Vercors</dd></div>
+                </dl>
+              </details>
+              <div class="firststep">
+                <span class="label"><svg class="i s"><use href="#i-steps"/></svg>Première petite étape</span>
+                <p>Chercher les zones de bivouac autorisées dans le Vercors.</p>
+                <small>Environ 10 minutes</small>
+              </div>
+              <div class="todo-box">
+                <p class="label">À compléter, quand tu veux</p>
+                <div class="chips"><button type="button" class="chip add" id="todo-img">+ Images d’inspiration</button><button type="button" class="chip add" id="todo-notes">+ Notes</button></div>
+              </div>
+              <p class="foot-meta">Gardée le 12 octobre · modifiée hier · <a class="link" href="#stage">Historique</a></p>
+            </div>
+          </div>
+          <div class="dbar"><button type="button" class="btn primary">Compléter la fiche</button><button type="button" class="btn secondary">Statut</button></div>
+        </div>
+        <figcaption><b>6 · Détail, « la page de carnet »</b><span>Papier pointillé (lignes de cahier en C), signet long, titre composé comme une page. Ce qui manque est proposé en bas, en pointillés, jamais en rouge.</span></figcaption>
+      </figure>
+    </div>
+
+    <h2 class="part">Desktop · parcours de la fiche</h2>
+    <p class="part-sub">1240 × 780. Sommaire collant, formulaire au centre, aperçu en direct de la carte à droite. Sur un écran étroit, ce cadre défile horizontalement.</p>
+    <div class="desk-scroll">
+      <div class="desk app">
+        <aside class="rail" aria-label="Navigation">
+          <span class="logo" aria-hidden="true">É</span>
+          <button type="button" class="icon-btn" aria-label="Accueil"><svg class="i"><use href="#i-home"/></svg></button>
+          <button type="button" class="icon-btn on" aria-label="Mes envies"><svg class="i"><use href="#i-book"/></svg></button>
+          <button type="button" class="icon-btn" aria-label="Rechercher"><svg class="i"><use href="#i-search"/></svg></button>
+          <button type="button" class="icon-btn" aria-label="Nouvelle envie"><svg class="i"><use href="#i-plus"/></svg></button>
+          <span style="flex:1"></span>
+          <button type="button" class="icon-btn" aria-label="Moi"><svg class="i"><use href="#i-user"/></svg></button>
+        </aside>
+        <nav class="toc" aria-label="Sections de la fiche">
+          <p class="label">Donner vie à cette envie</p>
+          <ol>
+            <li class="done"><a href="#stage"><span class="st"><svg class="i s"><use href="#i-check"/></svg></span>Nommer</a></li>
+            <li class="cur"><a href="#stage" aria-current="step"><span class="st">2</span>Décrire</a></li>
+            <li class="done"><a href="#stage"><span class="st"><svg class="i s"><use href="#i-check"/></svg></span>Le pourquoi</a></li>
+            <li class="part"><a href="#stage"><span class="st"></span>Préciser</a></li>
+            <li class="done"><a href="#stage"><span class="st"><svg class="i s"><use href="#i-check"/></svg></span>Qualifier</a></li>
+            <li class="done"><a href="#stage"><span class="st"><svg class="i s"><use href="#i-check"/></svg></span>Premières pistes</a></li>
+            <li><a href="#stage"><span class="st">7</span>Relire & garder</a></li>
+          </ol>
+          <p class="toc-foot">Tout est gardé au fil de l’eau. Tu peux fermer quand tu veux.</p>
+        </nav>
+        <main class="dform">
+          <div class="dform-top">
+            <span class="crumb">Mes envies › Dormir une nuit à la belle étoile</span>
+            <div class="tools">
+              <span class="saved" role="status" style="margin-right:8px"><svg class="i s"><use href="#i-check"/></svg>Enregistré</span>
+              <button type="button" class="icon-btn" aria-label="Annuler"><svg class="i"><use href="#i-undo"/></svg></button>
+              <button type="button" class="icon-btn" aria-label="Rétablir"><svg class="i"><use href="#i-redo"/></svg></button>
+              <button type="button" class="btn ghost sm"><svg class="i s"><use href="#i-history"/></svg>Historique</button>
+            </div>
+          </div>
+          <section class="dsec">
+            <p class="label">Décrire</p>
+            <h3 class="dq">Raconte-la comme tu la vois</h3>
+            <div class="field">
+              <div class="flabel"><label for="ed">Description</label><button type="button" class="help" aria-label="Aide pour la description"><span>?</span></button></div>
+              <div class="editor">
+                <div class="tb" role="toolbar" aria-label="Mise en forme">
+                  <button type="button" class="icon-btn" aria-label="Gras"><svg class="i"><use href="#i-bold"/></svg></button>
+                  <button type="button" class="icon-btn" aria-label="Italique"><svg class="i"><use href="#i-italic"/></svg></button>
+                  <button type="button" class="icon-btn" aria-label="Liste"><svg class="i"><use href="#i-list"/></svg></button>
+                  <button type="button" class="icon-btn" aria-label="Titre de paragraphe"><svg class="i"><use href="#i-heading"/></svg></button>
+                  <button type="button" class="icon-btn" aria-label="Lien"><svg class="i"><use href="#i-link"/></svg></button>
+                </div>
+                <div class="ed-body" id="ed" contenteditable="true" role="textbox" aria-multiline="true">
+                  <p>Un plateau du Vercors en août. La chaleur qui retombe, le duvet étalé sur l’herbe sèche, et ce moment où les yeux s’habituent et où le ciel se remplit d’un coup.</p>
+                  <h6>Qu’est-ce qui me donne envie là-dedans ?</h6>
+                  <p>Le silence, surtout. Et l’idée de ne rien avoir entre moi et le ciel.</p>
+                  <ul><li>un duvet chaud, même en été</li><li>une nuit sans lune (vérifier le calendrier)</li></ul>
+                </div>
+              </div>
+              <div class="relances"><span class="label">Pour t’aider à écrire</span>
+                <button type="button" class="chip add" id="rel-1">+ Qu’est-ce qui serait différent après ?</button>
+                <button type="button" class="chip add" id="rel-2">+ Qui aimerais-tu y associer ?</button>
+              </div>
+            </div>
+            <div class="field"><label for="outcome">À quoi ça ressemblerait si c’était fait ?</label>
+              <div class="area" id="outcome" role="textbox" aria-multiline="true">Je me réveille avant l’aube, le duvet humide de rosée, et le ciel est encore plein d’étoiles.</div>
+            </div>
+            <div class="field"><label for="where">Où, avec qui ?</label>
+              <div class="area" id="where" role="textbox" style="min-height:0">Plateau d’Ambel, avec Léa.</div>
+            </div>
+            <div class="field"><label>Images d’inspiration <span style="font-weight:400;color:var(--ink-3)">· facultatif</span></label>
+              <div class="media">
+                <div class="img-tile" role="img" aria-label="Ciel étoilé au-dessus d’une crête"></div>
+                <button type="button" class="add-tile" id="add-img"><svg class="i"><use href="#i-image"/></svg>Ajouter une image</button>
+                <button type="button" class="add-tile" id="add-link"><svg class="i"><use href="#i-link"/></svg>Ajouter un lien</button>
+              </div>
+            </div>
+          </section>
+          <div class="dnext"><button type="button" class="btn ghost">Passer pour l’instant</button><button type="button" class="btn primary">Continuer vers « Le pourquoi »</button></div>
+        </main>
+        <aside class="dprev" aria-label="Aperçu">
+          <p class="label">Aperçu de la carte</p>
+          <article class="gcard c-travel"><span class="signet" aria-hidden="true"></span><span class="emo">🌌</span><h5>Dormir une nuit à la belle étoile</h5><p>Voir la Voie lactée de mes propres yeux, sans tente.</p><div class="meta"><span class="pill cat c-travel"><svg class="i s"><use href="#i-tent"/></svg>Voyage & aventure</span><span class="pill st st-confirmed"><svg class="i s"><use href="#i-heart"/></svg>Envie confirmée</span></div></article>
+          <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><b>Fiche bien remplie</b></div>
+          <p style="font-size:15px;color:var(--ink-2)">Il reste de la place pour préciser l’envie avec l’assistant en cinq questions, si tu en as envie.</p>
+          <div class="keys">
+            <span><kbd>N</kbd>Nouvelle envie</span>
+            <span><kbd>/</kbd>Rechercher</span>
+            <span><kbd>Esc</kbd>Fermer</span>
+            <span><kbd>⌘Z</kbd>Annuler</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <footer class="notes">
+    <p>Maquettes statiques, sans données réelles : Camille, Léa et les envies sont des exemples. L’image d’inspiration est un aplat dessiné, pas une photo.</p>
+    <p>Ce qui ne change pas entre A, B et C : la structure des écrans, le signet, la page de carnet, les teintes de catégorie (OKLCH, même luminosité) et les textes. Le reste est détaillé dans <code>docs/design-system.md</code>.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var cards=[].slice.call(document.querySelectorAll('.dircard'));
+  function store(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function read(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function setDir(d){
+    stage.setAttribute('data-dir',d);
+    document.querySelectorAll('[data-set-dir]').forEach(function(b){
+      var on=b.getAttribute('data-set-dir')===d;b.setAttribute('aria-pressed',on?'true':'false');
+      var s=b.querySelector('.dc-sel'); if(s) s.textContent=on?'Direction affichée':'Afficher cette direction';
+    });
+    store('elan-dir',d);
+  }
+  function setMode(m){
+    stage.setAttribute('data-mode',m);
+    cards.forEach(function(c){c.setAttribute('data-mode',m)});
+    document.querySelectorAll('[data-set-mode]').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-set-mode')===m?'true':'false')});
+  }
+  document.querySelectorAll('[data-set-dir]').forEach(function(b){b.addEventListener('click',function(){setDir(b.getAttribute('data-set-dir'))})});
+  document.querySelectorAll('[data-set-mode]').forEach(function(b){b.addEventListener('click',function(){setMode(b.getAttribute('data-set-mode'))})});
+  var root=document.documentElement.getAttribute('data-theme');
+  var dark=root?root==='dark':(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
+  setMode(dark?'dark':'light');
+  var saved=read('elan-dir'); if(saved==='a'||saved==='b'||saved==='c') setDir(saved);
+
+  // chips multiples
+  document.querySelectorAll('.app .chip[aria-pressed]').forEach(function(c){
+    c.addEventListener('click',function(){c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true')});
+  });
+  // chips à choix unique
+  document.querySelectorAll('.app [role="radiogroup"]').forEach(function(g){
+    g.querySelectorAll('[role="radio"]').forEach(function(r){
+      r.addEventListener('click',function(){g.querySelectorAll('[role="radio"]').forEach(function(o){o.setAttribute('aria-checked',o===r?'true':'false')})});
+    });
+  });
+  // aide
+  var help=document.getElementById('help-why'),box=document.getElementById('helpbox-why');
+  help.addEventListener('click',function(){var open=help.getAttribute('aria-expanded')==='true';help.setAttribute('aria-expanded',open?'false':'true');box.hidden=open});
+  // difficulté
+  var desc={1:'Facile : ça peut se faire sans vraiment s’organiser.',2:'À ma portée : un peu d’organisation, rien d’intimidant.',3:'Exigeant : ça demande de l’organisation et un peu de courage.',4:'Ambitieux : il faudra de la constance, sur la durée.',5:'Défi majeur : un vrai cap à franchir, et c’est très bien comme ça.'};
+  document.querySelectorAll('input[name="diff"]').forEach(function(r){r.addEventListener('change',function(){document.getElementById('diff-desc').textContent=desc[r.value]})});
+  // clavier factice
+  var rows=['azertyuiop','qsdfghjklm',"wxcvbn'"],k=document.getElementById('kbd'),html='';
+  rows.forEach(function(r,i){html+='<div class="row">'+(i===2?'<span class="k m">⇧</span>':'')+r.split('').map(function(ch){return '<span class="k">'+ch+'</span>'}).join('')+(i===2?'<span class="k m">⌫</span>':'')+'</div>'});
+  html+='<div class="row"><span class="k m">123</span><span class="k w">espace</span><span class="k m">↵</span></div>';
+  k.innerHTML=html;
+})();
+</script>
