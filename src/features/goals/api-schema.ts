@@ -59,6 +59,8 @@ export const GoalPatch = z
     mode: Mode.nullable(),
     seasons: z.array(Season).max(7),
     place: z.string().trim().max(200).nullable(),
+    /** "Ne plus me le proposer" in Fiches à compléter (true) or undo (false). */
+    completion_dismissed: z.boolean(),
     // Sharing is closed until the community phase (D-013).
     visibility: z.literal('private'),
   })
