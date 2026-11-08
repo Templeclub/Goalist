@@ -141,3 +141,35 @@ On peut écrire et garder une envie sans compte. Techniquement : `supabase.auth.
 ### D-031 · Infrastructure préparée dans le dépôt — Acceptée
 
 Dépôt : `Templeclub/goalist`. Je prépare toute la configuration dans le dépôt (`supabase/config.toml`, migrations, `vercel.json`, `.env.example`, CI) et un guide pas à pas (`docs/setup.md`). Créer les projets Supabase et Vercel et y coller les clés reste une action humaine (comptes, facturation) : le guide liste chaque clic et chaque variable.
+
+---
+
+## Phase 0
+
+### D-032 · Cache Components et Partial Prefetching activés — Acceptée
+
+Next.js 16.4 les active à la création du projet, et ils deviendront obligatoires à la version majeure suivante. On les garde dès maintenant plutôt que de migrer plus tard. Conséquence : toute lecture de session se fait dans un composant sous `<Suspense>` (squelette), ce qui correspond déjà au design system (pas de spinner plein écran).
+
+### D-033 · Clés Supabase « publishable » et « secret » — Acceptée
+
+Supabase a remplacé les clés `anon` / `service_role` par `sb_publishable_…` / `sb_secret_…`. Variables : `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` et `SUPABASE_SECRET_KEY` (serveur, module `src/server/admin` uniquement).
+
+### D-034 · Banc de test de base de données sans Docker — Acceptée
+
+`scripts/db-local/run.sh` applique les migrations sur un PostgreSQL local avec un schéma `auth` / `storage` simulé, lance la suite pgTAP et peut générer les types TypeScript. Sert quand Docker est indisponible (c'est le cas de l'environnement de développement actuel). La CI exécute la vraie pile Supabase et fait foi.
+
+### D-035 · Proxy : locale puis session — Acceptée
+
+`src/proxy.ts` enchaîne next-intl (réécriture vers `/[locale]` sans préfixe visible) puis le rafraîchissement de session Supabase. Ce dernier est sauté quand la requête ne porte aucun cookie de session : les pages publiques n'attendent jamais le réseau.
+
+### D-036 · CSP de base maintenant, nonces en phase 5 — Acceptée
+
+En-têtes de sécurité posés dès la phase 0 (CSP, HSTS, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `frame-ancestors 'none'`). La CSP autorise encore les scripts en ligne (`'unsafe-inline'`) ; la phase 5 les remplace par des nonces par requête.
+
+### D-037 · Service worker reporté à la phase 5 — Acceptée
+
+Manifeste, icônes et couleurs de thème sont en place (installable). Le service worker (Serwist) et le hors ligne arrivent en phase 5, après vérification de sa compatibilité avec Turbopack, désormais utilisé pour le build.
+
+### D-038 · Visibilité gérée par un drapeau côté base — Acceptée
+
+`app_flags.sharing_enabled` ferme le partage. Les règles « cercle » et « communauté » existent déjà dans `goal_shared_with_me()` et sont testées (pgTAP) dans les deux états du drapeau.
