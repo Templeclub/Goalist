@@ -16,6 +16,7 @@ export type AuthErrorKey =
   | 'emailTaken'
   | 'rateLimit'
   | 'network'
+  | 'captcha'
   | 'unknown'
   | 'callback'
 
