@@ -2,7 +2,7 @@
 
 Un carnet d'envies, de projets et d'objectifs : une PWA mobile-first pour **écrire une envie en quelques secondes**, puis la **nommer, la décrire et la qualifier** à son rythme. Sans pression, sans classement, sans intelligence artificielle.
 
-> **État** : phase 1 (capture). Onboarding, capture express sans compte, sauvegarde automatique, liste, détail minimal, connexion par lien magique, mot de passe ou Google. Voir [`docs/plan.md`](docs/plan.md).
+> **État** : phase 2 (fiche complète). Parcours guidé Nommer, Décrire, Le pourquoi, Premières pistes, Relire & garder ; éditeur riche, images et liens d'inspiration, historique restaurable. Voir [`docs/plan.md`](docs/plan.md).
 
 ## Stack
 

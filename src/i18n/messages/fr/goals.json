@@ -13,6 +13,35 @@
     "keptOn": "Gardée le {date, date, short}",
     "titleKept": "Une envie garde toujours un titre. Le précédent est conservé tant que celui-ci est vide.",
     "notFound": "Cette envie n’est pas dans ton carnet.",
-    "toList": "Retour à mes envies"
+    "toList": "Retour à mes envies",
+    "complete": "Compléter la fiche",
+    "edit": "Modifier la fiche",
+    "imagine": "Ce que j’imagine",
+    "whyTitle": "Pourquoi c’est important",
+    "firstStep": "Première petite étape",
+    "notes": "Notes",
+    "inspiration": "Inspiration",
+    "whereWith": "Où, avec qui :",
+    "toComplete": "À compléter, quand tu veux",
+    "sketchInvite": "Cette envie n’a qu’un titre pour l’instant, et c’est déjà bien. Tu veux lui donner un peu de corps ?",
+    "history": "Historique",
+    "openLink": "{title} (s’ouvre dans un nouvel onglet)"
+  },
+  "history": {
+    "title": "Historique",
+    "back": "Retour à la fiche",
+    "empty": "Pas encore d’historique. Il se remplit au fil des sections que tu complètes.",
+    "reason": {
+      "section_exit": "En quittant une section",
+      "review": "En relisant",
+      "interval": "Au fil de l’écriture",
+      "restore": "Avant un retour en arrière"
+    },
+    "restore": "Revenir à cette version",
+    "confirm": "La version actuelle est gardée dans l’historique.",
+    "confirmYes": "Revenir",
+    "confirmNo": "Annuler",
+    "restored": "C’est fait. La version précédente reste dans l’historique.",
+    "failed": "Le retour en arrière n’a pas abouti. Réessaie dans un instant."
   }
 }

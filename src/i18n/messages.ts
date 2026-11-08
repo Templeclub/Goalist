@@ -4,6 +4,7 @@ import frApp from './messages/fr/app.json'
 import frAuth from './messages/fr/auth.json'
 import frCapture from './messages/fr/capture.json'
 import frCommon from './messages/fr/common.json'
+import frFlow from './messages/fr/flow.json'
 import frGoal from './messages/fr/goal.json'
 import frGoals from './messages/fr/goals.json'
 import frHome from './messages/fr/home.json'
@@ -18,6 +19,7 @@ export const frMessages = {
   auth: frAuth,
   capture: frCapture,
   common: frCommon,
+  flow: frFlow,
   goal: frGoal,
   goals: frGoals,
   home: frHome,

@@ -1,8 +1,10 @@
 import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 import { PatchGoalBody } from '@/features/goals/api-schema'
-import { computeCompleteness } from '@/features/goals/completeness'
+import { completenessColumns, readCompletenessInput } from '@/features/goals/completeness-server'
+import { richDocToText } from '@/features/goals/rich-text'
 import { json, problem, readBody } from '@/lib/http'
+import type { Json } from '@/lib/supabase/database.types'
 import { createClient } from '@/lib/supabase/server'
 
 const Id = z.uuid()
@@ -22,41 +24,36 @@ export async function PATCH(request: NextRequest, ctx: RouteContext<'/api/goals/
   const { data: claims } = await supabase.auth.getClaims()
   if (!claims?.claims?.sub) return problem(401, 'unauthenticated')
 
-  const { data: current } = await supabase
-    .from('goals')
-    .select(
-      'version, description_text, imagined_outcome, where_with, why, benefits, first_step, notes, difficulty, preparation, horizon, energy, budget_level, time_estimate, mode, seasons, place, goal_values(count), goal_categories(count)',
-    )
-    .eq('id', id)
-    .is('deleted_at', null)
-    .maybeSingle()
+  const current = await readCompletenessInput(supabase, id)
   if (!current) return problem(404, 'not_found')
 
-  const counts = current as unknown as {
-    goal_values: { count: number }[]
-    goal_categories: { count: number }[]
+  const { description_doc, ...rest } = body.patch
+  const update: Record<string, unknown> = { ...rest }
+  if (description_doc !== undefined) {
+    update.description_doc = description_doc as unknown as Json
+    // Derived plain text feeds search and completeness (D-008).
+    update.description_text = richDocToText(description_doc) || null
   }
-  const { level, missing } = computeCompleteness({
-    ...current,
-    ...body.patch,
-    valueCount: counts.goal_values[0]?.count ?? 0,
-    categoryCount: counts.goal_categories[0]?.count ?? 0,
-  })
+  const completeness = completenessColumns({ ...current.input, ...update })
 
   const { data: updated, error } = await supabase
     .from('goals')
-    .update({ ...body.patch, completeness_level: level, missing_sections: missing })
+    .update({ ...update, ...completeness })
     .eq('id', id)
     .select('version')
     .maybeSingle()
 
-  if (error) return problem(error.code === '23514' ? 422 : 500, 'update_failed')
+  if (error)
+    return problem(
+      error.code === '23514' ? 422 : error.code === '42501' ? 403 : 500,
+      'update_failed',
+    )
   if (!updated) return problem(404, 'not_found')
 
   return json({
     version: updated.version,
-    completenessLevel: level,
-    missingSections: missing,
+    completenessLevel: completeness.completeness_level,
+    missingSections: completeness.missing_sections,
     conflict: current.version !== body.baseVersion,
   })
 }
