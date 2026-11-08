@@ -63,15 +63,17 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
 
     // The notebook page shows everything, nothing was lost.
-    await expect(page.getByText('Voir la Voie lactée de mes propres yeux.')).toBeVisible()
+    await expect(page).toHaveURL(/\/goals\/[0-9a-f-]+$/)
+    const pageArticle = page.locator('article')
+    await expect(pageArticle.getByText('Voir la Voie lactée de mes propres yeux.')).toBeVisible()
     await expect(
-      page.getByRole('heading', { name: 'Qu’est-ce qui me donne envie là-dedans ?' }),
+      pageArticle.getByRole('heading', { name: 'Qu’est-ce qui me donne envie là-dedans ?' }),
     ).toBeVisible()
-    await expect(page.getByText('Le silence, surtout.')).toBeVisible()
-    await expect(page.getByText('Parce que ça me manque.')).toBeVisible()
-    await expect(page.getByRole('listitem').filter({ hasText: 'Liberté' })).toBeVisible()
-    await expect(page.getByText('Chercher les zones de bivouac autorisées')).toBeVisible()
-    await expect(page.getByText('Envie confirmée').first()).toBeVisible()
+    await expect(pageArticle.getByText('Le silence, surtout.')).toBeVisible()
+    await expect(pageArticle.getByText('Parce que ça me manque.')).toBeVisible()
+    await expect(pageArticle.getByRole('listitem').filter({ hasText: 'Liberté' })).toBeVisible()
+    await expect(pageArticle.getByText('Chercher les zones de bivouac autorisées')).toBeVisible()
+    await expect(pageArticle.getByText('Envie confirmée')).toBeVisible()
   })
 
   test('revenir à une version précédente sans rien perdre', async ({ page }) => {

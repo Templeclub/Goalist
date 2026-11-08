@@ -26,22 +26,26 @@ test.describe('Capture et sauvegarde (avec Supabase)', () => {
     await expect(page.getByText('Ton carnet n’est gardé que sur cet appareil.')).toBeVisible()
   })
 
-  test('compléter le nom sur la page de l’envie, sans jamais rien perdre', async ({ page }) => {
+  test('compléter le nom depuis la page de l’envie, sans jamais rien perdre', async ({ page }) => {
     await page.goto('/home')
     await page.getByRole('button', { name: 'J’aimerais…' }).click()
     await page.getByRole('textbox', { name: 'Ton envie' }).fill('Apprendre le violoncelle')
     await page.getByRole('button', { name: 'Garder' }).click()
     await page.getByRole('button', { name: 'Oui' }).click()
+    await page.getByRole('link', { name: 'Compléter la fiche' }).click()
+    await expect(page).toHaveURL(/\/edit\/name$/)
 
-    const tagline = page.getByRole('textbox', { name: 'Accroche' })
-    await tagline.fill('Jouer un morceau entier pour les 80 ans de ma grand-mère.')
-    await expect(page.getByRole('status').filter({ hasText: 'Enregistré' })).toBeVisible()
-    await page.waitForResponse(
-      (r) => r.url().includes('/api/goals/') && r.request().method() === 'PATCH',
+    // Wait for the autosave request itself, registered before typing.
+    const saved = page.waitForResponse(
+      (r) => r.url().includes('/api/goals/') && r.request().method() === 'PATCH' && r.ok(),
     )
+    await page
+      .getByLabel(/^Accroche/)
+      .fill('Jouer un morceau entier pour les 80 ans de ma grand-mère.')
+    await saved
 
     await page.reload()
-    await expect(page.getByRole('textbox', { name: 'Accroche' })).toHaveValue(
+    await expect(page.getByLabel(/^Accroche/)).toHaveValue(
       'Jouer un morceau entier pour les 80 ans de ma grand-mère.',
     )
   })
