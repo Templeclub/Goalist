@@ -206,6 +206,9 @@ export function RichTextEditor({
               variant="add"
               className="min-h-10 text-sm"
               aria-label={t('addPrompt', { prompt })}
+              // Keep the caret in the editor: typing right after the click must
+              // land in the new paragraph, not on this button (space would re-insert).
+              onMouseDown={(e) => e.preventDefault()}
               onClick={() => insertPrompt(prompt)}
             >
               {prompt}
