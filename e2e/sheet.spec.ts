@@ -68,8 +68,10 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await expect(
       page.getByRole('link', { name: /Compléter la fiche|Modifier la fiche/ }),
     ).toBeVisible()
+    // Next keeps visited routes in the DOM, hidden (React Activity): only look at the visible page.
     const pageArticle = page
       .locator('article')
+      .filter({ visible: true })
       .filter({ has: page.getByRole('heading', { level: 1 }) })
     await expect(pageArticle.getByText('Voir la Voie lactée de mes propres yeux.')).toBeVisible()
     await expect(

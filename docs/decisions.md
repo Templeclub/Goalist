@@ -217,3 +217,7 @@ Le serveur construit l'instantané lui-même (le client n'envoie que la raison).
 ### D-048 · Images d'inspiration réservées aux carnets avec compte — Acceptée
 
 Conformément à D-030 et aux politiques Storage, une session anonyme peut ajouter des liens mais pas d'images. Les images sont réencodées en WebP (2000 px max) dans le navigateur avant l'envoi, puis servies par URL signée d'une heure. L'éditeur de description et les médias se sauvegardent indépendamment (patch du texte, `PUT /values`, `POST /media`).
+
+### D-049 · Pages gardées en mémoire par Next (React Activity) — Acceptée
+
+Avec Cache Components, Next garde jusqu'à 3 pages visitées dans le DOM, cachées. Le formulaire de la fiche est donc indexé sur la version de l'envie (`key` incluant `version`) : après une restauration ou une modification faite ailleurs, il est remonté avec les données à jour au lieu de réafficher (et de réenregistrer) un état périmé. Les tests E2E ne regardent que la page visible.
