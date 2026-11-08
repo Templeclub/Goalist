@@ -245,3 +245,21 @@ Sur ordinateur, `/goals?open=:id` affiche la page de l'envie à droite de la lis
 ### D-054 · « Fiches à compléter » = un filtre rapide — Acceptée
 
 La zone est le filtre `quick=to_complete` (envies à l'état d'esquisse, non écartées). « Ne plus me le proposer » pose `completion_dismissed_at` via le patch habituel (`completion_dismissed: true`) ; l'envie reste dans le carnet.
+
+## Phase 5
+
+### D-055 · Export ZIP et suppression en libre-service — Acceptée
+
+`GET /api/export` lit tout via RLS (jamais la clé secrète) et produit un ZIP (fflate, en mémoire) : `elan-export.json` complet, une page Markdown par envie (libellés traduits), les images originales. Réservé aux comptes : une session anonyme n'a rien à récupérer ailleurs que sur son appareil. `DELETE /api/account` exige `{ confirm: "supprimer" }`, supprime les fichiers Storage du préfixe `<userId>/` puis l'utilisateur Auth (`src/server/admin/delete-account.ts`) ; toutes les tables suivent par `ON DELETE CASCADE`. Si les fichiers ne peuvent pas être listés, rien n'est supprimé.
+
+### D-056 · Hors ligne minimal, sans Serwist pour l'instant — Acceptée
+
+Un service worker écrit à la main (`public/sw.js`, ~80 lignes) suffit au périmètre : pages en réseau d'abord puis cache, puis `/offline` ; ressources statiques en cache d'abord ; `/api` jamais mis en cache. Les captures express faites hors ligne (avec une session déjà ouverte) sont gardées dans `localStorage` et rejouées au retour du réseau, avec leur UUID client, donc sans doublon. La file de patchs Dexie et l'édition complète hors ligne restent pour plus tard ; Serwist sera repris si la stratégie de cache se complique.
+
+### D-057 · CSP : `'unsafe-inline'` conservé pour les scripts — Acceptée
+
+Les nonces imposent un rendu dynamique de chaque page, incompatible avec le pré-rendu partiel (Cache Components). L'option expérimentale `sri` de Next a été essayée : sans `'unsafe-inline'`, les scripts inline de streaming RSC sont bloqués (12 violations, hydratation cassée). On garde donc `script-src 'self' 'unsafe-inline'` + Turnstile, avec `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'none'` et des sources de connexion limitées à Supabase. À revoir quand Next proposera des hachages compatibles PPR.
+
+### D-058 · Budgets Lighthouse — Acceptée
+
+La CI vérifie Lighthouse en préréglage ordinateur sur les pages publiques et `/home` (performance ≥ 0,9, accessibilité ≥ 0,95, bonnes pratiques ≥ 0,9 ; scores mesurés 96–100). En mobile simulé (4G lente), `/`, `/welcome` et `/privacy` dépassent 90 ; `/home` et `/sign-in` sont à 84–85 parce que le modèle de simulation attribue au JavaScript l'affichage du contenu reçu en streaming, alors que la trace réelle montre le LCP à 0,4–0,7 s. Le client Supabase et la feuille de capture sont chargés à la demande pour alléger le premier rendu. Plausible et Sentry ne sont pas encore branchés : ils demandent des comptes et un réglage sans contenu utilisateur, à faire avec la mise en production.
