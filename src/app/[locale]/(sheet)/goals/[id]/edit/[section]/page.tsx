@@ -62,7 +62,9 @@ async function Sheet({
 
   return (
     <SheetEditor
-      key={`${goal.id}-${section}`}
+      // Next keeps visited routes alive (React Activity): a newer server version
+      // (restore, edit elsewhere) must remount the form, never show stale state.
+      key={`${goal.id}-${section}-${goal.version}`}
       data={data}
       section={section}
       canUploadImages={!viewer!.isAnonymous}
