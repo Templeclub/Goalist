@@ -49,14 +49,18 @@ test.describe('Consulter & retrouver (avec Supabase)', () => {
     await page.goto('/goals')
     await page.getByRole('button', { name: 'Filtres' }).click()
     await page.getByText('Réalisé', { exact: true }).click()
-    await expect(page.getByRole('button', { name: 'Filtres (1)' })).toBeVisible()
+    await expect(page).toHaveURL(/status=done/)
+    // The page behind a modal sheet is hidden from assistive technologies: close it first.
     await page.keyboard.press('Escape')
+    await expect(page.getByRole('button', { name: 'Filtres (1)' })).toBeVisible()
     await expect(page.getByText('Rien ne correspond à ces filtres.')).toBeVisible()
   })
 
   test('sur ordinateur, la page de l’envie s’ouvre à droite', async ({ page, isMobile }) => {
     test.skip(isMobile, 'master-detail is a desktop layout')
     await page.goto('/home')
+    // Shortcuts listen once the page is hydrated.
+    await page.waitForLoadState('networkidle')
     await page.keyboard.press('/')
     await expect(page).toHaveURL(/\/goals/)
     await expect(page.getByRole('searchbox', { name: 'Rechercher dans mes envies' })).toBeFocused()
