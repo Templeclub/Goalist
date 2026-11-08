@@ -51,3 +51,14 @@
 - « Continuer » enregistre un instantané de l'historique (`section_exit`) et passe à la section suivante. « Passer pour l'instant » passe sans instantané.
 - Annuler / rétablir : celui du navigateur dans les champs texte, celui de Tiptap dans la description. L'historique complet est consultable et restaurable (écran 9).
 - Images d'inspiration : réservées aux carnets avec compte (stockage) ; une session anonyme voit « Les images seront disponibles une fois ton carnet relié à ton adresse. » Les liens restent possibles pour tous.
+
+## Version phase 3
+
+- Le parcours compte désormais ses **7 sections** : Nommer, Décrire, Le pourquoi, **Préciser** (écran 4), **Qualifier**, Premières pistes, Relire & garder.
+- **Qualifier** (une seule colonne, groupes séparés par de l'air, chaque groupe facultatif et désélectionnable) :
+  1. Catégories (chips multiples avec icône ; « + Créer une catégorie » ouvre un petit formulaire : nom et teinte).
+  2. Difficulté (`StepSelector` 5 niveaux + phrase), Préparation (`StepSelector` 5 niveaux).
+  3. Horizon (chips) + date cible facultative avec précision (jour, mois, saison, année).
+  4. Énergie (`IconRadioGroup`), Budget (chips) + fourchette facultative en euros, Temps estimé (chips), Mode (`IconRadioGroup`).
+  5. Saison / contexte (chips multiples), Lieu (texte libre, jamais de géolocalisation), Tags (saisie avec suggestions de ses propres tags).
+- **Relire & garder** : choisir « Lâché consciemment » ouvre un champ facultatif « Un mot pour plus tard ? », gardé dans l'historique des statuts.

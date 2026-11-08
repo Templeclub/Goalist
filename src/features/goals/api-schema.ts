@@ -1,7 +1,20 @@
 import { z } from 'zod'
 import { LIMITS } from '@/config/app'
 import { RichDoc } from './rich-text'
-import { GoalStatus, GoalTitle, ValueKey } from './schema'
+import {
+  BudgetLevel,
+  Difficulty,
+  Energy,
+  GoalStatus,
+  GoalTitle,
+  Horizon,
+  Mode,
+  Preparation,
+  Season,
+  TargetPrecision,
+  TimeEstimate,
+  ValueKey,
+} from './schema'
 
 /** Fields the autosave may patch. Extended section by section (phases 2 and 3). */
 export const GoalPatch = z
@@ -33,6 +46,19 @@ export const GoalPatch = z
     first_step: z.string().max(300).nullable(),
     notes: z.string().max(10000).nullable(),
     status: GoalStatus,
+    difficulty: Difficulty.nullable(),
+    preparation: Preparation.nullable(),
+    horizon: Horizon.nullable(),
+    target_date: z.iso.date().nullable(),
+    target_precision: TargetPrecision.nullable(),
+    energy: Energy.nullable(),
+    budget_level: BudgetLevel.nullable(),
+    budget_min_cents: z.int().min(0).max(100_000_000).nullable(),
+    budget_max_cents: z.int().min(0).max(100_000_000).nullable(),
+    time_estimate: TimeEstimate.nullable(),
+    mode: Mode.nullable(),
+    seasons: z.array(Season).max(7),
+    place: z.string().trim().max(200).nullable(),
     // Sharing is closed until the community phase (D-013).
     visibility: z.literal('private'),
   })
@@ -88,3 +114,46 @@ export const CreateMediaBody = z.discriminatedUnion('kind', [
     title: z.string().trim().max(200).nullable().optional(),
   }),
 ])
+
+const SmartText = (max: number) => z.string().max(max).nullable()
+export const SmartPatch = z
+  .object({
+    specific: SmartText(1000),
+    measurable: SmartText(1000),
+    achievable: SmartText(1000),
+    obstacle: SmartText(500),
+    if_then: SmartText(500),
+    relevant: SmartText(1000),
+    time_bound: SmartText(500),
+    assembled_sentence: SmartText(1500),
+    assembled_edited: z.boolean(),
+  })
+  .partial()
+  .strict()
+  .refine((p) => Object.keys(p).length > 0, { message: 'empty patch' })
+export type SmartPatch = z.infer<typeof SmartPatch>
+
+export const PutCategoriesBody = z.object({ ids: z.array(z.uuid()).max(20) })
+export const PutTagsBody = z.object({ labels: z.array(z.string().trim().min(1).max(40)).max(20) })
+export const CreateCategoryBody = z.object({
+  label: z.string().trim().min(1).max(40),
+  hue: z.union([
+    z.literal(0),
+    z.literal(30),
+    z.literal(60),
+    z.literal(90),
+    z.literal(120),
+    z.literal(150),
+    z.literal(180),
+    z.literal(210),
+    z.literal(240),
+    z.literal(270),
+    z.literal(300),
+    z.literal(330),
+  ]),
+})
+/** The note belongs to the change *to* this status; 409 until that change is saved. */
+export const StatusNoteBody = z.object({
+  note: z.string().trim().max(500).nullable(),
+  status: GoalStatus,
+})

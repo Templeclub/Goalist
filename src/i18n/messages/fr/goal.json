@@ -76,7 +76,8 @@
     "none": "Aucun",
     "low": "Faible",
     "medium": "Moyen",
-    "high": "Élevé"
+    "high": "Élevé",
+    "range": "{min} à {max} €"
   },
   "time": {
     "label": "Temps estimé",
@@ -110,6 +111,17 @@
     "soon": "Bientôt"
   },
   "card": {
-    "untitled": "Envie sans titre"
-  }
+    "untitled": "Envie sans titre",
+    "cancel": "Annuler"
+  },
+  "seasonOfDate": {
+    "spring": "Printemps",
+    "summer": "Été",
+    "autumn": "Automne",
+    "winter": "Hiver"
+  },
+  "place": {
+    "label": "Lieu"
+  },
+  "targetDate": "Date cible"
 }

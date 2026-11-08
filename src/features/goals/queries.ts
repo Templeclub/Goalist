@@ -135,6 +135,61 @@ export type GoalSheet = GoalSummary & {
   valueKeys: string[]
   customValues: string[]
   media: GoalMedia[]
+  qualify: GoalQualify
+  categoryItems: CategoryItem[]
+  tags: string[]
+  smart: SmartAnswersRow
+  statusNote: string | null
+}
+
+export type CategoryItem = {
+  id: string
+  key: CategoryKey | null
+  label: string | null
+  hue: number | null
+}
+
+export type GoalQualify = {
+  difficulty: number | null
+  preparation: string | null
+  horizon: string | null
+  target_date: string | null
+  target_precision: string | null
+  energy: string | null
+  budget_level: string | null
+  budget_min_cents: number | null
+  budget_max_cents: number | null
+  time_estimate: string | null
+  mode: string | null
+  seasons: string[]
+  place: string | null
+}
+
+export type SmartAnswersRow = {
+  specific: string | null
+  measurable: string | null
+  achievable: string | null
+  obstacle: string | null
+  if_then: string | null
+  relevant: string | null
+  time_bound: string | null
+  assembled_sentence: string | null
+  assembled_edited: boolean
+}
+
+const qualifyColumns =
+  'difficulty, preparation, horizon, target_date, target_precision, energy, budget_level, budget_min_cents, budget_max_cents, time_estimate, mode, seasons, place'
+
+const emptySmart: SmartAnswersRow = {
+  specific: null,
+  measurable: null,
+  achievable: null,
+  obstacle: null,
+  if_then: null,
+  relevant: null,
+  time_bound: null,
+  assembled_sentence: null,
+  assembled_edited: false,
 }
 
 /** Everything the sheet and the detail page need, with signed image URLs. */
@@ -143,7 +198,7 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
   const { data, error } = await supabase
     .from('goals')
     .select(
-      `${cardColumns}, hue, description_doc, imagined_outcome, where_with, why, benefits, first_step, notes, visibility, goal_values(value_key, custom_label), goal_media(id, kind, url, title, alt_text, storage_path, position)`,
+      `${cardColumns}, hue, description_doc, imagined_outcome, where_with, why, benefits, first_step, notes, visibility, ${qualifyColumns}, goal_values(value_key, custom_label), goal_media(id, kind, url, title, alt_text, storage_path, position), goal_tags(tags(label)), smart_answers(*), goal_status_history(note, changed_at, id), cat_items:goal_categories(position, categories(id, key, label, hue))`,
     )
     .eq('id', id)
     .is('deleted_at', null)
@@ -171,7 +226,11 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
       storage_path: string | null
       position: number
     }[]
-  }
+    goal_tags: { tags: { label: string } | null }[]
+    smart_answers: SmartAnswersRow | SmartAnswersRow[] | null
+    goal_status_history: { note: string | null; changed_at: string; id: number }[]
+    cat_items: { position: number; categories: CategoryItem | null }[]
+  } & GoalQualify
 
   const media = row.goal_media.toSorted((a, b) => a.position - b.position)
   const paths = media.map((m) => m.storage_path).filter((p): p is string => Boolean(p))
@@ -194,6 +253,29 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
     visibility: row.visibility,
     valueKeys: row.goal_values.map((v) => v.value_key).filter((k): k is string => Boolean(k)),
     customValues: row.goal_values.map((v) => v.custom_label).filter((k): k is string => Boolean(k)),
+    qualify: Object.fromEntries(
+      qualifyColumns.split(', ').map((c) => [c, row[c as keyof GoalQualify]]),
+    ) as GoalQualify,
+    categoryItems: row.cat_items
+      .toSorted((a, b) => a.position - b.position)
+      .map((c) => c.categories)
+      .filter((c): c is CategoryItem => Boolean(c)),
+    tags: row.goal_tags.map((t) => t.tags?.label).filter((l): l is string => Boolean(l)),
+    smart: (() => {
+      const raw = Array.isArray(row.smart_answers) ? row.smart_answers[0] : row.smart_answers
+      if (!raw) return emptySmart
+      const picked = Object.fromEntries(
+        Object.keys(emptySmart).map((k) => [
+          k,
+          (raw as Record<string, unknown>)[k] ?? emptySmart[k as keyof SmartAnswersRow],
+        ]),
+      )
+      return picked as SmartAnswersRow
+    })(),
+    statusNote:
+      row.goal_status_history.toSorted(
+        (a, b) => b.changed_at.localeCompare(a.changed_at) || b.id - a.id,
+      )[0]?.note ?? null,
     media: media.map((m) => ({
       id: m.id,
       kind: m.kind,
@@ -224,4 +306,28 @@ export async function listRevisions(goalId: string) {
       tagline: goal?.tagline ?? null,
     }
   })
+}
+
+/** System categories (minus hidden ones) followed by the person's own. */
+export async function listCategories(): Promise<CategoryItem[]> {
+  const supabase = await createClient()
+  const [{ data: categories }, { data: hidden }] = await Promise.all([
+    supabase
+      .from('categories')
+      .select('id, key, label, hue, owner_id, sort_order')
+      .order('sort_order')
+      .order('created_at'),
+    supabase.from('hidden_categories').select('category_id'),
+  ])
+  const hiddenIds = new Set((hidden ?? []).map((h) => h.category_id))
+  return (categories ?? [])
+    .filter((c) => !hiddenIds.has(c.id))
+    .toSorted((a, b) => Number(a.owner_id !== null) - Number(b.owner_id !== null))
+    .map((c) => ({ id: c.id, key: c.key as CategoryKey | null, label: c.label, hue: c.hue }))
+}
+
+export async function listTagLabels(): Promise<string[]> {
+  const supabase = await createClient()
+  const { data } = await supabase.from('tags').select('label').order('label').limit(200)
+  return (data ?? []).map((t) => t.label)
 }

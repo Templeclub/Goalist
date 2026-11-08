@@ -12,6 +12,8 @@ import { richDocToText, type RichDoc } from '@/features/goals/rich-text'
 import { goalStatuses, valueKeys, type GoalStatus, type ValueKey } from '@/features/goals/schema'
 import type { FlowSection } from '@/features/goals/sections'
 import type { customHues } from '@/features/goals/palette'
+import type { CategoryItem, GoalQualify, SmartAnswersRow } from '@/features/goals/queries'
+import { smartFilledCount } from '@/features/goals/smart'
 import { LIMITS } from '@/config/app'
 import { useRouter } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
@@ -24,6 +26,8 @@ import type { SaveState } from '../ui/SaveIndicator'
 import { FlowShell, type SectionState } from './FlowShell'
 import { HuePicker } from './HuePicker'
 import { MediaEditor, type MediaItem } from './MediaEditor'
+import { QualifySection } from './QualifySection'
+import { SmartSection } from './SmartSection'
 import { RichTextEditor } from './RichTextEditor'
 
 type Hue = (typeof customHues)[number]
@@ -47,6 +51,11 @@ export type SheetData = {
   valueKeys: ValueKey[]
   customValues: string[]
   media: MediaItem[]
+  qualify: GoalQualify
+  categoryItems: CategoryItem[]
+  tags: string[]
+  smart: SmartAnswersRow
+  statusNote: string | null
 }
 
 type ValuesPatch = { keys?: ValueKey[] }
@@ -77,6 +86,8 @@ type SheetEditorProps = {
   data: SheetData
   section: FlowSection
   canUploadImages: boolean
+  availableCategories?: CategoryItem[]
+  tagSuggestions?: string[]
   /** Injected in stories and tests. */
   send?: Sender<GoalPatch>
   sendValues?: Sender<ValuesPatch>
@@ -87,6 +98,8 @@ export function SheetEditor({
   data,
   section,
   canUploadImages,
+  availableCategories = [],
+  tagSuggestions = [],
   send,
   sendValues,
 }: SheetEditorProps) {
@@ -105,6 +118,20 @@ export function SheetEditor({
     send: sendValues ?? valuesSender(data.id),
     version: 1,
     storageKey: `elan:pending:values:${data.id}`,
+  })
+
+  const statusNote = useAutosave<{ note?: string | null }>({
+    send: async (patch, _v, _id, { keepalive }) => {
+      const response = await fetch(`/api/goals/${data.id}/status-note`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note: patch.note ?? null, status: 'let_go' }),
+        keepalive,
+      })
+      if (!response.ok) throw new HttpError(response.status)
+      return response.json()
+    },
+    version: 1,
   })
 
   const set = <K extends keyof SheetData>(key: K, value: SheetData[K], patch?: GoalPatch) => {
@@ -126,8 +153,10 @@ export function SheetEditor({
         benefits: goal.benefits,
         first_step: goal.firstStep,
         notes: goal.notes,
+        ...goal.qualify,
         valueCount: goal.valueKeys.length + goal.customValues.length,
-        categoryCount: goal.categories.length,
+        categoryCount: goal.categoryItems.length,
+        smartFilledCount: smartFilledCount(goal.smart),
       }),
     [goal],
   )
@@ -136,12 +165,16 @@ export function SheetEditor({
     name: goal.tagline || goal.emoji ? 'done' : 'empty',
     describe: completeness.missing.includes('describe') ? 'empty' : 'done',
     why: completeness.missing.includes('why') ? 'empty' : 'done',
+    smart: completeness.missing.includes('smart') ? 'empty' : 'done',
+    qualify: completeness.missing.includes('qualify') ? 'empty' : 'done',
     'first-steps': completeness.missing.includes('first_steps') ? 'empty' : 'done',
     review: 'empty',
   }
 
   const navigate = async (target: FlowSection | 'detail', options?: { snapshot?: boolean }) => {
     await Promise.all([autosave.flush(), values.flush()])
+    // After the status itself, so the note lands on the right status change.
+    await statusNote.flush()
     if (options?.snapshot) {
       void fetch(`/api/goals/${data.id}/revisions`, {
         method: 'POST',
@@ -155,6 +188,8 @@ export function SheetEditor({
 
   const finish = async () => {
     await Promise.all([autosave.flush(), values.flush()])
+    // After the status itself, so the note lands on the right status change.
+    await statusNote.flush()
     await fetch(`/api/goals/${data.id}/revisions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -170,9 +205,9 @@ export function SheetEditor({
         title={goal.title}
         tagline={goal.tagline}
         emoji={goal.emoji}
-        categories={goal.categories as never}
+        categories={goal.categoryItems[0]?.key ? [goal.categoryItems[0].key] : []}
         status={goal.status}
-        hue={goal.hue}
+        hue={goal.hue ?? (goal.categoryItems[0]?.key ? undefined : goal.categoryItems[0]?.hue)}
       />
       <CompletenessMeter level={completeness.level} />
     </>
@@ -369,6 +404,28 @@ export function SheetEditor({
         </>
       )}
 
+      {section === 'smart' && <SmartSection goalId={data.id} initial={goal.smart} />}
+
+      {section === 'qualify' && (
+        <QualifySection
+          goalId={data.id}
+          qualify={goal.qualify}
+          categories={availableCategories}
+          selectedCategoryIds={goal.categoryItems.map((c) => c.id)}
+          tags={goal.tags}
+          tagSuggestions={tagSuggestions}
+          onPatch={(patch) => {
+            setGoal((g) => ({
+              ...g,
+              qualify: { ...g.qualify, ...(patch as Partial<GoalQualify>) },
+            }))
+            for (const [field, v] of Object.entries(patch))
+              autosave.set(field as keyof GoalPatch, v as never)
+          }}
+          onCategoriesChange={(items) => setGoal((g) => ({ ...g, categoryItems: items }))}
+        />
+      )}
+
       {section === 'first-steps' && (
         <>
           {question('firstSteps.question')}
@@ -419,6 +476,21 @@ export function SheetEditor({
               if (status) set('status', status, { status })
             }}
           />
+          {goal.status === 'let_go' && (
+            <Field id={`${id}-letgo`} label={t('review.letGoNote')}>
+              <AutoGrowTextarea
+                id={`${id}-letgo`}
+                value={goal.statusNote ?? ''}
+                maxLength={500}
+                placeholder={t('review.letGoNotePlaceholder')}
+                onChange={(e) => {
+                  setGoal((g) => ({ ...g, statusNote: e.target.value }))
+                  statusNote.set('note', e.target.value.trim() || null)
+                }}
+                className={textClass}
+              />
+            </Field>
+          )}
           <ChipGroup
             type="single"
             legend={t('review.visibility')}
@@ -441,11 +513,13 @@ export function SheetEditor({
             value="private"
             onChange={() => {}}
           />
-          {completeness.missing.some((m) => ['describe', 'why', 'first_steps'].includes(m)) && (
+          {completeness.missing.some((m) =>
+            ['describe', 'why', 'smart', 'qualify', 'first_steps'].includes(m),
+          ) && (
             <div className="grid gap-2 rounded-card border-[1.5px] border-dashed border-line-strong p-4">
               <p className="label-caps">{t('review.toComplete')}</p>
               <div className="flex flex-wrap gap-2">
-                {(['describe', 'why', 'first-steps'] as const)
+                {(['describe', 'why', 'smart', 'qualify', 'first-steps'] as const)
                   .filter((s) => sectionStates[s] === 'empty')
                   .map((s) => (
                     <button

@@ -14,6 +14,8 @@
     "name": "Nommer",
     "describe": "Décrire",
     "why": "Le pourquoi",
+    "smart": "Préciser",
+    "qualify": "Qualifier",
     "first-steps": "Premières pistes",
     "review": "Relire & garder"
   },
@@ -112,6 +114,107 @@
     "visibility": "Qui peut la voir ?",
     "visibilityHint": "Ton carnet est privé. Le partage avec un cercle ou la communauté arrivera plus tard.",
     "soon": "Bientôt",
-    "toComplete": "Il reste de la place pour :"
+    "toComplete": "Il reste de la place pour :",
+    "letGoNote": "Un mot pour plus tard ? (facultatif)",
+    "letGoNotePlaceholder": "Ce que je retiens, pourquoi je la laisse partir…"
+  },
+  "smart": {
+    "question": "Rendre cette envie plus claire",
+    "intro": "Cinq questions courtes. Réponds à celles qui te parlent, passe les autres.",
+    "step": "Question {current} sur 5",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "toSentence": "Voir ma phrase",
+    "letters": {
+      "specific": "S · Spécifique",
+      "measurable": "M · Mesurable",
+      "achievable": "A · Atteignable",
+      "relevant": "R · Pertinent",
+      "time_bound": "T · Temporel"
+    },
+    "questions": {
+      "specific": "Que veux-tu accomplir précisément ? Qui, quoi, où ?",
+      "measurable": "À quoi verras-tu que c’est réussi ?",
+      "achievable": "Qu’est-ce qui rend ça réaliste pour toi ? Quelles ressources ?",
+      "relevant": "En quoi cela compte-t-il pour toi ?",
+      "time_bound": "Pour quand, ou à quel rythme ?"
+    },
+    "help": {
+      "specific": "Plus c’est concret, plus c’est facile de s’y mettre. Un lieu, une quantité, une personne suffisent souvent.",
+      "measurable": "Un chiffre, un objet terminé ou une sensation décrite : quelque chose que tu pourras constater.",
+      "achievable": "Pense à ce que tu as déjà (temps, matériel, personnes) et à ce qui pourrait coincer.",
+      "relevant": "Le lien avec ce qui compte pour toi. Il t’aidera les jours où l’élan baisse.",
+      "time_bound": "Une date souple ou un rythme suffit. Rien n’oblige à fixer une échéance."
+    },
+    "before": {
+      "specific": "« Faire du sport »",
+      "measurable": "« Être en forme »",
+      "achievable": "« Je verrai bien »",
+      "relevant": "« C’est bien pour la santé »",
+      "time_bound": "« Un jour »"
+    },
+    "after": {
+      "specific": "« Courir 5 km d’affilée dans mon quartier »",
+      "measurable": "« Courir 5 km sans m’arrêter, même lentement »",
+      "achievable": "« J’ai des baskets et 30 minutes le matin »",
+      "relevant": "« Retrouver le plaisir de bouger avec mes enfants »",
+      "time_bound": "« D’ici fin juin, trois sorties par semaine »"
+    },
+    "placeholders": {
+      "specific": "Précisément, je voudrais…",
+      "measurable": "Je saurai que c’est réussi quand…",
+      "achievable": "C’est réaliste parce que…",
+      "relevant": "Ça compte pour moi parce que…",
+      "time_bound": "D’ici… / chaque semaine…"
+    },
+    "obstacle": "Le principal obstacle ?",
+    "obstaclePlaceholder": "La pluie, la fatigue, le manque de temps…",
+    "ifThen": "Si cet obstacle arrive, alors je…",
+    "ifThenPlaceholder": "Si il pleut, alors je cours sur le tapis de la salle.",
+    "sentence": "Ta phrase",
+    "sentenceHint": "Assemblée à partir de tes réponses. Tu peux la modifier librement.",
+    "reassemble": "Réassembler à partir de mes réponses",
+    "copy": "Copier la phrase",
+    "copied": "Copiée.",
+    "clarity": "{count, plural, =0 {Aucun critère renseigné pour l’instant.} one {# critère sur 5 renseigné.} other {# critères sur 5 renseignés.}} C’est un repère, pas une note.",
+    "templates": {
+      "timeFirst": "{time}, {specific}.",
+      "specificOnly": "{specific}.",
+      "measured": "Je saurai que c’est réussi quand {measurable}.",
+      "ifThen": "{ifThen}",
+      "because": "Parce que {relevant}."
+    }
+  },
+  "qualify": {
+    "question": "Comment tu la vois ?",
+    "intro": "Tout est facultatif, et modifiable à tout moment.",
+    "categories": "Catégories",
+    "categoriesHint": "Autant que tu veux. La première donne sa couleur au signet.",
+    "newCategory": "Créer une catégorie",
+    "newCategoryName": "Nom de la catégorie",
+    "newCategoryHue": "Teinte",
+    "createCategory": "Créer",
+    "categoryExists": "Tu as déjà une catégorie de ce nom.",
+    "targetDate": "Date cible",
+    "targetDateHint": "Facultatif. Une saison ou un mois suffit souvent.",
+    "precision": "Précision",
+    "precisions": {
+      "day": "Jour précis",
+      "month": "Mois",
+      "season": "Saison",
+      "year": "Année"
+    },
+    "clearDate": "Retirer la date",
+    "budgetRange": "Fourchette en euros",
+    "budgetMin": "De",
+    "budgetMax": "à",
+    "place": "Lieu",
+    "placeHint": "Texte libre. Jamais de localisation automatique.",
+    "placePlaceholder": "Vercors, à la maison, n’importe où…",
+    "tags": "Tags",
+    "tagsHint": "Des mots-clés à toi, pour retrouver tes envies.",
+    "tagsPlaceholder": "Ajouter un tag puis Entrée",
+    "removeTag": "Retirer le tag {tag}",
+    "suggestions": "Tes tags"
   }
 }

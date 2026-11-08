@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { SheetEditor, type SheetData } from '@/components/sheet/SheetEditor'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
-import { getGoalSheet } from '@/features/goals/queries'
+import { getGoalSheet, listCategories, listTagLabels } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import { isFlowSection } from '@/features/goals/sections'
 import { initLocale } from '@/i18n/page-locale'
@@ -58,7 +58,14 @@ async function Sheet({
     valueKeys: goal.valueKeys as SheetData['valueKeys'],
     customValues: goal.customValues,
     media: goal.media,
+    qualify: goal.qualify,
+    categoryItems: goal.categoryItems,
+    tags: goal.tags,
+    smart: goal.smart,
+    statusNote: goal.statusNote,
   }
+  const [availableCategories, tagSuggestions] =
+    section === 'qualify' ? await Promise.all([listCategories(), listTagLabels()]) : [[], []]
 
   return (
     <SheetEditor
@@ -68,6 +75,8 @@ async function Sheet({
       data={data}
       section={section}
       canUploadImages={!viewer!.isAnonymous}
+      availableCategories={availableCategories}
+      tagSuggestions={tagSuggestions}
     />
   )
 }

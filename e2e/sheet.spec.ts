@@ -48,6 +48,13 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .first()
       .click()
 
+    // 4. Préciser and 5. Qualifier can be skipped
+    await expect(page).toHaveURL(/\/edit\/smart$/)
+    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
+    await expect(page).toHaveURL(/\/edit\/qualify$/)
+    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
+    await expect(page).toHaveURL(/\/edit\/first-steps$/)
+
     // 6. Premières pistes
     await page
       .getByLabel(/^Quelle serait la toute première petite étape/)
@@ -111,5 +118,61 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await expect(page.getByText('Première version')).toBeVisible()
     await page.goto(`${detail}/history`)
     await expect(page.getByText('Seconde version')).toBeVisible()
+  })
+
+  test('préciser (SMART), qualifier, puis laisser partir avec un mot', async ({ page }) => {
+    await keepWish(page, 'Courir 5 km')
+    const detail = page.url()
+
+    // 4. Préciser
+    await page.goto(`${detail}/edit/smart`)
+    await page
+      .getByLabel(/^Que veux-tu accomplir précisément/)
+      .fill('Courir 5 km d’affilée dans mon quartier')
+    for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Suivant' }).click()
+    await page.getByLabel(/^Pour quand, ou à quel rythme/).fill('D’ici fin juin')
+    await page.getByRole('button', { name: 'Voir ma phrase' }).click()
+    await expect(page.getByRole('textbox', { name: 'Ta phrase' })).toHaveValue(
+      'D’ici fin juin, courir 5 km d’affilée dans mon quartier.',
+    )
+    await page
+      .getByRole('button', { name: /^Continuer/ })
+      .first()
+      .click()
+
+    // 5. Qualifier
+    await expect(page).toHaveURL(/\/edit\/qualify$/)
+    await page.getByText('Sport & santé', { exact: true }).click()
+    await page.getByText('Exigeant', { exact: true }).click()
+    await page.getByText('Été', { exact: true }).click()
+    const tag = page.getByLabel(/^Tags/)
+    await tag.fill('quartier')
+    const saved = page.waitForResponse((r) => r.url().endsWith('/tags') && r.ok())
+    await tag.press('Enter')
+    await saved
+
+    // 7. Relire & garder : laisser partir, avec un mot
+    await page.goto(`${detail}/edit/review`)
+    await page.getByText('Lâché consciemment', { exact: true }).click()
+    await page.getByLabel(/^Un mot pour plus tard/).fill('Mes genoux préfèrent la natation.')
+    await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
+
+    await expect(
+      page.getByRole('link', { name: /Compléter la fiche|Modifier la fiche/ }),
+    ).toBeVisible()
+    const article = page
+      .locator('article')
+      .filter({ visible: true })
+      .filter({ has: page.getByRole('heading', { level: 1 }) })
+    await expect(
+      article.getByText('D’ici fin juin, courir 5 km d’affilée dans mon quartier.'),
+    ).toBeVisible()
+    await expect(article.getByText('Exigeant')).toBeVisible()
+    await expect(article.getByText('Sport & santé')).toBeVisible()
+    await expect(article.getByText('#quartier')).toBeVisible()
+    await expect(
+      article.getByText('Tu as choisi de laisser partir cette envie.', { exact: false }),
+    ).toBeVisible()
+    await expect(article.getByText('Mes genoux préfèrent la natation.')).toBeVisible()
   })
 })

@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronLeft } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { getFormatter, getTranslations } from 'next-intl/server'
 import { Suspense, type ReactNode } from 'react'
 import { z } from 'zod'
 import { CategoryPill } from '@/components/goal/CategoryPill'
@@ -14,6 +14,8 @@ import { getGoalSheet } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import type { ValueKey } from '@/features/goals/schema'
 import { firstSectionToComplete } from '@/features/goals/sections'
+import { smartFilledCount } from '@/features/goals/smart'
+import { factRows } from './facts'
 import { Link } from '@/i18n/navigation'
 import { initLocale } from '@/i18n/page-locale'
 
@@ -56,10 +58,11 @@ function BackLink({ label }: { label: string }) {
 async function GoalDetail({ params }: { params: PageProps<'/[locale]/goals/[id]'>['params'] }) {
   const { id } = await params
   await initLocale(params)
-  const [t, tGoal, tFlow, viewer] = await Promise.all([
+  const [t, tGoal, tFlow, format, viewer] = await Promise.all([
     getTranslations('goals.detail'),
     getTranslations('goal'),
     getTranslations('flow'),
+    getFormatter(),
     getViewer(),
   ])
   const goal = viewer && z.uuid().safeParse(id).success ? await getGoalSheet(id) : null
@@ -81,12 +84,14 @@ async function GoalDetail({ params }: { params: PageProps<'/[locale]/goals/[id]'
     )
   }
 
-  const first = goal.categories[0]
+  const firstCategory = goal.categoryItems[0]
+  const smartCount = smartFilledCount(goal.smart)
+  const facts = factRows(goal.qualify, tGoal, format)
   const doc = RichDoc.safeParse(goal.descriptionDoc)
   const hasImagine = doc.success || goal.imaginedOutcome || goal.whereWith
   const hasWhy =
     goal.why || goal.benefits || goal.valueKeys.length > 0 || goal.customValues.length > 0
-  const toComplete = (['describe', 'why', 'first-steps'] as const).filter((s) =>
+  const toComplete = (['describe', 'why', 'smart', 'qualify', 'first-steps'] as const).filter((s) =>
     goal.missingSections.includes(s === 'first-steps' ? 'first_steps' : s),
   )
   const completeHref = `/goals/${goal.id}/edit/${firstSectionToComplete(goal.missingSections, Boolean(goal.tagline))}`
@@ -109,7 +114,14 @@ async function GoalDetail({ params }: { params: PageProps<'/[locale]/goals/[id]'
       <BackLink label={t('back')} />
       <article className="relative mx-auto grid max-w-3xl gap-6 px-6 pt-6 pb-36 md:px-10 md:pb-16">
         <span
-          {...toneProps(goal.hue ?? (first ? categoryHue[first] : null))}
+          {...toneProps(
+            goal.hue ??
+              (firstCategory
+                ? firstCategory.key
+                  ? categoryHue[firstCategory.key]
+                  : firstCategory.hue
+                : null),
+          )}
           aria-hidden="true"
           className="signet absolute top-0 right-7 h-22 w-5.5"
         />
@@ -123,11 +135,31 @@ async function GoalDetail({ params }: { params: PageProps<'/[locale]/goals/[id]'
           {goal.tagline && <p className="font-display text-lg text-ink-2 italic">{goal.tagline}</p>}
           <div className="flex flex-wrap items-center gap-2">
             <StatusPill status={goal.status} />
-            {goal.categories.map((c) => (
-              <CategoryPill key={c} category={c} />
-            ))}
+            {goal.categoryItems.map((c) =>
+              c.key ? (
+                <CategoryPill key={c.id} category={c.key} />
+              ) : (
+                <CategoryPill key={c.id} custom={{ label: c.label ?? '', hue: c.hue }} />
+              ),
+            )}
           </div>
+          {goal.tags.length > 0 && (
+            <ul aria-label={t('tags')} className="flex flex-wrap gap-1.5">
+              {goal.tags.map((tag) => (
+                <li key={tag} className="rounded-full bg-paper-2 px-2.5 py-0.5 text-sm text-ink-2">
+                  {`#${tag}`}
+                </li>
+              ))}
+            </ul>
+          )}
         </header>
+
+        {goal.status === 'let_go' && (
+          <div className="grid gap-1 rounded-card bg-paper-2 px-4.5 py-4">
+            <p className="text-md text-ink-2">{t('letGo')}</p>
+            {goal.statusNote && <p className="font-display text-lg italic">{goal.statusNote}</p>}
+          </div>
+        )}
 
         {goal.completenessLevel === 'sketch' && !hasImagine && !hasWhy && !goal.firstStep && (
           <p className="max-w-[48ch] text-md text-ink-2">{t('sketchInvite')}</p>
@@ -209,6 +241,59 @@ async function GoalDetail({ params }: { params: PageProps<'/[locale]/goals/[id]'
                 </p>
               )}
             </>,
+          )}
+
+        {(goal.smart.assembled_sentence || smartCount > 0) &&
+          section(
+            t('smart'),
+            <>
+              {goal.smart.assembled_sentence && (
+                <blockquote className="rounded-md border border-card-border bg-card px-4 py-3.5 font-display text-lg leading-relaxed shadow-card">
+                  {goal.smart.assembled_sentence}
+                </blockquote>
+              )}
+              <p className="text-sm text-ink-3">
+                {tFlow('smart.clarity', { count: smartCount })}{' '}
+                <Link
+                  href={`/goals/${goal.id}/edit/smart`}
+                  className="text-accent-strong underline-offset-2 hover:underline"
+                >
+                  {t('refine')}
+                </Link>
+              </p>
+            </>,
+          )}
+
+        {facts.length > 0 &&
+          section(
+            t('facts'),
+            <dl className="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2">
+              {facts.map(({ key, label, value, Icon, dots }) => (
+                <div key={key} className="grid min-w-0 gap-0.5">
+                  <dt className="flex items-center gap-1.5 text-xs text-ink-3">
+                    <Icon aria-hidden="true" className="size-4 stroke-[1.75]" />
+                    {label}
+                  </dt>
+                  <dd className="flex items-center gap-2 text-[0.9375rem] font-semibold">
+                    {dots !== undefined && (
+                      <span aria-hidden="true" className="inline-flex gap-0.75">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <span
+                            key={i}
+                            className={
+                              i <= dots
+                                ? 'size-1.75 rounded-full bg-accent'
+                                : 'size-1.75 rounded-full bg-line-strong'
+                            }
+                          />
+                        ))}
+                      </span>
+                    )}
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>,
           )}
 
         {goal.firstStep && (
