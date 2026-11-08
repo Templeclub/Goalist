@@ -22,7 +22,9 @@
     "db:migrate:new": "supabase migration new",
     "db:test": "supabase test db",
     "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:test:local": "scripts/db-local/run.sh",
+    "db:types:local": "scripts/db-local/run.sh --types"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -68,6 +70,7 @@
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "storybook": "10.6.6",
+    "supabase": "^3.0.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite": "^8.3.6",
