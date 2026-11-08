@@ -59,7 +59,7 @@ Authentication → **Sign In / Providers** :
 Authentication → **URL Configuration** :
 
 - Site URL : l'URL de production (ex. `https://elan.app`), ou celle de Vercel en attendant.
-- Redirect URLs : `http://localhost:3000/**`, `https://<projet>.vercel.app/**`, `https://*-templeclub.vercel.app/**` (aperçus de PR).
+- Redirect URLs : `http://localhost:3000/**`, `https://<projet>.vercel.app/**`, `https://*-temple13.vercel.app/**` (aperçus de PR, équipe Vercel `temple13`).
 
 Authentication → **Attack Protection** :
 
