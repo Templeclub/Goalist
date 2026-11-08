@@ -1,0 +1,20 @@
+{
+  "skip": "Passer",
+  "next": "Continuer",
+  "start": "Écrire ma première envie",
+  "position": "Étape {current} sur {total}",
+  "steps": {
+    "notebook": {
+      "title": "Un carnet pour tes envies",
+      "body": "Les petites, les grandes, celles d’un jour. Les écrire, c’est déjà commencer."
+    },
+    "write": {
+      "title": "Écris d’abord, précise ensuite",
+      "body": "Une phrase suffit pour garder une envie. Tu lui donneras forme plus tard, à ton rythme."
+    },
+    "calm": {
+      "title": "Rien ne presse",
+      "body": "Pas de score, pas de rappel insistant, pas de comparaison. Ton carnet est privé."
+    }
+  }
+}

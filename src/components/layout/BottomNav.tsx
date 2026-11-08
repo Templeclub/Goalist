@@ -2,20 +2,16 @@
 
 import { Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { Suspense } from 'react'
 import { Link, usePathname } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 import { isActive, navItems, type NavItem } from './nav-items'
 
 /** Mobile bottom bar: Accueil · Mes envies · + · Moi. The "+" opens the express capture. */
-export function BottomNav({
-  onNewGoal,
-  className,
-}: {
-  onNewGoal?: () => void
-  className?: string
-}) {
+type BottomNavProps = { onNewGoal?: () => void; className?: string }
+
+function BottomNavView({ onNewGoal, className, pathname }: BottomNavProps & { pathname: string }) {
   const t = useTranslations('common.nav')
-  const pathname = usePathname()
   const [home, goals, me] = navItems as [NavItem, NavItem, NavItem]
 
   const item = (nav: NavItem) => {
@@ -58,5 +54,21 @@ export function BottomNav({
       </button>
       {item(me)}
     </nav>
+  )
+}
+
+function WithPathname(props: BottomNavProps) {
+  return <BottomNavView {...props} pathname={usePathname()} />
+}
+
+/**
+ * The current path is request data on dynamic routes (Cache Components):
+ * render the bar without an active item until it is known.
+ */
+export function BottomNav(props: BottomNavProps) {
+  return (
+    <Suspense fallback={<BottomNavView {...props} pathname="" />}>
+      <WithPathname {...props} />
+    </Suspense>
   )
 }

@@ -55,7 +55,7 @@ jobs:
           path: database.types.ts
 
   e2e:
-    name: E2E (mobile + desktop, axe)
+    name: E2E (mobile + desktop, axe, Supabase locale)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -66,6 +66,18 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 3.0.0
+      - name: Pile Supabase locale (auth, base, stockage)
+        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,postgres-meta
+      - name: Variables de la pile locale
+        run: |
+          supabase status -o env > "$RUNNER_TEMP/supabase.env"
+          set -a; . "$RUNNER_TEMP/supabase.env"; set +a
+          echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${PUBLISHABLE_KEY:-$ANON_KEY}" >> "$GITHUB_ENV"
+          echo "E2E_SUPABASE=1" >> "$GITHUB_ENV"
       - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: failure()

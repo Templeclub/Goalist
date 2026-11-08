@@ -34,3 +34,12 @@ Master-detail : liste à gauche (360 px), page à droite, largeur de lecture 65 
 ## Micro-copies
 
 `goal.detail.imagine` Ce que j'imagine · `goal.detail.why` Pourquoi c'est important · `goal.detail.smart` En clair · `goal.detail.smartClarity` {count} critères sur 5 renseignés · `goal.detail.facts` Repères · `goal.detail.firstStep` Première petite étape · `goal.detail.toComplete` À compléter, quand tu veux · `goal.detail.complete` Compléter la fiche
+
+## Version phase 1 (détail minimal)
+
+- Barre haute : retour « Mes envies ».
+- Page pointillée, signet (neutre tant qu'il n'y a pas de catégorie), `SaveIndicator` en haut à droite.
+- **Nommer, directement sur la page** : emoji (champ court), titre en serif `text-3xl` éditable en place (zone de texte qui s'agrandit), accroche en serif italique éditable. Sauvegarde automatique (700 ms) ; vider le titre n'efface pas l'envie : le dernier titre non vide reste gardé et un message doux le dit.
+- `StatusPill` et mention « Gardée le {date} ».
+- Les autres sections du parcours arrivent en phase 2 ; aucun bouton ne mène encore vers elles.
+- Envie introuvable ou d'un autre carnet : « Cette envie n'est pas dans ton carnet. » + lien « Mes envies ».

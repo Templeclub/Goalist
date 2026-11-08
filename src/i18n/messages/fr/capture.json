@@ -2,13 +2,19 @@
   "express": {
     "label": "Une envie, en une phrase",
     "placeholder": "J’aimerais…",
-    "hint": "Seul le titre compte pour l’instant. Tu pourras tout préciser plus tard."
+    "hint": "Seul le titre compte pour l’instant. Tu pourras tout préciser plus tard.",
+    "field": "Ton envie",
+    "consent": "En gardant ta première envie, tu confirmes avoir 15 ans ou plus et accepter la <link>politique de confidentialité</link>.",
+    "counter": "{remaining, plural, one {# caractère restant} other {# caractères restants}}",
+    "keep": "Garder",
+    "keeping": "Je garde…"
   },
   "saved": {
     "first": "Ta première envie est écrite. C’est souvent le pas le plus difficile.",
     "default": "Envie gardée.",
     "offline": "Envie gardée sur cet appareil. Elle sera envoyée dès le retour du réseau.",
     "offer": "Compléter la fiche maintenant ?",
-    "later": "Elle t’attend dans « Fiches à compléter »."
+    "later": "Elle t’attend dans « Fiches à compléter ».",
+    "error": "Ton envie n’a pas pu être gardée pour l’instant. Elle reste dans le champ : réessaie dans un instant."
   }
 }

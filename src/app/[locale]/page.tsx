@@ -3,6 +3,8 @@ import { setRequestLocale } from 'next-intl/server'
 import { hasLocale } from 'next-intl'
 import { use } from 'react'
 import { GoalCard } from '@/components/goal/GoalCard'
+import { buttonVariants } from '@/components/ui/Button'
+import { Link } from '@/i18n/navigation'
 import { NotebookIllustration } from '@/components/ui/NotebookIllustration'
 import { APP_NAME } from '@/config/app'
 import { routing } from '@/i18n/routing'
@@ -22,7 +24,15 @@ export default function LandingPage({ params }: PageProps<'/[locale]'>) {
             {t('title')}
           </h1>
           <p className="max-w-[58ch] text-md text-ink-2">{t('lead', { appName: APP_NAME })}</p>
-          <p className="font-display text-lg text-accent italic">{t('soon')}</p>
+          <p className="font-display text-lg text-accent-strong italic">{t('soon')}</p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link href="/welcome" className={buttonVariants()}>
+              {t('start')}
+            </Link>
+            <Link href="/sign-in" className={buttonVariants({ variant: 'secondary' })}>
+              {t('signIn')}
+            </Link>
+          </div>
         </div>
         <div className="grid gap-6">
           <NotebookIllustration className="mx-auto" />

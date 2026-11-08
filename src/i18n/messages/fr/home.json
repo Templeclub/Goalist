@@ -2,18 +2,21 @@
   "greeting": {
     "morning": "Bonjour, {name}",
     "evening": "Bonsoir, {name}",
-    "anonymous": "Bonjour"
+    "morningAnonymous": "Bonjour",
+    "eveningAnonymous": "Bonsoir"
   },
   "capture": {
     "cta": "J’aimerais…"
   },
   "recent": {
-    "title": "Tes dernières envies"
+    "title": "Tes dernières envies",
+    "seeAll": "Tout voir"
   },
   "toComplete": {
     "title": "Fiches à compléter",
     "intro": "{count, plural, one {Une envie attend} other {# envies attendent}} un peu d’attention, quand tu veux.",
-    "couldAdd": "On pourrait ajouter : {sections}"
+    "couldAdd": "Il reste de la place pour une description",
+    "action": "Compléter"
   },
   "empty": {
     "title": "Ton carnet est prêt.",
@@ -22,6 +25,7 @@
       "stars": "Dormir une nuit à la belle étoile",
       "bread": "Apprendre à faire son pain",
       "letter": "Écrire à une vieille amie"
-    }
+    },
+    "cta": "Écrire une envie"
   }
 }

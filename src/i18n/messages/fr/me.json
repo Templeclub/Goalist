@@ -1,0 +1,19 @@
+{
+  "title": "Moi",
+  "notebook": {
+    "title": "Ton carnet",
+    "anonymous": "Ton carnet n’est gardé que sur cet appareil.",
+    "anonymousNote": "Sans compte, un carnet inutilisé pendant 30 jours est effacé.",
+    "keep": "Le garder sur tous mes appareils",
+    "account": "Ton adresse : {email}",
+    "none": "Ton carnet n’existe pas encore. Il apparaîtra avec ta première envie.",
+    "haveOne": "J’ai déjà un carnet"
+  },
+  "pseudo": {
+    "label": "Ton pseudo",
+    "hint": "C’est le prénom ou le surnom qu’on utilise pour te saluer.",
+    "placeholder": "Camille"
+  },
+  "signOut": "Me déconnecter",
+  "privacy": "Politique de confidentialité"
+}

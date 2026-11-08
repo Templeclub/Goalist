@@ -77,8 +77,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                         : 'text-paper/85 hover:bg-transparent hover:text-paper',
                     )}
                     onClick={() => {
+                      const id = toast.id
+                      // An action may show a follow-up toast: only close this one.
+                      setToast((current) => (current?.id === id ? null : current))
                       action.onClick()
-                      dismiss()
                     }}
                   >
                     {action.label}
