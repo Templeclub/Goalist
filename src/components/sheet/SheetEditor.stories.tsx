@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { emptySheetExtras } from './fixtures'
 import { SheetEditor, type SheetData } from './SheetEditor'
 
 let version = 3
@@ -49,6 +50,13 @@ const data: SheetData = {
       src: null,
     },
   ],
+  ...emptySheetExtras,
+  categoryItems: [{ id: 'c-travel', key: 'travel', label: null, hue: 60 }],
+  qualify: { ...emptySheetExtras.qualify, difficulty: 3, energy: 'medium', seasons: ['summer'] },
+  smart: {
+    ...emptySheetExtras.smart,
+    specific: 'Passer une nuit dehors sans tente sur le plateau d’Ambel',
+  },
 }
 
 const meta = {
@@ -67,6 +75,18 @@ type Story = StoryObj<typeof meta>
 export const Nommer: Story = {}
 export const Decrire: Story = { name: 'Décrire', args: { section: 'describe' } }
 export const LePourquoi: Story = { name: 'Le pourquoi', args: { section: 'why' } }
+export const Preciser: Story = { name: 'Préciser (SMART)', args: { section: 'smart' } }
+export const Qualifier: Story = {
+  args: {
+    section: 'qualify',
+    availableCategories: [
+      { id: 'c-travel', key: 'travel', label: null, hue: 60 },
+      { id: 'c-sport', key: 'sport_health', label: null, hue: 150 },
+      { id: 'c-own', key: null, label: 'Astronomie', hue: 240 },
+    ],
+    tagSuggestions: ['bivouac', 'été', 'Léa'],
+  },
+}
 export const PremieresPistes: Story = { name: 'Premières pistes', args: { section: 'first-steps' } }
 export const Relire: Story = { name: 'Relire & garder', args: { section: 'review' } }
 export const SansCompte: Story = {

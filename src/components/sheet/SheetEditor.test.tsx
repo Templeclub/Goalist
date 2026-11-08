@@ -1,6 +1,7 @@
 import { act, fireEvent, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithIntl } from '@/test/render'
+import { emptySheetExtras } from './fixtures'
 import { SheetEditor, type SheetData } from './SheetEditor'
 
 const push = vi.fn()
@@ -33,6 +34,7 @@ const data: SheetData = {
   valueKeys: [],
   customValues: [],
   media: [],
+  ...emptySheetExtras,
 }
 
 beforeEach(() => {

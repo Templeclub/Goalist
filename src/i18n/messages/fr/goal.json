@@ -111,7 +111,8 @@
     "soon": "Bientôt"
   },
   "card": {
-    "untitled": "Envie sans titre"
+    "untitled": "Envie sans titre",
+    "cancel": "Annuler"
   },
   "seasonOfDate": {
     "spring": "Printemps",
@@ -121,5 +122,6 @@
   },
   "place": {
     "label": "Lieu"
-  }
+  },
+  "targetDate": "Date cible"
 }
