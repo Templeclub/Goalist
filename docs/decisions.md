@@ -173,3 +173,29 @@ Manifeste, icônes et couleurs de thème sont en place (installable). Le service
 ### D-038 · Visibilité gérée par un drapeau côté base — Acceptée
 
 `app_flags.sharing_enabled` ferme le partage. Les règles « cercle » et « communauté » existent déjà dans `goal_shared_with_me()` et sont testées (pgTAP) dans les deux états du drapeau.
+
+## Phase 1
+
+### D-039 · Données lues par les Server Components, écrites par les routes API — Acceptée
+
+Lecture : `src/features/goals/queries.ts` (client serveur avec la session, RLS). Écriture : `POST /api/goals` (idempotent sur l'identifiant UUIDv7 du client), `PATCH /api/goals/:id` (patch par champ, renvoie `version`, `completenessLevel` et `conflict`), `PATCH /api/me`. La complétude est recalculée par le serveur à chaque patch.
+
+### D-040 · Brouillon de capture et file de patchs en `localStorage` pour la phase 1 — Acceptée
+
+Le texte de la capture non gardé et les patchs non envoyés sont conservés en `localStorage` (clés `elan:capture-draft`, `elan:pending:*`), ce qui suffit à survivre à un rechargement ou à une coupure. La phase 5 migre vers IndexedDB (Dexie) avec le service worker.
+
+### D-041 · Déclarations enregistrées au premier geste — Acceptée
+
+La phrase « 15 ans ou plus et politique de confidentialité » est affichée là où des données sont stockées pour la première fois : sous « Garder » à la toute première envie (session anonyme), et sur la page de connexion. `age_confirmed_at` et `privacy_accepted_at` sont posés côté serveur à ce moment-là, une seule fois.
+
+### D-042 · Turnstile facultatif — Acceptée
+
+Si `NEXT_PUBLIC_TURNSTILE_SITE_KEY` est défini, un jeton Turnstile accompagne la création de session anonyme ; sinon (développement, CI), elle se fait sans. La protection côté serveur est configurée dans Supabase (Attack Protection).
+
+### D-043 · Navigation sous `<Suspense>` — Acceptée
+
+Avec Cache Components, `usePathname()` est une donnée de requête sur les routes dynamiques. Les barres de navigation s'affichent d'abord sans élément actif, puis le marquent dès que le chemin est connu. La page détail d'une envie est entièrement rendue derrière un squelette.
+
+### D-044 · Tests E2E avec backend en CI seulement (pour l'instant) — Acceptée
+
+Les parcours qui créent des envies (`e2e/capture.spec.ts`) tournent en CI sur une pile Supabase locale (`E2E_SUPABASE=1`). Ils ne visent jamais le projet hébergé, pour ne pas y créer de comptes de test.
