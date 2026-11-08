@@ -250,6 +250,8 @@ Chaque phase se termine par une démo (preview Vercel), une mise à jour du `REA
 - Tests visuels de non-régression (mobile / desktop × clair / sombre).
 - Passage « ton » sur tous les textes, pages légales, politique de confidentialité.
 
+État (8 novembre 2026) : export, suppression, hors ligne minimal (lecture des pages vues + captures rejouées, D-056), budgets Lighthouse en CI (D-058), audit axe automatique sur chaque test E2E, passage « ton » des messages : faits. Restent à faire avec des personnes et des appareils réels : VoiceOver, TalkBack, zoom 200 %, et la file de patchs hors ligne pour l'édition complète.
+
 ---
 
 ## 6. Risques et parades

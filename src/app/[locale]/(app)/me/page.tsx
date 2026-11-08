@@ -1,7 +1,9 @@
 import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
+import { DeleteAccount } from '@/components/me/DeleteAccount'
 import { PseudoField } from '@/components/me/PseudoField'
-import { Button, buttonVariants } from '@/components/ui/Button'
+import { SignOutButton } from '@/components/me/SignOutButton'
+import { buttonVariants } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
 import { getProfile } from '@/features/goals/queries'
@@ -78,13 +80,36 @@ async function MeContent() {
 
       {viewer && <PseudoField initial={profile?.display_name ?? null} />}
 
-      {viewer && !viewer.isAnonymous && (
-        <form action="/api/auth/sign-out" method="post">
-          <Button type="submit" variant="secondary">
-            {t('signOut')}
-          </Button>
-        </form>
+      {viewer && (
+        <section
+          aria-labelledby="data-title"
+          className="grid gap-4 rounded-card border border-card-border bg-card p-5 shadow-card"
+        >
+          <h2 id="data-title" className="label-caps">
+            {t('data.title')}
+          </h2>
+          {viewer.isAnonymous ? (
+            <p className="text-[0.9375rem] text-ink-2">{t('data.exportNeedsAccount')}</p>
+          ) : (
+            <div className="grid gap-2">
+              <p className="text-[0.9375rem] text-ink-2">{t('data.exportHint')}</p>
+              <a
+                href="/api/export"
+                download
+                className={buttonVariants({
+                  variant: 'secondary',
+                  className: 'justify-self-start',
+                })}
+              >
+                {t('data.export')}
+              </a>
+            </div>
+          )}
+          <DeleteAccount />
+        </section>
       )}
+
+      {viewer && !viewer.isAnonymous && <SignOutButton />}
     </>
   )
 }

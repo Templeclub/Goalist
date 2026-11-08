@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
 import { getCaptchaToken } from '@/features/auth/turnstile'
-import { getBrowserClient } from '@/lib/supabase/browser'
+import { loadBrowserClient } from '@/lib/supabase/browser'
 import { SignInForm, type AuthErrorKey } from './SignInForm'
 
 function mapError(error: AuthError | Error): AuthErrorKey {
@@ -36,8 +36,8 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
   const [converting, setConverting] = useState(false)
 
   useEffect(() => {
-    void getBrowserClient()
-      .auth.getClaims()
+    void loadBrowserClient()
+      .then((client) => client.auth.getClaims())
       .then(({ data }) => setConverting(data?.claims?.is_anonymous === true))
   }, [])
 
@@ -56,7 +56,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
         converting={converting}
         initialError={initialError}
         onMagicLink={async (email) => {
-          const auth = getBrowserClient().auth
+          const auth = (await loadBrowserClient()).auth
           const { error } = converting
             ? await auth.updateUser({ email }, { emailRedirectTo: callback('/me') })
             : await auth.signInWithOtp({
@@ -66,7 +66,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
           if (error) fail(error)
         }}
         onGoogle={async () => {
-          const auth = getBrowserClient().auth
+          const auth = (await loadBrowserClient()).auth
           const { error } = converting
             ? await auth.linkIdentity({
                 provider: 'google',
@@ -79,7 +79,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
           if (error) fail(error)
         }}
         onPassword={async (mode, email, password) => {
-          const auth = getBrowserClient().auth
+          const auth = (await loadBrowserClient()).auth
           if (mode === 'sign-in') {
             const { error } = await auth.signInWithPassword({
               email,

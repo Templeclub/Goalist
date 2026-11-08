@@ -15,6 +15,8 @@
     "offline": "Envie gardée sur cet appareil. Elle sera envoyée dès le retour du réseau.",
     "offer": "Compléter la fiche maintenant ?",
     "later": "Elle t’attend dans « Fiches à compléter ».",
-    "error": "Ton envie n’a pas pu être gardée pour l’instant. Elle reste dans le champ : réessaie dans un instant."
+    "error": "Ton envie n’a pas pu être gardée pour l’instant. Elle reste dans le champ : réessaie dans un instant.",
+    "queuedOffline": "Envie gardée sur cet appareil. Elle rejoindra ton carnet dès le retour du réseau.",
+    "needsNetworkFirst": "Pour ta toute première envie, il faut une connexion : c’est elle qui crée ton carnet. Ton texte reste dans le champ."
   }
 }

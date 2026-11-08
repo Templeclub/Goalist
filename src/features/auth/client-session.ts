@@ -1,11 +1,11 @@
 'use client'
 
-import { getBrowserClient } from '@/lib/supabase/browser'
+import { loadBrowserClient } from '@/lib/supabase/browser'
 import { getCaptchaToken } from './turnstile'
 
 /** True when this device already has a session (anonymous or not). Local read, no network. */
 export async function hasLocalSession() {
-  const { data } = await getBrowserClient().auth.getSession()
+  const { data } = await (await loadBrowserClient()).auth.getSession()
   return Boolean(data.session)
 }
 
@@ -14,7 +14,7 @@ export async function hasLocalSession() {
  * anonymous one if needed (first wish before sign-up, D-030).
  */
 export async function ensureSession() {
-  const supabase = getBrowserClient()
+  const supabase = await loadBrowserClient()
   const { data } = await supabase.auth.getSession()
   if (data.session) return data.session
   const captchaToken = await getCaptchaToken()

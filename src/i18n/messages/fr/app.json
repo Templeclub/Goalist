@@ -4,5 +4,9 @@
     "action": "Le garder partout"
   },
   "offline": "Hors ligne. Tu peux continuer d’écrire.",
-  "skipToContent": "Aller au contenu"
+  "skipToContent": "Aller au contenu",
+  "offlinePage": {
+    "title": "Pas de connexion pour l’instant",
+    "body": "Les pages que tu as déjà ouvertes restent consultables, et tu peux continuer d’écrire : tout sera envoyé dès le retour du réseau."
+  }
 }

@@ -15,5 +15,38 @@
     "placeholder": "Camille"
   },
   "signOut": "Me déconnecter",
-  "privacy": "Politique de confidentialité"
+  "privacy": "Politique de confidentialité",
+  "data": {
+    "title": "Tes données",
+    "export": "Télécharger mes données",
+    "exportHint": "Une archive avec toutes tes envies : un fichier JSON complet, une page Markdown par envie et tes images.",
+    "exportNeedsAccount": "L’export sera disponible une fois ton carnet relié à ton adresse.",
+    "delete": "Supprimer mon compte",
+    "deleteHint": "Toutes tes envies, images et réglages seront effacés définitivement. Pense à télécharger tes données avant.",
+    "deleteConfirm": "Pour confirmer, écris « supprimer » ci-dessous.",
+    "deleteWord": "supprimer",
+    "deleteInput": "Confirmation",
+    "deleteNow": "Supprimer définitivement",
+    "cancel": "Annuler",
+    "deleteFailed": "La suppression n’a pas abouti. Rien n’a été effacé. Réessaie dans un instant.",
+    "deleted": "Ton compte et toutes tes données ont été supprimés. Merci d’avoir tenu ce carnet.",
+    "backHome": "Revenir à l’accueil"
+  },
+  "export": {
+    "status": "Statut",
+    "description": "Description",
+    "imagined": "Ce que j’imagine",
+    "whereWith": "Où, avec qui",
+    "why": "Pourquoi",
+    "values": "Ce que ça m’apporterait",
+    "firstStep": "Première petite étape",
+    "notes": "Notes",
+    "smart": "En clair",
+    "categories": "Catégories",
+    "tags": "Tags",
+    "links": "Liens",
+    "images": "Images",
+    "kept": "Gardée le",
+    "readme": "Export de ton carnet {appName}, le {date}. Le fichier elan-export.json contient toutes tes données ; le dossier envies/ une page lisible par envie."
+  }
 }

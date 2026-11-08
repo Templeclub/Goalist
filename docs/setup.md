@@ -78,7 +78,7 @@ Database → Extensions : `pg_cron`, `pg_trgm` et `unaccent` doivent apparaître
    - `NEXT_PUBLIC_SITE_URL` : l'URL publique
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-   - `SUPABASE_SECRET_KEY` (cocher « Sensitive »)
+   - `SUPABASE_SECRET_KEY` (cocher « Sensitive ») : indispensable à la suppression de compte (`src/server/admin/`). Sans elle, « Supprimer mon compte » répond une erreur et rien n'est effacé.
    - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 3. Deploy. Chaque PR aura ensuite son aperçu.
 4. Domaine (quand le nom sera choisi) : Settings → Domains.

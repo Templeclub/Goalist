@@ -2,7 +2,7 @@
 
 Un carnet d'envies, de projets et d'objectifs : une PWA mobile-first pour **écrire une envie en quelques secondes**, puis la **nommer, la décrire et la qualifier** à son rythme. Sans pression, sans classement, sans intelligence artificielle.
 
-> **État** : phase 4 (consulter et retrouver). Recherche plein texte (`/`), filtres rapides et combinables, tris, regroupements, master-detail sur ordinateur, fiches à compléter. Voir [`docs/plan.md`](docs/plan.md).
+> **État** : phase 5 (finitions). Export ZIP et suppression du compte depuis « Moi », hors ligne minimal (pages déjà vues, page hors ligne, captures gardées puis envoyées au retour du réseau), budgets Lighthouse en CI. Voir [`docs/plan.md`](docs/plan.md).
 
 ## Stack
 
