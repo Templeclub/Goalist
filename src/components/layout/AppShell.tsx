@@ -15,6 +15,22 @@ function Shell({ appName, children }: { appName: string; children: ReactNode }) 
   const t = useTranslations('app')
   const { open } = useCapture()
   const [collapsed, setCollapsed] = useState(false)
+  const [online, setOnline] = useState(true)
+
+  useEffect(() => {
+    // Minimal offline support (D-056): production only, so development never serves stale pages.
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      void navigator.serviceWorker.register('/sw.js').catch(() => {})
+    }
+    const update = () => setOnline(navigator.onLine)
+    update()
+    window.addEventListener('online', update)
+    window.addEventListener('offline', update)
+    return () => {
+      window.removeEventListener('online', update)
+      window.removeEventListener('offline', update)
+    }
+  }, [])
   const router = useRouter()
 
   const openSearch = useCallback(() => {
@@ -73,6 +89,14 @@ function Shell({ appName, children }: { appName: string; children: ReactNode }) 
         className="sticky top-0 hidden h-dvh shrink-0 md:flex"
       />
       <main id="main" className="min-w-0 flex-1 pb-28 md:pb-16">
+        {!online && (
+          <p
+            role="status"
+            className="sticky top-0 z-30 bg-paper-2 px-5 py-2 text-center text-[0.9375rem] text-ink-2"
+          >
+            {t('offline')}
+          </p>
+        )}
         {children}
       </main>
       <BottomNav onNewGoal={() => open()} className="fixed inset-x-0 bottom-0 z-30 md:hidden" />

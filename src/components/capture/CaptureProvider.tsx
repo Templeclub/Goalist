@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from 'react'
 import { ensureSession, hasLocalSession } from '@/features/auth/client-session'
+import { addPendingCapture, replayPendingCaptures } from '@/features/offline/pending-captures'
 import { normaliseTitle } from '@/features/goals/api-schema'
 import { createGoal } from '@/features/goals/client-api'
 import { useRouter } from '@/i18n/navigation'
@@ -67,6 +68,17 @@ export function CaptureProvider({ children }: { children: ReactNode }) {
       .catch(() => setShowConsent(true))
   }, [])
 
+  // Replay wishes kept offline, at start and whenever the network returns.
+  useEffect(() => {
+    const replay = () =>
+      void replayPendingCaptures((capture) => createGoal(capture)).then((sent) => {
+        if (sent > 0) router.refresh()
+      })
+    if (navigator.onLine) replay()
+    window.addEventListener('online', replay)
+    return () => window.removeEventListener('online', replay)
+  }, [router])
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key.toLowerCase() !== 'n' || event.metaKey || event.ctrlKey || event.altKey) return
@@ -88,15 +100,25 @@ export function CaptureProvider({ children }: { children: ReactNode }) {
     if (!title || busy) return
     setBusy(true)
     setError(null)
+    const consentShown = showConsent
+    const id = uuidv7()
+    const capture = { id, title, ...(consentShown ? { acceptTerms: true as const } : {}) }
     try {
-      const consentShown = showConsent
+      if (!navigator.onLine) {
+        // Offline: keep it on this device if a notebook already exists here (D-056).
+        if (!(await hasLocalSession())) {
+          setError(t('needsNetworkFirst'))
+          return
+        }
+        addPendingCapture(capture)
+        writeDraft('')
+        setValue('')
+        setOpen(false)
+        toast.show({ message: t('queuedOffline') })
+        return
+      }
       await ensureSession()
-      const id = uuidv7()
-      const result = await createGoal({
-        id,
-        title,
-        ...(consentShown ? { acceptTerms: true as const } : {}),
-      })
+      const result = await createGoal(capture)
       writeDraft('')
       setValue('')
       setOpen(false)
@@ -110,7 +132,16 @@ export function CaptureProvider({ children }: { children: ReactNode }) {
           { label: tActions('yes'), primary: true, onClick: () => router.push(`/goals/${id}`) },
         ],
       })
-    } catch {
+    } catch (error) {
+      // The network dropped mid-request: same as offline, nothing is lost.
+      if (error instanceof TypeError && (await hasLocalSession().catch(() => false))) {
+        addPendingCapture(capture)
+        writeDraft('')
+        setValue('')
+        setOpen(false)
+        toast.show({ message: t('queuedOffline') })
+        return
+      }
       setError(t('error'))
     } finally {
       setBusy(false)

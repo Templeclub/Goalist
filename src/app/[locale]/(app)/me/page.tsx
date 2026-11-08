@@ -2,7 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { DeleteAccount } from '@/components/me/DeleteAccount'
 import { PseudoField } from '@/components/me/PseudoField'
-import { Button, buttonVariants } from '@/components/ui/Button'
+import { SignOutButton } from '@/components/me/SignOutButton'
+import { buttonVariants } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
 import { getProfile } from '@/features/goals/queries'
@@ -108,13 +109,7 @@ async function MeContent() {
         </section>
       )}
 
-      {viewer && !viewer.isAnonymous && (
-        <form action="/api/auth/sign-out" method="post">
-          <Button type="submit" variant="secondary">
-            {t('signOut')}
-          </Button>
-        </form>
-      )}
+      {viewer && !viewer.isAnonymous && <SignOutButton />}
     </>
   )
 }

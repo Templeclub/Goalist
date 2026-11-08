@@ -27,6 +27,7 @@ export function DeleteAccount() {
     try {
       localStorage.clear()
       sessionStorage.clear()
+      navigator.serviceWorker?.controller?.postMessage('clear')
       if ('caches' in window) for (const key of await caches.keys()) await caches.delete(key)
     } catch {}
     setState('deleted')
