@@ -199,3 +199,21 @@ Avec Cache Components, `usePathname()` est une donnée de requête sur les route
 ### D-044 · Tests E2E avec backend en CI seulement (pour l'instant) — Acceptée
 
 Les parcours qui créent des envies (`e2e/capture.spec.ts`) tournent en CI sur une pile Supabase locale (`E2E_SUPABASE=1`). Ils ne visent jamais le projet hébergé, pour ne pas y créer de comptes de test.
+
+## Phase 2
+
+### D-045 · Une section par écran, sur mobile comme sur desktop — Acceptée
+
+Le parcours vit sous `/goals/:id/edit/:section`. Sur desktop, le sommaire collant (à gauche) et l'aperçu en direct de la carte (à droite) entourent la section en cours, plutôt qu'une longue colonne : une idée à la fois, URL partageable, et « Continuer » marque un vrai moment pour l'instantané d'historique. Les sections SMART et Qualifier s'insèreront en phase 3.
+
+### D-046 · Le schéma du texte riche est testé contre la sortie réelle de Tiptap — Acceptée
+
+`editor-extensions.ts` est partagé entre l'éditeur et un test qui vérifie que tout ce que Tiptap produit est accepté par `RichDoc` (validation serveur), et que ce qui est interdit (titres de niveau 1, citations, code, liens `javascript:`) est filtré avant l'envoi.
+
+### D-047 · Historique : un instantané au plus toutes les deux minutes en sortie de section — Acceptée
+
+Le serveur construit l'instantané lui-même (le client n'envoie que la raison). Restaurer crée d'abord un instantané `restore` de l'état courant et efface les patchs locaux en attente, pour qu'ils ne réécrasent pas la version restaurée.
+
+### D-048 · Images d'inspiration réservées aux carnets avec compte — Acceptée
+
+Conformément à D-030 et aux politiques Storage, une session anonyme peut ajouter des liens mais pas d'images. Les images sont réencodées en WebP (2000 px max) dans le navigateur avant l'envoi, puis servies par URL signée d'une heure. L'éditeur de description et les médias se sauvegardent indépendamment (patch du texte, `PUT /values`, `POST /media`).
