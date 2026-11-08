@@ -48,6 +48,13 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .first()
       .click()
 
+    // 4. Préciser and 5. Qualifier can be skipped
+    await expect(page).toHaveURL(/\/edit\/smart$/)
+    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
+    await expect(page).toHaveURL(/\/edit\/qualify$/)
+    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
+    await expect(page).toHaveURL(/\/edit\/first-steps$/)
+
     // 6. Premières pistes
     await page
       .getByLabel(/^Quelle serait la toute première petite étape/)
