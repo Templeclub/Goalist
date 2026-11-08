@@ -43,3 +43,10 @@ Master-detail : liste à gauche (360 px), page à droite, largeur de lecture 65 
 - `StatusPill` et mention « Gardée le {date} ».
 - Les autres sections du parcours arrivent en phase 2 ; aucun bouton ne mène encore vers elles.
 - Envie introuvable ou d'un autre carnet : « Cette envie n'est pas dans ton carnet. » + lien « Mes envies ».
+
+## Version phase 3
+
+- Section **En clair** : phrase SMART en citation + « {n} critères sur 5 renseignés » + lien « Préciser ».
+- Section **Repères** : grille 2 colonnes (icône, libellé, valeur) des critères renseignés uniquement ; difficulté avec 5 points.
+- Pastilles de toutes les catégories ; tags en petites étiquettes neutres.
+- Statut « Lâché consciemment » : phrase « Tu as choisi de laisser partir cette envie. Elle reste dans ton carnet si tu veux y repenser. » + le mot laissé, s'il existe.

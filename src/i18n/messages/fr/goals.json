@@ -25,7 +25,12 @@
     "toComplete": "À compléter, quand tu veux",
     "sketchInvite": "Cette envie n’a qu’un titre pour l’instant, et c’est déjà bien. Tu veux lui donner un peu de corps ?",
     "history": "Historique",
-    "openLink": "{title} (s’ouvre dans un nouvel onglet)"
+    "openLink": "{title} (s’ouvre dans un nouvel onglet)",
+    "smart": "En clair",
+    "facts": "Repères",
+    "refine": "Préciser",
+    "letGo": "Tu as choisi de laisser partir cette envie. Elle reste dans ton carnet si tu veux y repenser.",
+    "tags": "Tags"
   },
   "history": {
     "title": "Historique",
