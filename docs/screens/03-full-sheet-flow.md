@@ -43,3 +43,11 @@
 ## Micro-copies (section 3)
 
 `flow.why.question` Pourquoi c'est important pour toi ? · `flow.why.placeholder` Parce que… · `flow.why.help` Pas besoin d'une grande raison. Une sensation, un souvenir ou une intuition suffisent. · `flow.why.example.before` « Parce que c'est bien. » · `flow.why.example.after` « Parce que je ne me souviens plus de la dernière fois où j'ai vu la Voie lactée, et que ça me manque. » · `flow.benefits.question` Qu'est-ce que ça t'apporterait ? · `flow.skip` Passer pour l'instant · `flow.next` Continuer
+
+## Version phase 2
+
+- Sections livrées : **1 Nommer, 2 Décrire, 3 Le pourquoi, 6 Premières pistes, 7 Relire & garder**. Préciser (SMART) et Qualifier arrivent en phase 3 et s'insèreront à leur place ; la progression affiche donc « x sur 5 » pour l'instant.
+- Route : `/goals/:id/edit/:section` (`name`, `describe`, `why`, `first-steps`, `review`). Une section par écran sur mobile **et** sur desktop ; sur desktop, le sommaire collant est à gauche et l'aperçu en direct de la carte à droite (D-045).
+- « Continuer » enregistre un instantané de l'historique (`section_exit`) et passe à la section suivante. « Passer pour l'instant » passe sans instantané.
+- Annuler / rétablir : celui du navigateur dans les champs texte, celui de Tiptap dans la description. L'historique complet est consultable et restaurable (écran 9).
+- Images d'inspiration : réservées aux carnets avec compte (stockage) ; une session anonyme voit « Les images seront disponibles une fois ton carnet relié à ton adresse. » Les liens restent possibles pour tous.
