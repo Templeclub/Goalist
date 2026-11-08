@@ -2,6 +2,7 @@
 
 import { PanelLeft, PanelLeftClose, Plus, Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { Suspense } from 'react'
 import { Link, usePathname } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 import { IconButton } from '../ui/IconButton'
@@ -12,21 +13,22 @@ type SideNavProps = {
   collapsed: boolean
   onCollapsedChange: (collapsed: boolean) => void
   onNewGoal?: () => void
+  /** Search arrives in phase 4: the entry is hidden until then. */
   onSearch?: () => void
   className?: string
 }
 
 /** Desktop navigation, collapsible to an icon rail. */
-export function SideNav({
+function SideNavView({
   appName,
   collapsed,
   onCollapsedChange,
   onNewGoal,
   onSearch,
   className,
-}: SideNavProps) {
+  pathname,
+}: SideNavProps & { pathname: string }) {
   const t = useTranslations('common.nav')
-  const pathname = usePathname()
 
   return (
     <nav
@@ -80,25 +82,27 @@ export function SideNav({
         )}
       </button>
 
-      <button
-        type="button"
-        onClick={onSearch}
-        aria-keyshortcuts="/"
-        aria-label={collapsed ? t('search') : undefined}
-        title={collapsed ? t('search') : undefined}
-        className={cn(
-          'flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md text-ink-2 hover:bg-paper-2 hover:text-ink',
-          collapsed ? 'size-11 justify-center' : 'px-3.5',
-        )}
-      >
-        <Search aria-hidden="true" className="size-5 stroke-[1.75]" />
-        {!collapsed && (
-          <>
-            <span className="flex-1 text-left">{t('search')}</span>
-            <kbd className="rounded-sm border border-line-strong px-1.5 text-xs">{'/'}</kbd>
-          </>
-        )}
-      </button>
+      {onSearch && (
+        <button
+          type="button"
+          onClick={onSearch}
+          aria-keyshortcuts="/"
+          aria-label={collapsed ? t('search') : undefined}
+          title={collapsed ? t('search') : undefined}
+          className={cn(
+            'flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md text-ink-2 hover:bg-paper-2 hover:text-ink',
+            collapsed ? 'size-11 justify-center' : 'px-3.5',
+          )}
+        >
+          <Search aria-hidden="true" className="size-5 stroke-[1.75]" />
+          {!collapsed && (
+            <>
+              <span className="flex-1 text-left">{t('search')}</span>
+              <kbd className="rounded-sm border border-line-strong px-1.5 text-xs">{'/'}</kbd>
+            </>
+          )}
+        </button>
+      )}
 
       <ul className="mt-2 grid gap-1">
         {navItems.map((nav) => {
@@ -127,5 +131,18 @@ export function SideNav({
         })}
       </ul>
     </nav>
+  )
+}
+
+function WithPathname(props: SideNavProps) {
+  return <SideNavView {...props} pathname={usePathname()} />
+}
+
+/** See BottomNav: the active item appears once the path is known. */
+export function SideNav(props: SideNavProps) {
+  return (
+    <Suspense fallback={<SideNavView {...props} pathname="" />}>
+      <WithPathname {...props} />
+    </Suspense>
   )
 }

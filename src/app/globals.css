@@ -127,15 +127,16 @@
   }
 }
 
+/* Section label in simulated small caps (a utility, so variants work). */
+@utility label-caps {
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
 @layer components {
-  /* Section label in simulated small caps */
-  .label-caps {
-    font-size: var(--text-xs);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--ink-3);
-  }
   /* The signature: a bookmark ribbon with a swallow-tail cut */
   .signet {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
