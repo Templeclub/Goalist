@@ -64,7 +64,13 @@ test.describe('Fiche complète (avec Supabase)', () => {
 
     // The notebook page shows everything, nothing was lost.
     await expect(page).toHaveURL(/\/goals\/[0-9a-f-]+$/)
-    const pageArticle = page.locator('article')
+    // The URL changes before the new page is committed: wait for the detail page itself.
+    await expect(
+      page.getByRole('link', { name: /Compléter la fiche|Modifier la fiche/ }),
+    ).toBeVisible()
+    const pageArticle = page
+      .locator('article')
+      .filter({ has: page.getByRole('heading', { level: 1 }) })
     await expect(pageArticle.getByText('Voir la Voie lactée de mes propres yeux.')).toBeVisible()
     await expect(
       pageArticle.getByRole('heading', { name: 'Qu’est-ce qui me donne envie là-dedans ?' }),
