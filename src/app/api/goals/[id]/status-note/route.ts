@@ -19,11 +19,13 @@ export async function PATCH(
     .from('goal_status_history')
     .select('id')
     .eq('goal_id', id)
+    .eq('to_status', body.status)
     .order('changed_at', { ascending: false })
     .order('id', { ascending: false })
     .limit(1)
     .maybeSingle()
-  if (!latest) return problem(404, 'not_found')
+  // The status patch may still be on its way: the client queue retries on 409.
+  if (!latest) return problem(409, 'status_not_saved_yet')
   const { error } = await context.supabase
     .from('goal_status_history')
     .update({ note: body.note || null })

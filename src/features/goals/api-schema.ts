@@ -152,4 +152,8 @@ export const CreateCategoryBody = z.object({
     z.literal(330),
   ]),
 })
-export const StatusNoteBody = z.object({ note: z.string().trim().max(500).nullable() })
+/** The note belongs to the change *to* this status; 409 until that change is saved. */
+export const StatusNoteBody = z.object({
+  note: z.string().trim().max(500).nullable(),
+  status: GoalStatus,
+})

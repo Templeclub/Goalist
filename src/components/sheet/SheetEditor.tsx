@@ -125,7 +125,7 @@ export function SheetEditor({
       const response = await fetch(`/api/goals/${data.id}/status-note`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ note: patch.note ?? null }),
+        body: JSON.stringify({ note: patch.note ?? null, status: 'let_go' }),
         keepalive,
       })
       if (!response.ok) throw new HttpError(response.status)
@@ -172,7 +172,9 @@ export function SheetEditor({
   }
 
   const navigate = async (target: FlowSection | 'detail', options?: { snapshot?: boolean }) => {
-    await Promise.all([autosave.flush(), values.flush(), statusNote.flush()])
+    await Promise.all([autosave.flush(), values.flush()])
+    // After the status itself, so the note lands on the right status change.
+    await statusNote.flush()
     if (options?.snapshot) {
       void fetch(`/api/goals/${data.id}/revisions`, {
         method: 'POST',
@@ -185,7 +187,9 @@ export function SheetEditor({
   }
 
   const finish = async () => {
-    await Promise.all([autosave.flush(), values.flush(), statusNote.flush()])
+    await Promise.all([autosave.flush(), values.flush()])
+    // After the status itself, so the note lands on the right status change.
+    await statusNote.flush()
     await fetch(`/api/goals/${data.id}/revisions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
