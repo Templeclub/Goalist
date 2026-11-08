@@ -17,7 +17,12 @@ import { createGoal } from '@/features/goals/client-api'
 import { useRouter } from '@/i18n/navigation'
 import { uuidv7 } from '@/lib/uuid'
 import { useToast } from '../ui/Toast'
-import { CaptureSheet } from './CaptureSheet'
+import dynamic from 'next/dynamic'
+
+// The sheet (vaul) loads on first use, not with every page.
+const CaptureSheet = dynamic(() => import('./CaptureSheet').then((m) => m.CaptureSheet), {
+  ssr: false,
+})
 
 const DRAFT_KEY = 'elan:capture-draft'
 
@@ -153,16 +158,18 @@ export function CaptureProvider({ children }: { children: ReactNode }) {
   return (
     <CaptureContext value={value_}>
       {children}
-      <CaptureSheet
-        open={isOpen}
-        onOpenChange={setOpen}
-        value={value}
-        onValueChange={onValueChange}
-        onKeep={() => void keep()}
-        busy={busy}
-        showConsent={showConsent}
-        error={error}
-      />
+      {(isOpen || value) && (
+        <CaptureSheet
+          open={isOpen}
+          onOpenChange={setOpen}
+          value={value}
+          onValueChange={onValueChange}
+          onKeep={() => void keep()}
+          busy={busy}
+          showConsent={showConsent}
+          error={error}
+        />
+      )}
     </CaptureContext>
   )
 }

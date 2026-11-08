@@ -11,3 +11,10 @@ export function getBrowserClient() {
   client ??= createClient()
   return client
 }
+
+/** Loads supabase-js only when a session is actually needed (keeps it out of the first load). */
+export async function loadBrowserClient() {
+  const { createClient: create } = await import('./client')
+  client ??= create()
+  return client
+}
