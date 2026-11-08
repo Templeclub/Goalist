@@ -4,6 +4,7 @@ import type { AuthError } from '@supabase/supabase-js'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
+import { getCaptchaToken } from '@/features/auth/turnstile'
 import { getBrowserClient } from '@/lib/supabase/browser'
 import { SignInForm, type AuthErrorKey } from './SignInForm'
 
@@ -18,6 +19,7 @@ function mapError(error: AuthError | Error): AuthErrorKey {
     return 'emailTaken'
   if (code?.startsWith('over_') || ('status' in error && error.status === 429)) return 'rateLimit'
   if (code === 'weak_password') return 'passwordShort'
+  if (code === 'captcha_failed') return 'captcha'
   if (code === 'email_address_invalid' || code === 'validation_failed') return 'email'
   if (error.message?.toLowerCase().includes('fetch')) return 'network'
   return 'unknown'
@@ -57,7 +59,10 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
           const auth = getBrowserClient().auth
           const { error } = converting
             ? await auth.updateUser({ email }, { emailRedirectTo: callback('/me') })
-            : await auth.signInWithOtp({ email, options: { emailRedirectTo: callback() } })
+            : await auth.signInWithOtp({
+                email,
+                options: { emailRedirectTo: callback(), captchaToken: await getCaptchaToken() },
+              })
           if (error) fail(error)
         }}
         onGoogle={async () => {
@@ -76,7 +81,11 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
         onPassword={async (mode, email, password) => {
           const auth = getBrowserClient().auth
           if (mode === 'sign-in') {
-            const { error } = await auth.signInWithPassword({ email, password })
+            const { error } = await auth.signInWithPassword({
+              email,
+              password,
+              options: { captchaToken: await getCaptchaToken() },
+            })
             if (error) fail(error)
             router.push('/home')
             router.refresh()
@@ -85,7 +94,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
           const { data, error } = await auth.signUp({
             email,
             password,
-            options: { emailRedirectTo: callback() },
+            options: { emailRedirectTo: callback(), captchaToken: await getCaptchaToken() },
           })
           if (error) fail(error)
           if (data.session) {

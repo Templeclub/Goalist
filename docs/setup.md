@@ -97,6 +97,8 @@ Database → Extensions : `pg_cron`, `pg_trgm` et `unaccent` doivent apparaître
 2. Domaines : `localhost`, le domaine Vercel, le domaine final.
 3. Site key → `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (Vercel) · Secret key → Supabase (étape 2.4).
 
+> **Important** : dès que le CAPTCHA est activé dans Supabase, **toutes** les connexions (session anonyme, lien magique, mot de passe, création de compte) exigent un jeton Turnstile. Sans `NEXT_PUBLIC_TURNSTILE_SITE_KEY` dans Vercel, aucune envie ne peut être gardée et personne ne peut se connecter. En local contre le projet hébergé, il faut aussi cette variable dans `.env.local` et `localhost` dans les domaines du widget.
+
 ## 6. Développement local
 
 Prérequis : Node 22, pnpm 10, Docker (pour la pile Supabase locale).
