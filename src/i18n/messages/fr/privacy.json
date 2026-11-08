@@ -1,0 +1,26 @@
+{
+  "title": "Politique de confidentialité",
+  "draft": "Version provisoire du {date}. Elle sera complétée avant l’ouverture publique.",
+  "sections": {
+    "what": {
+      "title": "Ce que nous gardons",
+      "body": "Les envies que tu écris et ce que tu choisis d’y ajouter, ton adresse e-mail si tu crées un compte, ton pseudo et ta langue. Rien d’autre : pas de localisation, pas de contacts."
+    },
+    "why": {
+      "title": "Pourquoi",
+      "body": "Uniquement pour faire fonctionner ton carnet. Tes envies ne sont ni vendues, ni utilisées pour de la publicité, ni analysées par une intelligence artificielle."
+    },
+    "who": {
+      "title": "Qui y a accès",
+      "body": "Toi, et personne d’autre. Tes envies sont privées par défaut et protégées au niveau de la base de données. Les données sont hébergées dans l’Union européenne."
+    },
+    "age": {
+      "title": "Âge",
+      "body": "Le service est réservé aux personnes de 15 ans et plus."
+    },
+    "rights": {
+      "title": "Tes droits",
+      "body": "Tu pourras exporter et supprimer toutes tes données toi-même depuis « Moi ». Sans compte, un carnet inutilisé pendant 30 jours est effacé automatiquement."
+    }
+  }
+}

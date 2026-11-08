@@ -1,0 +1,8 @@
+{
+  "anonymousBanner": {
+    "text": "Ton carnet n’est gardé que sur cet appareil.",
+    "action": "Le garder partout"
+  },
+  "offline": "Hors ligne. Tu peux continuer d’écrire.",
+  "skipToContent": "Aller au contenu"
+}

@@ -1,0 +1,18 @@
+{
+  "list": {
+    "title": "Mes envies",
+    "count": "{count, plural, one {# envie} other {# envies}}"
+  },
+  "detail": {
+    "back": "Mes envies",
+    "titleLabel": "Titre de l’envie",
+    "taglineLabel": "Accroche",
+    "taglinePlaceholder": "Ce que cette envie représente, en une phrase",
+    "emojiLabel": "Emoji de l’envie",
+    "emojiPlaceholder": "🙂",
+    "keptOn": "Gardée le {date, date, short}",
+    "titleKept": "Une envie garde toujours un titre. Le précédent est conservé tant que celui-ci est vide.",
+    "notFound": "Cette envie n’est pas dans ton carnet.",
+    "toList": "Retour à mes envies"
+  }
+}
