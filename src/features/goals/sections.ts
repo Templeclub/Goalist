@@ -1,5 +1,13 @@
-/** Sections of the full sheet available in phase 2 (docs/screens/03-full-sheet-flow.md). */
-export const flowSections = ['name', 'describe', 'why', 'first-steps', 'review'] as const
+/** Sections of the full sheet (docs/screens/03-full-sheet-flow.md). */
+export const flowSections = [
+  'name',
+  'describe',
+  'why',
+  'smart',
+  'qualify',
+  'first-steps',
+  'review',
+] as const
 export type FlowSection = (typeof flowSections)[number]
 
 export function isFlowSection(value: string): value is FlowSection {
@@ -15,6 +23,8 @@ export function nextSection(section: FlowSection): FlowSection | null {
 export const sectionForMissing: Record<string, FlowSection | undefined> = {
   describe: 'describe',
   why: 'why',
+  smart: 'smart',
+  qualify: 'qualify',
   first_steps: 'first-steps',
 }
 
@@ -24,7 +34,7 @@ export function firstSectionToComplete(
   hasTagline: boolean,
 ): FlowSection {
   if (!hasTagline) return 'name'
-  for (const m of ['describe', 'why', 'first_steps']) {
+  for (const m of ['describe', 'why', 'smart', 'qualify', 'first_steps']) {
     if (missing.includes(m)) return sectionForMissing[m]!
   }
   return 'review'
