@@ -1,0 +1,27 @@
+{
+  "greeting": {
+    "morning": "Bonjour, {name}",
+    "evening": "Bonsoir, {name}",
+    "anonymous": "Bonjour"
+  },
+  "capture": {
+    "cta": "J’aimerais…"
+  },
+  "recent": {
+    "title": "Tes dernières envies"
+  },
+  "toComplete": {
+    "title": "Fiches à compléter",
+    "intro": "{count, plural, one {Une envie attend} other {# envies attendent}} un peu d’attention, quand tu veux.",
+    "couldAdd": "On pourrait ajouter : {sections}"
+  },
+  "empty": {
+    "title": "Ton carnet est prêt.",
+    "body": "Une envie, même petite, suffit pour commencer.",
+    "examples": {
+      "stars": "Dormir une nuit à la belle étoile",
+      "bread": "Apprendre à faire son pain",
+      "letter": "Écrire à une vieille amie"
+    }
+  }
+}

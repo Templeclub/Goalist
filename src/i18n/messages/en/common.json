@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "{appName} · your notebook of wishes",
+    "description": "Write down your wishes, projects and goals, then shape them at your own pace."
+  },
+  "nav": {
+    "label": "Main navigation",
+    "home": "Home",
+    "goals": "My wishes",
+    "new": "New wish",
+    "me": "Me",
+    "search": "Search",
+    "collapse": "Collapse navigation",
+    "expand": "Expand navigation"
+  },
+  "actions": {
+    "keep": "Keep",
+    "continue": "Continue",
+    "skip": "Skip for now",
+    "complete": "Fill in",
+    "close": "Close",
+    "yes": "Yes",
+    "later": "Later",
+    "undo": "Undo",
+    "redo": "Redo",
+    "history": "History",
+    "seeAll": "See all"
+  },
+  "save": {
+    "saved": "Saved",
+    "saving": "Saving…",
+    "offline": "Offline, kept on this device"
+  },
+  "completeness": {
+    "label": "How full the page is",
+    "sketch": "Sketch",
+    "on_track": "Page taking shape",
+    "well_filled": "Page well filled"
+  },
+  "help": {
+    "open": "Help: {field}",
+    "example": "Example",
+    "before": "Before",
+    "after": "After"
+  },
+  "field": {
+    "optional": "optional"
+  },
+  "emptyState": {
+    "tryExample": "Try: {example}"
+  },
+  "loading": "Loading…"
+}
