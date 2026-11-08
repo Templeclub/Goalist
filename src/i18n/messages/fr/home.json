@@ -16,7 +16,8 @@
     "title": "Fiches à compléter",
     "intro": "{count, plural, one {Une envie attend} other {# envies attendent}} un peu d’attention, quand tu veux.",
     "couldAdd": "Il reste de la place pour une description",
-    "action": "Compléter"
+    "action": "Compléter",
+    "seeAll": "Voir toutes les fiches à compléter"
   },
   "empty": {
     "title": "Ton carnet est prêt.",

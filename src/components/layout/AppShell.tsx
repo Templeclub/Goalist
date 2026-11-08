@@ -1,7 +1,9 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
+import { useRouter } from '@/i18n/navigation'
+import { FOCUS_SEARCH_KEY, SEARCH_INPUT_ID } from '../goals/GoalsToolbar'
 import { CaptureProvider, useCapture } from '../capture/CaptureProvider'
 import { ToastProvider } from '../ui/Toast'
 import { BottomNav } from './BottomNav'
@@ -13,6 +15,31 @@ function Shell({ appName, children }: { appName: string; children: ReactNode }) 
   const t = useTranslations('app')
   const { open } = useCapture()
   const [collapsed, setCollapsed] = useState(false)
+  const router = useRouter()
+
+  const openSearch = useCallback(() => {
+    const input = document.getElementById(SEARCH_INPUT_ID)
+    if (input) return input.focus()
+    try {
+      sessionStorage.setItem(FOCUS_SEARCH_KEY, '1')
+    } catch {}
+    router.push('/goals')
+  }, [router])
+
+  // "/" opens the search from anywhere (docs/design-system.md §11).
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null
+      const typing =
+        target &&
+        (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
+      if (event.key !== '/' || typing || event.metaKey || event.ctrlKey || event.altKey) return
+      event.preventDefault()
+      openSearch()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [openSearch])
 
   useEffect(() => {
     try {
@@ -42,6 +69,7 @@ function Shell({ appName, children }: { appName: string; children: ReactNode }) 
         collapsed={collapsed}
         onCollapsedChange={onCollapsedChange}
         onNewGoal={() => open()}
+        onSearch={openSearch}
         className="sticky top-0 hidden h-dvh shrink-0 md:flex"
       />
       <main id="main" className="min-w-0 flex-1 pb-28 md:pb-16">

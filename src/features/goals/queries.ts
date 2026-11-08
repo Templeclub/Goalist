@@ -1,9 +1,11 @@
 import 'server-only'
 import { createClient } from '@/lib/supabase/server'
+import { quickFilterExpression, type ListQuery } from './list-query'
+import { categoryHue } from './palette'
 import type { CategoryKey, CompletenessLevel, GoalStatus } from './schema'
 
 const cardColumns =
-  'id, title, tagline, emoji, status, completeness_level, missing_sections, updated_at, created_at, version, goal_categories(position, categories(key))' as const
+  'id, title, tagline, emoji, hue, horizon, status, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, hue))' as const
 
 export type GoalSummary = {
   id: string
@@ -14,6 +16,10 @@ export type GoalSummary = {
   completenessLevel: CompletenessLevel
   missingSections: string[]
   categories: CategoryKey[]
+  /** Ribbon hue: the wish's own colour, else its first category's (system or personal). */
+  ribbonHue: number | null
+  horizon: string | null
+  completionDismissed: boolean
   createdAt: string
   updatedAt: string
   version: number
@@ -30,10 +36,18 @@ type Row = {
   updated_at: string
   created_at: string
   version: number
-  goal_categories?: { position: number; categories: { key: string | null } | null }[]
+  hue?: number | null
+  horizon?: string | null
+  completion_dismissed_at?: string | null
+  goal_categories?: {
+    position: number
+    categories: { key: string | null; hue: number | null } | null
+  }[]
 }
 
 function toSummary(row: Row): GoalSummary {
+  const ordered = (row.goal_categories ?? []).toSorted((a, b) => a.position - b.position)
+  const first = ordered[0]?.categories
   return {
     id: row.id,
     title: row.title,
@@ -46,6 +60,11 @@ function toSummary(row: Row): GoalSummary {
       .toSorted((a, b) => a.position - b.position)
       .map((gc) => gc.categories?.key)
       .filter((k): k is CategoryKey => Boolean(k)),
+    ribbonHue:
+      row.hue ??
+      (first ? (first.key ? (categoryHue[first.key as CategoryKey] ?? null) : first.hue) : null),
+    completionDismissed: Boolean(row.completion_dismissed_at),
+    horizon: row.horizon ?? null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     version: row.version,
@@ -330,4 +349,52 @@ export async function listTagLabels(): Promise<string[]> {
   const supabase = await createClient()
   const { data } = await supabase.from('tags').select('label').order('label').limit(200)
   return (data ?? []).map((t) => t.label)
+}
+
+/** Search, filters and sort from the URL (docs/screens/05 phase 4). RLS keeps it to the viewer's wishes. */
+export async function searchGoals(query: ListQuery) {
+  const supabase = await createClient()
+  const select =
+    query.category.length > 0
+      ? `${cardColumns}, cat_filter:goal_categories!inner(category_id)`
+      : cardColumns
+  let request = supabase.from('goals').select(select).is('deleted_at', null)
+
+  if (query.q) {
+    // Full text (French, accent-insensitive) or a plain substring of the title.
+    request = request.or(`search_vector.wfts(fr_unaccent).${query.q},title.ilike.*${query.q}*`)
+  }
+  for (const quick of query.quick) request = request.or(quickFilterExpression[quick])
+  if (query.status.length) request = request.in('status', query.status)
+  if (query.difficulty.length) request = request.in('difficulty', query.difficulty)
+  if (query.preparation.length) request = request.in('preparation', query.preparation)
+  if (query.horizon.length) request = request.in('horizon', query.horizon)
+  if (query.energy.length) request = request.in('energy', query.energy)
+  if (query.budget.length) request = request.in('budget_level', query.budget)
+  if (query.category.length) request = request.in('cat_filter.category_id', query.category)
+
+  switch (query.sort) {
+    case 'created':
+      request = request.order('created_at', { ascending: false })
+      break
+    case 'title':
+      request = request.order('title', { ascending: true })
+      break
+    case 'target':
+      request = request
+        .order('target_date', { ascending: true, nullsFirst: false })
+        .order('updated_at', { ascending: false })
+      break
+    case 'easiest':
+      request = request
+        .order('difficulty', { ascending: true, nullsFirst: false })
+        .order('updated_at', { ascending: false })
+      break
+    default:
+      request = request.order('updated_at', { ascending: false })
+  }
+
+  const { data, error } = await request.limit(500)
+  if (error) throw error
+  return (data as unknown as Row[]).map(toSummary)
 }

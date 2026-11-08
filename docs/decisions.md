@@ -231,3 +231,17 @@ L'assistant est la section 4 du parcours (`/edit/smart`), une question à la foi
 ### D-051 · Catégories, tags et mot de statut comme sous-ressources — Acceptée
 
 `PUT /api/goals/:id/categories` (ordre conservé : la première donne la teinte du signet), `PUT /api/goals/:id/tags` (les nouveaux libellés deviennent des tags personnels), `POST /api/categories` (catégorie personnelle : nom + l'une des 12 teintes), `PATCH /api/goals/:id/status-note` (mot facultatif sur le dernier changement de statut). Tags et noms de catégories alimentent `search_extra` pour la recherche de la phase 4. La complétude compte désormais les catégories et les critères SMART.
+
+## Phase 4
+
+### D-052 · L'état de la liste vit dans l'URL — Acceptée
+
+Recherche, filtres rapides, filtres combinables, tri, regroupement et envie ouverte sont des paramètres d'URL (`/goals?q=&quick=&status=&sort=&group=&open=`), validés par Zod (`list-query.ts`) puis traduits en requête PostgREST côté serveur. Retour arrière, rechargement et partage conservent la vue. La recherche combine le plein texte français sans accents (`search_vector`, `fr_unaccent`) et une sous-chaîne du titre ; les caractères de la syntaxe PostgREST sont neutralisés.
+
+### D-053 · Master-detail par paramètre plutôt que par layout — Acceptée
+
+Sur ordinateur, `/goals?open=:id` affiche la page de l'envie à droite de la liste (même composant `GoalNotebook` que `/goals/:id`). Un layout ne reçoit pas les `searchParams`, d'où ce choix ; sur mobile, les cartes restent de simples liens vers `/goals/:id`, interceptés seulement à partir de 1024 px.
+
+### D-054 · « Fiches à compléter » = un filtre rapide — Acceptée
+
+La zone est le filtre `quick=to_complete` (envies à l'état d'esquisse, non écartées). « Ne plus me le proposer » pose `completion_dismissed_at` via le patch habituel (`completion_dismissed: true`) ; l'envie reste dans le carnet.

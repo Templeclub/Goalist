@@ -1,7 +1,47 @@
 {
   "list": {
     "title": "Mes envies",
-    "count": "{count, plural, one {# envie} other {# envies}}"
+    "count": "{count, plural, one {# envie} other {# envies}}",
+    "search": "Rechercher dans mes envies",
+    "searchPlaceholder": "Un mot, un lieu, un tag…",
+    "clearSearch": "Effacer la recherche",
+    "quick": {
+      "label": "Filtres rapides",
+      "weekend": "Ce week-end",
+      "low_energy": "Peu d’énergie",
+      "no_budget": "Sans budget",
+      "easy_start": "Facile à lancer",
+      "to_complete": "À compléter"
+    },
+    "filters": "Filtres",
+    "filtersActive": "Filtres ({count})",
+    "filtersTitle": "Filtrer mes envies",
+    "clearAll": "Tout effacer",
+    "apply": "Voir les envies",
+    "status": "Statut",
+    "category": "Catégorie",
+    "sort": {
+      "label": "Trier",
+      "updated": "Modifiées récemment",
+      "created": "Gardées récemment",
+      "title": "Titre A → Z",
+      "target": "Date cible la plus proche",
+      "easiest": "Plus faciles d’abord"
+    },
+    "group": {
+      "label": "Regrouper",
+      "none": "Aucun",
+      "status": "Par statut",
+      "horizon": "Par horizon",
+      "category": "Par catégorie",
+      "noCategory": "Sans catégorie",
+      "noHorizon": "Horizon non précisé"
+    },
+    "noResults": "Rien ne correspond à ces filtres.",
+    "choose": "Choisis une envie à gauche pour l’ouvrir ici.",
+    "dismiss": "Ne plus me le proposer",
+    "dismissed": "Elle ne sera plus proposée ici. Elle reste dans ton carnet.",
+    "undoDismiss": "La proposer à nouveau"
   },
   "detail": {
     "back": "Mes envies",
