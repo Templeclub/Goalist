@@ -27,8 +27,11 @@ export async function PATCH(request: NextRequest, ctx: RouteContext<'/api/goals/
   const current = await readCompletenessInput(supabase, id)
   if (!current) return problem(404, 'not_found')
 
-  const { description_doc, ...rest } = body.patch
+  const { description_doc, completion_dismissed, ...rest } = body.patch
   const update: Record<string, unknown> = { ...rest }
+  if (completion_dismissed !== undefined) {
+    update.completion_dismissed_at = completion_dismissed ? new Date().toISOString() : null
+  }
   if (description_doc !== undefined) {
     update.description_doc = description_doc as unknown as Json
     // Derived plain text feeds search and completeness (D-008).

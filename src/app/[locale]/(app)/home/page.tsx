@@ -3,6 +3,7 @@ import { getFormatter, getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { CaptureExamples, CaptureTrigger } from '@/components/capture/CaptureTrigger'
 import { GoalCard, GoalCardSkeleton } from '@/components/goal/GoalCard'
+import { DismissButton } from '@/components/goals/DismissButton'
 import { buttonVariants } from '@/components/ui/Button'
 import { NotebookIllustration } from '@/components/ui/NotebookIllustration'
 import { Skeleton } from '@/components/ui/Skeleton'
@@ -107,6 +108,7 @@ async function HomeContent() {
                 emoji={goal.emoji}
                 categories={goal.categories}
                 status={goal.status}
+                hue={goal.ribbonHue}
               />
             ))}
           </div>
@@ -136,6 +138,7 @@ async function HomeContent() {
                 <span className="min-w-0">
                   <b className="block leading-snug font-semibold">{goal.title}</b>
                   <small className="block text-sm text-ink-3">{t('toComplete.couldAdd')}</small>
+                  <DismissButton goalId={goal.id} version={goal.version} title={goal.title} />
                 </span>
                 <Link
                   href={`/goals/${goal.id}`}
@@ -147,6 +150,14 @@ async function HomeContent() {
               </li>
             ))}
           </ul>
+          {toComplete.total > toComplete.goals.length && (
+            <Link
+              href="/goals?quick=to_complete"
+              className="text-[0.9375rem] font-semibold text-accent-strong underline-offset-2 hover:underline"
+            >
+              {t('toComplete.seeAll')}
+            </Link>
+          )}
         </section>
       )}
     </>
