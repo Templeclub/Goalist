@@ -1,6 +1,6 @@
 import { strToU8, zipSync, type Zippable } from 'fflate'
 import { getTranslations } from 'next-intl/server'
-import { NextResponse } from 'next/server'
+import { connection, NextResponse } from 'next/server'
 import { APP_NAME } from '@/config/app'
 import {
   goalToMarkdown,
@@ -44,6 +44,7 @@ type Row = Record<string, unknown> & {
  * envies/*.md (readable) and images/ (originals). Read through RLS only.
  */
 export async function GET() {
+  await connection()
   const supabase = await createClient()
   const { data: claims } = await supabase.auth.getClaims()
   const userId = claims?.claims?.sub
