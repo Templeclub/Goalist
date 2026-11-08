@@ -43,26 +43,33 @@ Détails et justifications : [`docs/plan.md`](docs/plan.md) et [`docs/decisions.
 - **Clés i18n** : `domaine.ecran.element` (ex. `capture.express.placeholder`). Les catégories et valeurs système sont des clés (`categories.sport_health`).
 - **Données** : énumérations en `text` + `CHECK` côté SQL, schéma Zod correspondant dans `src/features/*/schema.ts`. Chaque migration qui touche une table ajoute ou met à jour ses tests pgTAP.
 - **Écriture** : les modifications d'une envie passent par `PATCH /api/goals/:id` (patch par champ, `baseVersion`, `clientMutationId`). Pas de Server Action pour ce qui peut être rejoué hors ligne.
-- **Styles** : uniquement des tokens (`bg-surface`, `text-ink-2`, `--color-category-*`). Rayons, espacements et durées viennent du design system.
+- **Styles** : uniquement des tokens (`bg-card`, `bg-paper`, `text-ink-2`, `bg-tone-bg` + `data-tone`). Rayons, espacements et durées viennent du design system.
 - **Mouvement** : 150–250 ms, désactivé sous `prefers-reduced-motion`. Pas de confettis, pas de sons.
 
 ## Commandes
 
-À créer en phase 0 ; cette liste fait foi une fois le projet initialisé.
+Cette liste fait foi.
 
-| Commande | Rôle |
-|---|---|
-| `pnpm dev` | Serveur de développement |
-| `pnpm build` / `pnpm start` | Build et serveur de production |
-| `pnpm lint` / `pnpm typecheck` / `pnpm format` | Qualité |
-| `pnpm test` | Tests unitaires et composants (Vitest) |
-| `pnpm e2e` | Tests Playwright (`pnpm e2e -- --trace off` en local) |
-| `pnpm e2e:visual` | Tests de non-régression visuelle |
-| `pnpm storybook` / `pnpm storybook:build` | Storybook |
-| `pnpm db:start` / `pnpm db:reset` | Supabase local (Docker) |
-| `pnpm db:migrate:new <nom>` | Nouvelle migration SQL |
-| `pnpm db:test` | Tests pgTAP (RLS, contraintes) |
-| `pnpm db:types` | Régénère `src/lib/supabase/database.types.ts` |
+| Commande                                       | Rôle                                                  |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| `pnpm dev`                                     | Serveur de développement                              |
+| `pnpm build` / `pnpm start`                    | Build et serveur de production                        |
+| `pnpm lint` / `pnpm typecheck` / `pnpm format` | Qualité                                               |
+| `pnpm test`                                    | Tests unitaires et composants (Vitest)                |
+| `pnpm e2e`                                     | Tests Playwright (`pnpm e2e -- --trace off` en local) |
+| `pnpm e2e:visual`                              | Tests de non-régression visuelle                      |
+| `pnpm storybook` / `pnpm storybook:build`      | Storybook                                             |
+| `pnpm db:start` / `pnpm db:reset`              | Supabase local (Docker)                               |
+| `pnpm db:migrate:new <nom>`                    | Nouvelle migration SQL                                |
+| `pnpm db:test`                                 | Tests pgTAP (RLS, contraintes)                        |
+| `pnpm db:types`                                | Régénère `src/lib/supabase/database.types.ts`         |
+| `pnpm db:test:local` / `pnpm db:types:local`   | Même chose sans Docker (PostgreSQL local + pgTAP)     |
+
+## Points d'attention
+
+- **Next.js 16.4** : plusieurs conventions ont changé (`proxy.ts` au lieu de `middleware.ts`, Cache Components activé). Lire la doc fournie dans `node_modules/next/dist/docs/` avant d'utiliser une API (voir `AGENTS.md`).
+- **Cache Components** : toute lecture de session (`cookies()`) se fait dans un composant placé sous `<Suspense>` avec un squelette, jamais au niveau d'un layout.
+- **Tests E2E** : `playwright.config.ts` construit et lance son propre serveur ; arrêter tout `next start` qui tournerait déjà sur le port 3100.
 
 ## Définition de « terminé »
 

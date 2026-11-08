@@ -1,0 +1,162 @@
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme='dark'] *) {
+    @slot;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-card: var(--card);
+  --color-card-raised: var(--card-raised);
+  --color-scrim: var(--scrim);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-on-accent: var(--ink-on-accent);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-card-border: var(--card-border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-strong: var(--accent-strong);
+  --color-gilt: var(--gilt);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-tone-ribbon: var(--tone-ribbon);
+  --color-tone-bg: var(--tone-bg);
+  --color-tone-fg: var(--tone-fg);
+
+  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-figtree), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-card: var(--r-card);
+  --radius-sheet: var(--r-sheet);
+
+  --shadow-card: var(--elev-card);
+  --shadow-sheet: var(--elev-sheet);
+
+  --ease-out: var(--motion-ease-out);
+  --ease-spring: var(--motion-ease-spring);
+
+  /* Type scale (ratio 1.25, base 16px) — see design-system.md §7 */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1rem;
+  --text-base--line-height: 1.55;
+  --text-md: 1.125rem;
+  --text-md--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.35;
+  --text-xl: 1.5625rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.953rem;
+  --text-2xl--line-height: 1.15;
+  --text-3xl: 2.441rem;
+  --text-3xl--line-height: 1.05;
+
+  --animate-land: land var(--duration-slow) var(--motion-ease-spring) both;
+  --animate-rise: rise var(--duration-slow) var(--motion-ease-out) both;
+  --animate-fade: fade var(--duration-base) var(--motion-ease-out) both;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+
+  @keyframes land {
+    from {
+      transform: scale(0.96);
+      opacity: 0.4;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(8px);
+      opacity: 0;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    50% {
+      opacity: 0.55;
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+}
+
+@layer components {
+  /* Section label in simulated small caps */
+  .label-caps {
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-3);
+  }
+  /* The signature: a bookmark ribbon with a swallow-tail cut */
+  .signet {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+    background: var(--tone-ribbon);
+  }
+  /* The notebook page: faint dot grid */
+  .paper-dots {
+    background-color: var(--paper);
+    background-image: radial-gradient(circle, var(--paper-dot) 1px, transparent 1.4px);
+    background-size: 20px 20px;
+    background-position: 10px 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

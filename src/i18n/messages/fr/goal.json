@@ -1,0 +1,115 @@
+{
+  "categories": {
+    "family": "Famille & relations",
+    "social": "Social",
+    "travel": "Voyage & aventure",
+    "practical": "Organisation, vie pratique",
+    "finance": "Finances",
+    "sport_health": "Sport & santé",
+    "wellbeing": "Bien-être",
+    "home": "Maison & matériel",
+    "learning": "Apprendre",
+    "work": "Professionnel",
+    "volunteering": "Engagement, bénévolat",
+    "creative": "Créatif",
+    "other": "Autre"
+  },
+  "statuses": {
+    "idea": "Idée",
+    "confirmed": "Envie confirmée",
+    "preparing": "En préparation",
+    "in_progress": "En cours",
+    "done": "Réalisé",
+    "paused": "En pause",
+    "let_go": "Lâché consciemment"
+  },
+  "values": {
+    "freedom": "Liberté",
+    "learning": "Apprendre",
+    "sharing": "Partager",
+    "surpassing": "Me dépasser",
+    "relaxing": "Me détendre",
+    "passing_on": "Transmettre",
+    "wonder": "M’émerveiller",
+    "health": "Prendre soin de moi",
+    "connection": "Me rapprocher des autres",
+    "creating": "Créer"
+  },
+  "difficulty": {
+    "label": "Difficulté",
+    "1": "Facile",
+    "2": "À ma portée",
+    "3": "Exigeant",
+    "4": "Ambitieux",
+    "5": "Défi majeur",
+    "description": {
+      "1": "Facile : ça peut se faire sans vraiment s’organiser.",
+      "2": "À ma portée : un peu d’organisation, rien d’intimidant.",
+      "3": "Exigeant : ça demande de l’organisation et un peu de courage.",
+      "4": "Ambitieux : il faudra de la constance, sur la durée.",
+      "5": "Défi majeur : un vrai cap à franchir, et c’est très bien comme ça."
+    }
+  },
+  "preparation": {
+    "label": "Préparation",
+    "none": "Aucune",
+    "light": "Légère, quelques heures",
+    "medium": "Moyenne, quelques jours",
+    "heavy": "Importante, des semaines",
+    "very_heavy": "Très importante, des mois"
+  },
+  "horizon": {
+    "label": "Horizon",
+    "short": "Court, moins de 3 mois",
+    "medium": "Moyen, 3 à 12 mois",
+    "long": "Long, plus d’un an",
+    "someday": "Un jour"
+  },
+  "energy": {
+    "label": "Énergie requise",
+    "low": "Faible",
+    "medium": "Moyenne",
+    "high": "Forte"
+  },
+  "budget": {
+    "label": "Budget",
+    "none": "Aucun",
+    "low": "Faible",
+    "medium": "Moyen",
+    "high": "Élevé"
+  },
+  "time": {
+    "label": "Temps estimé",
+    "minutes": "Quelques minutes",
+    "day": "Une journée",
+    "weekend": "Un week-end",
+    "several_days": "Plusieurs jours",
+    "spread": "Étalé dans le temps"
+  },
+  "mode": {
+    "label": "Mode",
+    "solo": "En solo",
+    "together": "Avec d’autres",
+    "open": "Ouvert aux contributions"
+  },
+  "season": {
+    "label": "Saison, contexte",
+    "spring": "Printemps",
+    "summer": "Été",
+    "autumn": "Automne",
+    "winter": "Hiver",
+    "weekend": "Week-end",
+    "holidays": "Vacances",
+    "when_free": "Quand j’aurai du temps"
+  },
+  "visibility": {
+    "label": "Visibilité",
+    "private": "Privé",
+    "circle": "Cercle d’amis",
+    "community": "Communauté",
+    "soon": "Bientôt"
+  },
+  "card": {
+    "untitled": "Envie sans titre"
+  }
+}

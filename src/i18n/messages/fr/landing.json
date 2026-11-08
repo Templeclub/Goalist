@@ -1,0 +1,15 @@
+{
+  "eyebrow": "Carnet d’envies",
+  "title": "Ce que tu aimerais vraiment, enfin écrit.",
+  "lead": "{appName} t’aide à mettre par écrit tes envies, tes projets et tes objectifs, puis à leur donner forme, à ton rythme. Sans pression, sans classement, sans intelligence artificielle.",
+  "soon": "Le carnet ouvre bientôt.",
+  "sampleTitle": "Dormir une nuit à la belle étoile",
+  "sampleTagline": "Voir la Voie lactée de mes propres yeux, sans tente.",
+  "principlesTitle": "Ce que {appName} ne fera jamais",
+  "principles": {
+    "pressure": "Te mettre la pression ou te culpabiliser.",
+    "compare": "Te comparer aux autres.",
+    "generate": "Écrire à ta place."
+  },
+  "footer": "{appName} · nom provisoire"
+}

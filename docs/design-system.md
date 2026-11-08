@@ -28,17 +28,17 @@ Les contrastes ci-dessous sont mesurés (WCAG 2.x). Toutes les combinaisons text
 
 Un carnet en papier crème, de l'argile, la lumière d'un atelier en fin d'après-midi. La plus chaleureuse et la plus « objet » des trois.
 
-| Token | Clair | Sombre |
-|---|---|---|
-| `paper` (fond) | `#F6F1E9` | `#1C1814` |
-| `paper-2` (fond creusé) | `#EFE7DB` | `#161310` |
-| `card` (surface) | `#FFFCF7` | `#26201B` |
-| `ink` (texte) | `#2A211C` | `#F1E8DD` |
-| `ink-2` (texte secondaire) | `#5E5249` | `#C9BBAB` |
-| `ink-3` (texte discret) | `#6F6257` | `#A39484` |
-| `line` (bordures) | `#E2D6C6` | `#3A322B` |
-| `accent` | `#A84B2A` | `#E59873` |
-| `accent-ink` (texte sur accent) | `#FFF8F2` | `#2A1408` |
+| Token                            | Clair     | Sombre    |
+| -------------------------------- | --------- | --------- |
+| `paper` (fond)                   | `#F6F1E9` | `#1C1814` |
+| `paper-2` (fond creusé)          | `#EFE7DB` | `#161310` |
+| `card` (surface)                 | `#FFFCF7` | `#26201B` |
+| `ink` (texte)                    | `#2A211C` | `#F1E8DD` |
+| `ink-2` (texte secondaire)       | `#5E5249` | `#C9BBAB` |
+| `ink-3` (texte discret)          | `#6F6257` | `#A39484` |
+| `line` (bordures)                | `#E2D6C6` | `#3A322B` |
+| `accent`                         | `#A84B2A` | `#E59873` |
+| `accent-ink` (texte sur accent)  | `#FFF8F2` | `#2A1408` |
 | `accent-soft` (fond sélectionné) | `#F4DFD3` | `#3E2A1F` |
 
 Contrastes : `ink`/`paper` 14,0 · `ink-2`/`card` 7,4 · `accent`/`card` 5,5 · `accent-ink`/`accent` 5,4 (sombre : 14,6 · 8,6 · 7,0 · 7,6).
@@ -51,17 +51,17 @@ Contrastes : `ink`/`paper` 14,0 · `ink-2`/`card` 7,4 · `accent`/`card` 5,5 · 
 
 Un herbier, du papier légèrement vert-gris, des feuilles pressées. La plus apaisante des trois.
 
-| Token | Clair | Sombre |
-|---|---|---|
-| `paper` | `#F1F2EC` | `#151A17` |
-| `paper-2` | `#E7E9E0` | `#101411` |
-| `card` | `#FBFBF7` | `#1D2420` |
-| `ink` | `#1F2622` | `#E6ECE6` |
-| `ink-2` | `#4C5850` | `#B6C2B9` |
-| `ink-3` | `#5F6A62` | `#93A096` |
-| `line` | `#D6DBD0` | `#2F3A33` |
-| `accent` | `#3B6852` | `#93C5A8` |
-| `accent-ink` | `#F4FAF6` | `#0F2318` |
+| Token         | Clair     | Sombre    |
+| ------------- | --------- | --------- |
+| `paper`       | `#F1F2EC` | `#151A17` |
+| `paper-2`     | `#E7E9E0` | `#101411` |
+| `card`        | `#FBFBF7` | `#1D2420` |
+| `ink`         | `#1F2622` | `#E6ECE6` |
+| `ink-2`       | `#4C5850` | `#B6C2B9` |
+| `ink-3`       | `#5F6A62` | `#93A096` |
+| `line`        | `#D6DBD0` | `#2F3A33` |
+| `accent`      | `#3B6852` | `#93C5A8` |
+| `accent-ink`  | `#F4FAF6` | `#0F2318` |
 | `accent-soft` | `#DCE8DF` | `#213328` |
 
 Contrastes : `ink`/`paper` 13,7 · `ink-2`/`card` 7,2 · `accent`/`card` 6,2 · `accent-ink`/`accent` 6,0 (sombre : 14,7 · 8,6 · 8,1 · 8,5).
@@ -74,18 +74,18 @@ Contrastes : `ink`/`paper` 13,7 · `ink-2`/`card` 7,2 · `accent`/`card` 6,2 · 
 
 Un carnet à couverture bleu nuit, de l'encre, une touche d'ocre comme un fil doré. La plus contrastée et la plus « écriture ».
 
-| Token | Clair | Sombre |
-|---|---|---|
-| `paper` | `#F2EFE9` | `#131725` |
-| `paper-2` | `#E8E4DC` | `#0F1220` |
-| `card` | `#FDFBF8` | `#1B2033` |
-| `ink` | `#1D2233` | `#ECE7DE` |
-| `ink-2` | `#4A5066` | `#C0BCCB` |
-| `ink-3` | `#5D6275` | `#9A97A8` |
-| `line` | `#DCD7CD` | `#2C3248` |
-| `accent` | `#33467A` | `#AEBDEB` |
-| `accent-ink` | `#F5F6FC` | `#141A33` |
-| `accent-soft` | `#E0E4F1` | `#242C4A` |
+| Token                                                  | Clair     | Sombre    |
+| ------------------------------------------------------ | --------- | --------- |
+| `paper`                                                | `#F2EFE9` | `#131725` |
+| `paper-2`                                              | `#E8E4DC` | `#0F1220` |
+| `card`                                                 | `#FDFBF8` | `#1B2033` |
+| `ink`                                                  | `#1D2233` | `#ECE7DE` |
+| `ink-2`                                                | `#4A5066` | `#C0BCCB` |
+| `ink-3`                                                | `#5D6275` | `#9A97A8` |
+| `line`                                                 | `#DCD7CD` | `#2C3248` |
+| `accent`                                               | `#33467A` | `#AEBDEB` |
+| `accent-ink`                                           | `#F5F6FC` | `#141A33` |
+| `accent-soft`                                          | `#E0E4F1` | `#242C4A` |
 | `gilt` (décor seulement : filets, signet de l'accueil) | `#B8842A` | `#D9A94F` |
 
 Contrastes : `ink`/`paper` 13,8 · `ink-2`/`card` 7,7 · `accent`/`card` 8,9 · `accent-ink`/`accent` 8,5 (sombre : 14,5 · 8,7 · 8,7 · 9,2).
@@ -136,27 +136,27 @@ Le thème suit `prefers-color-scheme` par défaut ; le réglage manuel pose `dat
 
 Douze teintes espacées de 30° sur le cercle OKLCH, à **luminosité et saturation identiques**, ce qui garantit qu'aucune catégorie ne « crie » plus qu'une autre. Une treizième, neutre, pour « Autre ».
 
-| Clé | Libellé | Teinte (h) | Icône Lucide |
-|---|---|---|---|
-| `family` | Famille & relations | 0 | `heart-handshake` |
-| `social` | Social | 30 | `party-popper` |
-| `travel` | Voyage & aventure | 60 | `tent` |
-| `practical` | Organisation / vie pratique | 90 | `list-checks` |
-| `finance` | Finances | 120 | `piggy-bank` |
-| `sport_health` | Sport & santé | 150 | `activity` |
-| `wellbeing` | Bien-être | 180 | `leaf` |
-| `home` | Maison & matériel | 210 | `sofa` |
-| `learning` | Intellectuel / apprentissage | 240 | `lightbulb` |
-| `work` | Professionnel | 270 | `briefcase` |
-| `volunteering` | Engagement / bénévolat | 300 | `hand-heart` |
-| `creative` | Créatif | 330 | `palette` |
-| `other` | Autre | — (chroma 0) | `shapes` |
+| Clé            | Libellé                      | Teinte (h)   | Icône Lucide      |
+| -------------- | ---------------------------- | ------------ | ----------------- |
+| `family`       | Famille & relations          | 0            | `heart-handshake` |
+| `social`       | Social                       | 30           | `party-popper`    |
+| `travel`       | Voyage & aventure            | 60           | `tent`            |
+| `practical`    | Organisation / vie pratique  | 90           | `list-checks`     |
+| `finance`      | Finances                     | 120          | `piggy-bank`      |
+| `sport_health` | Sport & santé                | 150          | `activity`        |
+| `wellbeing`    | Bien-être                    | 180          | `leaf`            |
+| `home`         | Maison & matériel            | 210          | `sofa`            |
+| `learning`     | Intellectuel / apprentissage | 240          | `lightbulb`       |
+| `work`         | Professionnel                | 270          | `briefcase`       |
+| `volunteering` | Engagement / bénévolat       | 300          | `hand-heart`      |
+| `creative`     | Créatif                      | 330          | `palette`         |
+| `other`        | Autre                        | — (chroma 0) | `shapes`          |
 
-| Usage | Clair | Sombre |
-|---|---|---|
-| Signet, fine bordure | `oklch(0.70 0.11 h)` | `oklch(0.72 0.10 h)` |
-| Fond de pastille | `oklch(0.93 0.035 h)` | `oklch(0.30 0.04 h)` |
-| Texte et icône de pastille | `oklch(0.42 0.08 h)` | `oklch(0.86 0.06 h)` |
+| Usage                      | Clair                 | Sombre               |
+| -------------------------- | --------------------- | -------------------- |
+| Signet, fine bordure       | `oklch(0.70 0.11 h)`  | `oklch(0.72 0.10 h)` |
+| Fond de pastille           | `oklch(0.93 0.035 h)` | `oklch(0.30 0.04 h)` |
+| Texte et icône de pastille | `oklch(0.42 0.08 h)`  | `oklch(0.86 0.06 h)` |
 
 Le texte des pastilles dépasse 7:1 sur leur fond. Le signet est décoratif (catégorie toujours nommée à côté).
 
@@ -164,15 +164,15 @@ Le texte des pastilles dépasse 7:1 sur leur fond. Le signet est décoratif (cat
 
 Teintes calmes, chroma faible, **aucun rouge ni orange vif**. Chaque statut a une icône et un libellé.
 
-| Clé | Libellé | Icône | Teinte |
-|---|---|---|---|
-| `idea` | Idée | `feather` | neutre |
-| `confirmed` | Envie confirmée | `heart` | accent |
-| `preparing` | En préparation | `compass` | ocre doux (h 80) |
-| `in_progress` | En cours | `footprints` | bleu doux (h 240) |
-| `done` | Réalisé | `circle-check` | vert doux (h 150) |
-| `paused` | En pause | `moon` | lavande (h 290) |
-| `let_go` | Lâché consciemment | `wind` | sable (h 70, très pâle) |
+| Clé           | Libellé            | Icône          | Teinte                  |
+| ------------- | ------------------ | -------------- | ----------------------- |
+| `idea`        | Idée               | `feather`      | neutre                  |
+| `confirmed`   | Envie confirmée    | `heart`        | accent                  |
+| `preparing`   | En préparation     | `compass`      | ocre doux (h 80)        |
+| `in_progress` | En cours           | `footprints`   | bleu doux (h 240)       |
+| `done`        | Réalisé            | `circle-check` | vert doux (h 150)       |
+| `paused`      | En pause           | `moon`         | lavande (h 290)         |
+| `let_go`      | Lâché consciemment | `wind`         | sable (h 70, très pâle) |
 
 « Réalisé » et « Lâché consciemment » ont le même poids visuel : les deux sont des fins positives.
 
@@ -181,16 +181,16 @@ Teintes calmes, chroma faible, **aucun rouge ni orange vif**. Chaque statut a un
 - **Deux familles** : titrage (serif) + interface (sans-serif humaniste), auto-hébergées via `next/font`, sous-ensemble latin, `font-display: swap`.
 - **Échelle** (ratio 1,25, base 16 px) :
 
-| Token | Taille | Interlignage | Usage |
-|---|---|---|---|
-| `text-xs` | 13 px | 1,4 | métadonnées, libellés de curseur (jamais pour du texte à lire) |
-| `text-sm` | 14 px | 1,45 | pastilles, aides courtes |
-| `text-base` | 16 px | 1,55 | interface, champs (≥ 16 px pour éviter le zoom iOS) |
-| `text-md` | 18 px | 1,6 | descriptions, lecture longue |
-| `text-lg` | 20 px | 1,35 | titres de carte (serif) |
-| `text-xl` | 25 px | 1,25 | questions du parcours (serif) |
-| `text-2xl` | 31 px | 1,15 | titres d'écran (serif) |
-| `text-3xl` | 39 px | 1,05 | titre d'envie sur sa page (serif, interlettrage −0,01 em) |
+| Token       | Taille | Interlignage | Usage                                                          |
+| ----------- | ------ | ------------ | -------------------------------------------------------------- |
+| `text-xs`   | 13 px  | 1,4          | métadonnées, libellés de curseur (jamais pour du texte à lire) |
+| `text-sm`   | 14 px  | 1,45         | pastilles, aides courtes                                       |
+| `text-base` | 16 px  | 1,55         | interface, champs (≥ 16 px pour éviter le zoom iOS)            |
+| `text-md`   | 18 px  | 1,6          | descriptions, lecture longue                                   |
+| `text-lg`   | 20 px  | 1,35         | titres de carte (serif)                                        |
+| `text-xl`   | 25 px  | 1,25         | questions du parcours (serif)                                  |
+| `text-2xl`  | 31 px  | 1,15         | titres d'écran (serif)                                         |
+| `text-3xl`  | 39 px  | 1,05         | titre d'envie sur sa page (serif, interlettrage −0,01 em)      |
 
 - Longueur de ligne des descriptions : 60–70 caractères (`max-width: 65ch`).
 - Titres en `text-wrap: balance`, paragraphes en `text-wrap: pretty`.
@@ -207,13 +207,13 @@ Teintes calmes, chroma faible, **aucun rouge ni orange vif**. Chaque statut a un
 
 ## 9. Mouvement
 
-| Moment | Effet | Durée |
-|---|---|---|
-| Ouverture d'une sheet | glissement vers le haut + voile | 250 ms, `ease-out` |
-| « Garder » une envie | la carte se pose avec un léger rebond (échelle 0,96 → 1) | 220 ms, `ease-spring` |
-| Changement de section | fondu + glissement de 8 px | 200 ms |
-| Sélection d'une chip | fond qui se remplit, coche qui apparaît | 150 ms |
-| « Enregistré » | fondu discret, aucune animation en boucle | 150 ms |
+| Moment                | Effet                                                    | Durée                 |
+| --------------------- | -------------------------------------------------------- | --------------------- |
+| Ouverture d'une sheet | glissement vers le haut + voile                          | 250 ms, `ease-out`    |
+| « Garder » une envie  | la carte se pose avec un léger rebond (échelle 0,96 → 1) | 220 ms, `ease-spring` |
+| Changement de section | fondu + glissement de 8 px                               | 200 ms                |
+| Sélection d'une chip  | fond qui se remplit, coche qui apparaît                  | 150 ms                |
+| « Enregistré »        | fondu discret, aucune animation en boucle                | 150 ms                |
 
 Tout est coupé sous `prefers-reduced-motion: reduce` (remplacé par des fondus de 0 ms). Pas de confettis, pas de sons. Retour haptique léger (`navigator.vibrate(10)`) sur « Garder » quand c'est disponible et non désactivé.
 
@@ -221,25 +221,25 @@ Tout est coupé sous `prefers-reduced-motion: reduce` (remplacé par des fondus 
 
 Chaque composant a sa story Storybook (états, clair / sombre, mobile / desktop) avant d'être utilisé.
 
-| Composant | Rôle | États clés |
-|---|---|---|
-| `Button` | primaire (accent plein), secondaire (contour), discret (texte) | repos, survol, focus, appuyé, désactivé, chargement (sans spinner plein écran) |
-| `Chip` / `ChipGroup` | choix simple ou multiple, valeurs, saisons, relances | non sélectionné, sélectionné (coche + fond `accent-soft`), focus. Rôle `radio` ou `checkbox`. |
-| `StepSelector` | échelle à libellés (difficulté, préparation) | radios natifs stylés ; libellé + phrase d'explication du niveau choisi |
-| `IconRadioCard` | énergie, mode, temps estimé | icône + libellé, sélection par bordure accent + coche |
-| `Field` | libellé + aide courte + exemple avant / après + champ | vide, rempli, aide ouverte, message doux |
-| `HelpDrawer` | aide du « ? » : explication, exemple avant → après | sheet sur mobile, popover ancré sur desktop |
-| `Sheet` | capture express, filtres, choix longs | glisser pour fermer, `Esc`, focus piégé |
-| `SaveIndicator` | « Enregistré » / « Enregistrement… » / « Hors ligne, gardé sur cet appareil » | `aria-live="polite"` |
-| `CompletenessMeter` | Esquisse · En bonne voie · Bien remplie | 3 segments doux, libellé toujours visible, jamais de pourcentage |
-| `GoalCard` | carte d'envie avec signet | compacte (liste), large (accueil), aperçu (parcours desktop), squelette |
-| `CategoryPill` / `StatusPill` | catégorie / statut | icône + libellé + teinte |
-| `SectionNav` | progression du parcours | points (mobile), sommaire collant (desktop) : fait, en cours, passé, vide |
-| `RichTextEditor` | description | barre d'outils minimale, relances en chips |
-| `BottomNav` / `SideNav` | navigation | 4 entrées ; « + » central mis en avant |
-| `EmptyState` | états vides | illustration + phrase + 3 exemples à tapoter |
-| `Toast` | confirmation, « Annuler » | en bas, au-dessus de la navigation, 6 s, jamais pour une erreur bloquante |
-| `Skeleton` | chargement | formes de la carte réelle, pulsation douce coupée en mouvement réduit |
+| Composant                     | Rôle                                                                          | États clés                                                                                    |
+| ----------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `Button`                      | primaire (accent plein), secondaire (contour), discret (texte)                | repos, survol, focus, appuyé, désactivé, chargement (sans spinner plein écran)                |
+| `Chip` / `ChipGroup`          | choix simple ou multiple, valeurs, saisons, relances                          | non sélectionné, sélectionné (coche + fond `accent-soft`), focus. Rôle `radio` ou `checkbox`. |
+| `StepSelector`                | échelle à libellés (difficulté, préparation)                                  | radios natifs stylés ; libellé + phrase d'explication du niveau choisi                        |
+| `IconRadioCard`               | énergie, mode, temps estimé                                                   | icône + libellé, sélection par bordure accent + coche                                         |
+| `Field`                       | libellé + aide courte + exemple avant / après + champ                         | vide, rempli, aide ouverte, message doux                                                      |
+| `HelpDrawer`                  | aide du « ? » : explication, exemple avant → après                            | sheet sur mobile, popover ancré sur desktop                                                   |
+| `Sheet`                       | capture express, filtres, choix longs                                         | glisser pour fermer, `Esc`, focus piégé                                                       |
+| `SaveIndicator`               | « Enregistré » / « Enregistrement… » / « Hors ligne, gardé sur cet appareil » | `aria-live="polite"`                                                                          |
+| `CompletenessMeter`           | Esquisse · En bonne voie · Bien remplie                                       | 3 segments doux, libellé toujours visible, jamais de pourcentage                              |
+| `GoalCard`                    | carte d'envie avec signet                                                     | compacte (liste), large (accueil), aperçu (parcours desktop), squelette                       |
+| `CategoryPill` / `StatusPill` | catégorie / statut                                                            | icône + libellé + teinte                                                                      |
+| `SectionNav`                  | progression du parcours                                                       | points (mobile), sommaire collant (desktop) : fait, en cours, passé, vide                     |
+| `RichTextEditor`              | description                                                                   | barre d'outils minimale, relances en chips                                                    |
+| `BottomNav` / `SideNav`       | navigation                                                                    | 4 entrées ; « + » central mis en avant                                                        |
+| `EmptyState`                  | états vides                                                                   | illustration + phrase + 3 exemples à tapoter                                                  |
+| `Toast`                       | confirmation, « Annuler »                                                     | en bas, au-dessus de la navigation, 6 s, jamais pour une erreur bloquante                     |
+| `Skeleton`                    | chargement                                                                    | formes de la carte réelle, pulsation douce coupée en mouvement réduit                         |
 
 ## 11. Mise en page et responsive
 

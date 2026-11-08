@@ -1,0 +1,139 @@
+/*
+ * Élan design tokens — direction A « Atelier » (see docs/design-system.md, D-029).
+ * Components use semantic names only. Theme: prefers-color-scheme by default,
+ * overridden by data-theme="light" | "dark" on <html>.
+ */
+
+:root {
+  /* Surfaces */
+  --paper: #f6f1e9;
+  --paper-2: #efe7db;
+  --card: #fffcf7;
+  --card-raised: #fffcf7;
+  --scrim: rgb(42 33 28 / 0.45);
+  /* Text */
+  --ink: #2a211c;
+  --ink-2: #5e5249;
+  --ink-3: #6f6257;
+  --ink-on-accent: #fff8f2;
+  /* Lines */
+  --line: #e2d6c6;
+  --line-strong: #cbbba7;
+  --card-border: transparent;
+  /* Accent */
+  --accent: #a84b2a;
+  --accent-soft: #f4dfd3;
+  --accent-strong: #843518;
+  --gilt: #b8842a;
+  /* Destructive only */
+  --danger: #a3302a;
+  --danger-soft: #f6dcd8;
+  /* Paper texture */
+  --paper-dot: rgb(42 33 28 / 0.11);
+  /* Elevation */
+  --elev-card: 0 1px 2px rgb(70 45 25 / 0.06), 0 8px 22px -10px rgb(70 45 25 / 0.22);
+  --elev-sheet: 0 -12px 40px -12px rgb(70 45 25 / 0.28);
+  /* Hue tones (lightness/chroma fixed per theme; hue comes from --h) */
+  --tone-ribbon-lc: 0.7 0.11;
+  --tone-bg-lc: 0.93 0.035;
+  --tone-fg-lc: 0.42 0.08;
+  --status-bg-lc: 0.93 0.025;
+  --status-fg-lc: 0.4 0.05;
+
+  /* Shapes */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-card: 14px;
+  --r-sheet: 24px;
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --motion-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #1c1814;
+    --paper-2: #161310;
+    --card: #26201b;
+    --card-raised: #2d2620;
+    --scrim: rgb(0 0 0 / 0.55);
+    --ink: #f1e8dd;
+    --ink-2: #c9bbab;
+    --ink-3: #a39484;
+    --ink-on-accent: #2a1408;
+    --line: #3a322b;
+    --line-strong: #54493f;
+    --card-border: #332b24;
+    --accent: #e59873;
+    --accent-soft: #3e2a1f;
+    --accent-strong: #f4bda2;
+    --gilt: #d9a94f;
+    --danger: #f0a39b;
+    --danger-soft: #4a221f;
+    --paper-dot: rgb(241 232 221 / 0.08);
+    --elev-card: 0 1px 0 rgb(0 0 0 / 0.35);
+    --elev-sheet: 0 -12px 40px -12px rgb(0 0 0 / 0.6);
+    --tone-ribbon-lc: 0.72 0.1;
+    --tone-bg-lc: 0.3 0.04;
+    --tone-fg-lc: 0.86 0.06;
+    --status-bg-lc: 0.3 0.03;
+    --status-fg-lc: 0.86 0.05;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #1c1814;
+  --paper-2: #161310;
+  --card: #26201b;
+  --card-raised: #2d2620;
+  --scrim: rgb(0 0 0 / 0.55);
+  --ink: #f1e8dd;
+  --ink-2: #c9bbab;
+  --ink-3: #a39484;
+  --ink-on-accent: #2a1408;
+  --line: #3a322b;
+  --line-strong: #54493f;
+  --card-border: #332b24;
+  --accent: #e59873;
+  --accent-soft: #3e2a1f;
+  --accent-strong: #f4bda2;
+  --gilt: #d9a94f;
+  --danger: #f0a39b;
+  --danger-soft: #4a221f;
+  --paper-dot: rgb(241 232 221 / 0.08);
+  --elev-card: 0 1px 0 rgb(0 0 0 / 0.35);
+  --elev-sheet: 0 -12px 40px -12px rgb(0 0 0 / 0.6);
+  --tone-ribbon-lc: 0.72 0.1;
+  --tone-bg-lc: 0.3 0.04;
+  --tone-fg-lc: 0.86 0.06;
+  --status-bg-lc: 0.3 0.03;
+  --status-fg-lc: 0.86 0.05;
+  color-scheme: dark;
+}
+
+/* A "tone" is any element carrying a hue (category or status). */
+[data-tone] {
+  --tone-ribbon: oklch(var(--tone-ribbon-lc) var(--h, 60));
+  --tone-bg: oklch(var(--tone-bg-lc) var(--h, 60));
+  --tone-fg: oklch(var(--tone-fg-lc) var(--h, 60));
+}
+[data-tone='neutral'] {
+  --tone-ribbon: var(--line-strong);
+  --tone-bg: var(--paper-2);
+  --tone-fg: var(--ink-2);
+}
+[data-tone='status'] {
+  --tone-bg: oklch(var(--status-bg-lc) var(--h, 70));
+  --tone-fg: oklch(var(--status-fg-lc) var(--h, 70));
+}
+[data-tone='accent'] {
+  --tone-ribbon: var(--accent);
+  --tone-bg: var(--accent-soft);
+  --tone-fg: var(--accent-strong);
+}

@@ -1,0 +1,14 @@
+{
+  "express": {
+    "label": "Une envie, en une phrase",
+    "placeholder": "J’aimerais…",
+    "hint": "Seul le titre compte pour l’instant. Tu pourras tout préciser plus tard."
+  },
+  "saved": {
+    "first": "Ta première envie est écrite. C’est souvent le pas le plus difficile.",
+    "default": "Envie gardée.",
+    "offline": "Envie gardée sur cet appareil. Elle sera envoyée dès le retour du réseau.",
+    "offer": "Compléter la fiche maintenant ?",
+    "later": "Elle t’attend dans « Fiches à compléter »."
+  }
+}

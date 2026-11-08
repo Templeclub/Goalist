@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "{appName} · ton carnet d’envies",
+    "description": "Mets par écrit tes envies, tes projets et tes objectifs, puis donne-leur forme à ton rythme."
+  },
+  "nav": {
+    "label": "Navigation principale",
+    "home": "Accueil",
+    "goals": "Mes envies",
+    "new": "Nouvelle envie",
+    "me": "Moi",
+    "search": "Rechercher",
+    "collapse": "Replier la navigation",
+    "expand": "Déplier la navigation"
+  },
+  "actions": {
+    "keep": "Garder",
+    "continue": "Continuer",
+    "skip": "Passer pour l’instant",
+    "complete": "Compléter",
+    "close": "Fermer",
+    "yes": "Oui",
+    "later": "Plus tard",
+    "undo": "Annuler",
+    "redo": "Rétablir",
+    "history": "Historique",
+    "seeAll": "Tout voir"
+  },
+  "save": {
+    "saved": "Enregistré",
+    "saving": "Enregistrement…",
+    "offline": "Hors ligne, gardé sur cet appareil"
+  },
+  "completeness": {
+    "label": "Où en est la fiche",
+    "sketch": "Esquisse",
+    "on_track": "Fiche en bonne voie",
+    "well_filled": "Fiche bien remplie"
+  },
+  "help": {
+    "open": "Aide : {field}",
+    "example": "Exemple",
+    "before": "Avant",
+    "after": "Après"
+  },
+  "field": {
+    "optional": "facultatif"
+  },
+  "emptyState": {
+    "tryExample": "Essayer : {example}"
+  },
+  "loading": "Chargement…"
+}
