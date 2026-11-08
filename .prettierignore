@@ -1,0 +1,9 @@
+pnpm-lock.yaml
+.next
+storybook-static
+playwright-report
+test-results
+docs/mockups
+src/lib/supabase/database.types.ts
+supabase/.temp
+AGENTS.md
