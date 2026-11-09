@@ -38,10 +38,10 @@ export default function LandingPage({ params }: PageProps<'/[locale]'>) {
           <NotebookIllustration className="mx-auto" />
           <GoalCard
             title={t('sampleTitle')}
-            tagline={t('sampleTagline')}
             emoji="🌌"
             categories={['travel']}
             status="confirmed"
+            horizon="medium"
             headingLevel="h2"
           />
         </div>

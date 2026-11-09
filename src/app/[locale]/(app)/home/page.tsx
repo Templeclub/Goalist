@@ -104,10 +104,12 @@ async function HomeContent() {
                 key={goal.id}
                 href={`/goals/${goal.id}`}
                 title={goal.title}
-                tagline={goal.tagline}
                 emoji={goal.emoji}
                 categories={goal.categories}
+                customCategory={goal.customCategory}
                 status={goal.status}
+                horizon={goal.horizon}
+                preparation={goal.preparation}
                 hue={goal.ribbonHue}
               />
             ))}

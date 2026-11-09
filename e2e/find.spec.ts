@@ -56,19 +56,30 @@ test.describe('Consulter & retrouver (avec Supabase)', () => {
     await expect(page.getByText('Rien ne correspond à ces filtres.')).toBeVisible()
   })
 
-  test('sur ordinateur, la page de l’envie s’ouvre à droite', async ({ page, isMobile }) => {
-    test.skip(isMobile, 'master-detail is a desktop layout')
+  test('des cartes en grille, avec la catégorie devinée et regroupées par horizon', async ({
+    page,
+  }) => {
     await page.goto('/home')
     // Shortcuts listen once the page is hydrated.
     await page.waitForLoadState('networkidle')
     await page.keyboard.press('/')
     await expect(page).toHaveURL(/\/goals/)
     await expect(page.getByRole('searchbox', { name: 'Rechercher dans mes envies' })).toBeFocused()
+    await expect(
+      list(page).getByRole('heading', { level: 2, name: /Horizon non précisé · 3/ }),
+    ).toBeVisible()
+    const card = list(page)
+      .getByRole('article')
+      .filter({ hasText: 'Dormir une nuit à la belle étoile' })
+    await expect(card.getByText('Voyage & aventure')).toBeVisible()
+    // Two cards side by side, even on a phone.
+    const boxes = await list(page)
+      .getByRole('article')
+      .evaluateAll((els) => els.slice(0, 2).map((el) => el.getBoundingClientRect().top))
+    expect(boxes[0]).toBe(boxes[1])
     await list(page).getByRole('link', { name: 'Apprendre à faire son pain' }).click()
-    await expect(page).toHaveURL(/open=/)
     await expect(
       page.getByRole('heading', { level: 1, name: 'Apprendre à faire son pain' }),
     ).toBeVisible()
-    await expect(page.getByRole('heading', { level: 1, name: 'Mes envies' })).toBeVisible()
   })
 })
