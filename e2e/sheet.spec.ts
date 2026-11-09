@@ -136,6 +136,7 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .first()
     await expect(article.getByText('Sport & santé')).toBeVisible()
     await expect(article.getByText('Cette carte est rangée.', { exact: false })).toBeVisible()
-    await expect(article.getByText('Mes genoux préfèrent la natation.')).toBeVisible()
+    // The word shows on the put-away notice and in the card's log.
+    await expect(article.getByText('Mes genoux préfèrent la natation.')).toHaveCount(2)
   })
 })

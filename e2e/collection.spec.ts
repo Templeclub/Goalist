@@ -29,8 +29,8 @@ test.describe('Collection (avec Supabase)', () => {
     const binder = page.locator('main').filter({ visible: true })
     await expect(binder.getByText('1 carte acquise')).toBeVisible()
     const card = binder.getByRole('article').filter({ hasText: 'Courir 5 km d’affilée' })
-    await expect(card.getByText('Acquise !')).toBeVisible()
-    await expect(card.getByText(/^n° 001 · /)).toBeVisible()
+    await expect(card).toHaveAttribute('data-state', 'acquired')
+    await expect(card.getByText('★ n° 001')).toBeVisible()
 
     // An acquired card leaves the deck, and can go back to it.
     await card.getByRole('link', { name: 'Courir 5 km d’affilée' }).click()
