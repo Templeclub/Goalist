@@ -60,7 +60,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
             index === 2 && 'rotate-2',
           )}
         />
-        <h1 ref={titleRef} tabIndex={-1} className="font-display text-2xl font-medium outline-none">
+        <h1 ref={titleRef} tabIndex={-1} className="font-display text-2xl font-bold outline-none">
           {t(`steps.${step}.title`)}
         </h1>
         <p className="max-w-[34ch] text-md text-ink-2">{t(`steps.${step}.body`)}</p>

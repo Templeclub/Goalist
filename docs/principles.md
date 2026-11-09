@@ -18,7 +18,7 @@ Une envie qui n'avance pas n'est pas un échec. Une envie lâchée est une déci
 
 ### Pas de pression chiffrée
 
-Pas de pourcentage de complétude, pas de compteur de jours, pas de série, pas de score, pas de classement, pas de comparaison avec d'autres. Quand un repère chiffré aide (« 4 critères sur 5 renseignés »), il décrit, il ne note pas.
+Pas de pourcentage de complétude, pas de compteur de jours consécutifs, pas de score ni de niveau de joueur, pas de classement, pas de comparaison avec d'autres. Le jeu de cartes (D-062) est permis parce qu'il ne retire rien : une carte se convertit quand l'envie est réalisée, sa rareté décrit l'effort sans le juger, une carte rangée n'est jamais perdue, et chaque geste peut s'annuler. Quand un repère chiffré aide (« 4 critères sur 5 renseignés »), il décrit, il ne note pas.
 
 ### Le calme comme règle
 

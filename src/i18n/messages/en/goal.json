@@ -13,6 +13,25 @@
   },
   "card": {
     "horizon": "Horizon:",
-    "prepareEarly": "Plan ahead"
+    "prepareEarly": "Plan ahead",
+    "acquiredSticker": "Acquired!",
+    "acquiredOn": "No. {number} · {date}",
+    "sketch": "Sketch",
+    "reveal": "Reveal the card →",
+    "stored": "Put away",
+    "noSeries": "No series",
+    "rarityLabel": "Rarity: {rarity}",
+    "firstStep": "First step:"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
+  },
+  "statuses": {
+    "done": "Acquired",
+    "let_go": "Put away"
   }
 }

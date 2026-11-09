@@ -22,7 +22,7 @@ test.describe('Consulter & retrouver (avec Supabase)', () => {
 
   test('chercher sans accents, puis effacer', async ({ page }) => {
     await page.goto('/goals')
-    await page.getByRole('searchbox', { name: 'Rechercher dans mes envies' }).fill('etoile')
+    await page.getByRole('searchbox', { name: 'Rechercher dans mes cartes' }).fill('etoile')
     await expect(page).toHaveURL(/q=etoile/)
     await expect(
       list(page).getByRole('link', { name: 'Dormir une nuit à la belle étoile' }),
@@ -32,23 +32,23 @@ test.describe('Consulter & retrouver (avec Supabase)', () => {
     await expect(list(page).getByRole('link', { name: 'Apprendre à faire son pain' })).toBeVisible()
   })
 
-  test('« À compléter », puis ne plus proposer une envie', async ({ page }) => {
+  test('« À révéler », puis ne plus proposer une carte', async ({ page }) => {
     await page.goto('/goals')
-    await page.getByRole('button', { name: 'À compléter', pressed: false }).click()
+    await page.getByRole('button', { name: 'À révéler', pressed: false }).click()
     await expect(page).toHaveURL(/quick=to_complete/)
-    await expect(page.getByText('3 envies')).toBeVisible()
+    await expect(page.getByText('3 cartes à convertir')).toBeVisible()
     await page
       .getByRole('button', { name: 'Ne plus me le proposer : Écrire à une vieille amie' })
       .click()
-    await expect(page.getByText('2 envies')).toBeVisible()
-    await page.getByRole('button', { name: 'À compléter', pressed: true }).click()
-    await expect(page.getByText('3 envies')).toBeVisible()
+    await expect(page.getByText('2 cartes à convertir')).toBeVisible()
+    await page.getByRole('button', { name: 'À révéler', pressed: true }).click()
+    await expect(page.getByText('3 cartes à convertir')).toBeVisible()
   })
 
   test('filtrer par statut dans la feuille de filtres', async ({ page }) => {
     await page.goto('/goals')
     await page.getByRole('button', { name: 'Filtres' }).click()
-    await page.getByText('Réalisé', { exact: true }).click()
+    await page.getByText('Acquise', { exact: true }).click()
     await expect(page).toHaveURL(/status=done/)
     // The page behind a modal sheet is hidden from assistive technologies: close it first.
     await page.keyboard.press('Escape')
@@ -64,7 +64,7 @@ test.describe('Consulter & retrouver (avec Supabase)', () => {
     await page.waitForLoadState('networkidle')
     await page.keyboard.press('/')
     await expect(page).toHaveURL(/\/goals/)
-    await expect(page.getByRole('searchbox', { name: 'Rechercher dans mes envies' })).toBeFocused()
+    await expect(page.getByRole('searchbox', { name: 'Rechercher dans mes cartes' })).toBeFocused()
     await expect(
       list(page).getByRole('heading', { level: 2, name: /Horizon non précisé · 3/ }),
     ).toBeVisible()

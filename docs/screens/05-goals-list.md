@@ -45,3 +45,7 @@ Remplace les points 2 à 6 de la version phase 4.
 3. **Par défaut** : regroupement par horizon (du plus proche à « Un jour », puis « Horizon non précisé ») et tri « À l'horizon » : horizon le plus proche, puis préparation la plus lourde, les envies réalisées ou laissées partir en dernier.
 4. **Filtres rapides** : « Bientôt », « À anticiper », « Sans budget », « À compléter ».
 5. **Filtres** : statut, catégorie, préparation, horizon, budget. **Tris** : à l'horizon, modifiées récemment, gardées récemment, titre A→Z. **Regrouper** : par horizon (défaut), aucun, par statut, par catégorie.
+
+## Version collection de cartes (D-062)
+
+« Mes envies » devient **Mes cartes** : seules les cartes _à convertir_ y figurent (les cartes acquises et rangées sont dans la collection, ou via le filtre de statut). Les cartes sont les `GoalCard` compactes de la collection (esquisse, série et rareté, horizon, premier pas ou « À anticiper »). Le filtre rapide « À compléter » devient « À révéler ». Compteur : « 4 cartes à convertir ».

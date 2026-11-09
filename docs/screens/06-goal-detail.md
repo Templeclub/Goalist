@@ -59,3 +59,9 @@ Master-detail : liste à gauche (360 px), page à droite, largeur de lecture 65 
 - L'accroche et les tags ne sont plus affichés. Les autres contenus saisis auparavant (où / avec qui, images, notes…) restent visibles s'ils existent.
 - « À compléter » propose les sections du nouveau parcours : L'envie, Le pourquoi, Préciser, Premier pas.
 - Desktop : page seule, plus de master-detail.
+
+## Version collection de cartes (D-062)
+
+- En tête, la **carte en grand** (`GoalCard` taille « hero », titre en `h1`).
+- Dessous, les **actions de carte** (`CardActions`) : « C'est fait : convertir la carte » (primaire) et « Ranger la carte » (discret). Après conversion : message « Carte acquise ! Elle rejoint ta collection. », « Voir ma collection », « Annuler la conversion ». Une carte acquise propose « Remettre à convertir », une carte rangée « Ressortir la carte ».
+- Le reste de la page (description, pourquoi, pour y arriver, repères, premier pas, à compléter, historique) est inchangé.

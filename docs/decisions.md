@@ -277,3 +277,19 @@ Retours d'usage : trop d'étapes, trop de redites (titre / accroche, pourquoi / 
 ### D-061 · Liste en grille, triée pour aider à choisir — Acceptée
 
 Cartes compactes en grille (2 colonnes sur mobile, jusqu'à 5 sur grand écran), avec catégorie, horizon et « À anticiper » (préparation lourde pour une envie encore devant soi). Par défaut : regroupement par horizon et tri « À l'horizon » (horizon proche, puis préparation lourde, puis le reste). Aucun score n'est affiché : c'est un ordre, pas une note. Le master-detail (D-053) est retiré : il empêchait d'afficher plusieurs cartes par ligne. Les filtres difficulté et énergie disparaissent avec leurs champs.
+
+## Collection de cartes
+
+### D-062 · Les envies deviennent des cartes à collectionner — Acceptée
+
+Demande d'une expérience plus ludique, inspirée des cartes à collectionner, sans reprendre l'apparence d'un jeu existant. Choix (maquettes : direction C « Arcade », couleurs plus vives) :
+
+- **Vocabulaire** : une envie est une _carte_ ; tant qu'elle n'est pas réalisée, elle est _à convertir_ (« Mes cartes ») ; réalisée, elle est _acquise_ et rejoint la _collection_ ; laissée partir, elle est _rangée_. Les statuts `done` et `let_go` s'affichent « Acquise » et « Rangée ».
+- **Rareté** (`features/goals/rarity.ts`) : préparation (0–4) + budget (0–3) + horizon (court 0, moyen ou un jour 1, long 2) = 0–9 points → Commune, Peu commune, Rare, Épique, Légendaire. **Pas de niveau de joueur**, pas de points cumulés, pas de série de jours, pas de classement.
+- **Esquisse** : une carte encore à l'état d'esquisse (complétude) est hachurée et invite à la révéler ; la série devinée reste visible.
+- **Conversion** : sur la page d'une carte, « C'est fait : convertir la carte » passe le statut à `done` ; un message annonce la carte acquise, avec un lien vers la collection et « Annuler la conversion ». « Ranger la carte » passe à `let_go`, réversible aussi.
+- **Numéro et date d'acquisition** : déduits de `status_changed_at` (déjà mis à jour à chaque changement de statut) ; aucune migration. Le numéro est le rang d'acquisition parmi les cartes acquises.
+- **Accueil** : recommandations déterministes — « À convertir bientôt » (horizon court ou déjà commencée, premier pas prêt d'abord), « À préparer dès maintenant » (préparation lourde, horizon moyen ou long), « Dernière carte acquise », et « Cartes à révéler ».
+- **Navigation** : Accueil · Mes cartes · + · Collection · Moi.
+
+Les principes de ton sont ajustés : collectionner et voir la rareté est permis ; rien ne punit, rien ne se perd, rien ne compare.

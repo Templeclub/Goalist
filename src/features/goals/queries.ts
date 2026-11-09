@@ -2,11 +2,11 @@ import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { quickFilterExpression, type ListQuery } from './list-query'
 import { categoryHue } from './palette'
-import { byPriority } from './priority'
+import { byPriority, needsEarlyStart } from './priority'
 import type { CategoryKey, CompletenessLevel, GoalStatus } from './schema'
 
 const cardColumns =
-  'id, title, tagline, emoji, hue, horizon, preparation, status, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, label, hue))' as const
+  'id, title, tagline, emoji, hue, horizon, preparation, budget_level, first_step, status, status_changed_at, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, label, hue))' as const
 
 export type GoalSummary = {
   id: string
@@ -23,6 +23,10 @@ export type GoalSummary = {
   customCategory: { label: string; hue: number | null } | null
   horizon: string | null
   preparation: string | null
+  budgetLevel: string | null
+  firstStep: string | null
+  /** When the status last changed: for a done wish, when the card was acquired. */
+  statusChangedAt: string
   completionDismissed: boolean
   createdAt: string
   updatedAt: string
@@ -43,6 +47,9 @@ type Row = {
   hue?: number | null
   horizon?: string | null
   preparation?: string | null
+  budget_level?: string | null
+  first_step?: string | null
+  status_changed_at?: string
   completion_dismissed_at?: string | null
   goal_categories?: {
     position: number
@@ -73,6 +80,9 @@ function toSummary(row: Row): GoalSummary {
       : (row.hue ?? null),
     customCategory: first && !first.key ? { label: first.label ?? '', hue: first.hue } : null,
     preparation: row.preparation ?? null,
+    budgetLevel: row.budget_level ?? null,
+    firstStep: row.first_step ?? null,
+    statusChangedAt: row.status_changed_at ?? row.updated_at,
     completionDismissed: Boolean(row.completion_dismissed_at),
     horizon: row.horizon ?? null,
     createdAt: row.created_at,
@@ -93,6 +103,83 @@ export async function listGoals({ limit }: { limit?: number } = {}) {
   const { data, error } = await query
   if (error) throw error
   return (data as unknown as Row[]).map(toSummary)
+}
+
+/** Acquired cards (done), numbered in the order they were acquired (D-062). */
+export async function listCollection() {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('goals')
+    .select(cardColumns)
+    .is('deleted_at', null)
+    .in('status', ['done', 'let_go'])
+    .order('status_changed_at', { ascending: true })
+  if (error) throw error
+  const goals = (data as unknown as Row[]).map(toSummary)
+  const acquired = goals
+    .filter((g) => g.status === 'done')
+    .map((goal, i) => ({ ...goal, number: i + 1 }))
+  return {
+    acquired: acquired.toReversed(),
+    stored: goals.filter((g) => g.status === 'let_go').toReversed(),
+  }
+}
+
+/** The number a done wish carries in the collection. */
+export async function acquiredNumber(goal: { id: string; statusChangedAt: string }) {
+  const supabase = await createClient()
+  const { count } = await supabase
+    .from('goals')
+    .select('id', { count: 'exact', head: true })
+    .is('deleted_at', null)
+    .eq('status', 'done')
+    .lte('status_changed_at', goal.statusChangedAt)
+  return count ?? 1
+}
+
+/**
+ * Home recommendations (D-062), deterministic: cards to convert soon (near horizon or
+ * already started, a first step ready first), heavy cards to prepare early, and the
+ * last acquired one.
+ */
+export async function homeRecommendations() {
+  const supabase = await createClient()
+  const [active, last] = await Promise.all([
+    supabase
+      .from('goals')
+      .select(cardColumns)
+      .is('deleted_at', null)
+      .not('status', 'in', '(done,let_go)')
+      .order('updated_at', { ascending: false })
+      .limit(200),
+    supabase
+      .from('goals')
+      .select(cardColumns)
+      .is('deleted_at', null)
+      .eq('status', 'done')
+      .order('status_changed_at', { ascending: false })
+      .limit(1),
+  ])
+  if (active.error) throw active.error
+  const goals = (active.data as unknown as Row[]).map(toSummary)
+  const started = new Set(['preparing', 'in_progress'])
+  const soon = byPriority(goals.filter((g) => g.horizon === 'short' || started.has(g.status)))
+    .toSorted((a, b) => Number(Boolean(b.firstStep)) - Number(Boolean(a.firstStep)))
+    .slice(0, 6)
+  const shown = new Set(soon.map((g) => g.id))
+  const prepare = byPriority(
+    goals.filter(
+      (g) =>
+        !shown.has(g.id) && needsEarlyStart(g) && (g.horizon === 'medium' || g.horizon === 'long'),
+    ),
+  ).slice(0, 3)
+  const lastRow = (last.data as unknown as Row[] | null)?.[0]
+  return {
+    total: goals.length,
+    soon,
+    prepare,
+    lastAcquired: lastRow ? toSummary(lastRow) : null,
+  }
 }
 
 export async function countGoals() {
@@ -380,7 +467,9 @@ export async function searchGoals(query: ListQuery) {
     request = request.or(`search_vector.wfts(fr_unaccent).${query.q},title.ilike.*${query.q}*`)
   }
   for (const quick of query.quick) request = request.or(quickFilterExpression[quick])
+  // "Mes cartes" holds the cards still to convert; acquired and put-away ones live in the collection.
   if (query.status.length) request = request.in('status', query.status)
+  else request = request.not('status', 'in', '(done,let_go)')
   if (query.preparation.length) request = request.in('preparation', query.preparation)
   if (query.horizon.length) request = request.in('horizon', query.horizon)
   if (query.budget.length) request = request.in('budget_level', query.budget)

@@ -22,7 +22,7 @@ export default async function MePage({ params }: PageProps<'/[locale]/me'>) {
   const t = await getTranslations('me')
   return (
     <PageContainer>
-      <h1 className="font-display text-2xl font-medium">{t('title')}</h1>
+      <h1 className="font-display text-2xl font-bold">{t('title')}</h1>
       <Suspense fallback={<Skeleton className="h-40 w-full rounded-card" />}>
         <MeContent />
       </Suspense>

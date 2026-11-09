@@ -72,6 +72,7 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .locator('article')
       .filter({ visible: true })
       .filter({ has: page.getByRole('heading', { level: 1 }) })
+      .first()
     await expect(pageArticle.getByText('Un plateau du Vercors en août.')).toBeVisible()
     await expect(pageArticle.getByText('Parce que ça me manque.')).toBeVisible()
     await expect(pageArticle.getByRole('listitem').filter({ hasText: 'Liberté' })).toBeVisible()
@@ -79,7 +80,6 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await expect(pageArticle.getByText('Plus tard')).toBeVisible()
     await expect(pageArticle.getByText('À anticiper')).toBeVisible()
     await expect(pageArticle.getByText('Chercher les zones de bivouac autorisées')).toBeVisible()
-    await expect(pageArticle.getByText('Envie confirmée')).toBeVisible()
   })
 
   test('revenir à une version précédente sans rien perdre', async ({ page }) => {
@@ -122,7 +122,7 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await page.goto(`${detail}/edit/review`)
     await expect(page).toHaveURL(/\/edit\/first-steps$/)
 
-    await page.getByText('Lâché consciemment', { exact: true }).click()
+    await page.getByText('Rangée', { exact: true }).click()
     await page.getByLabel(/^Un mot pour plus tard/).fill('Mes genoux préfèrent la natation.')
     await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
 
@@ -133,10 +133,9 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .locator('article')
       .filter({ visible: true })
       .filter({ has: page.getByRole('heading', { level: 1 }) })
+      .first()
     await expect(article.getByText('Sport & santé')).toBeVisible()
-    await expect(
-      article.getByText('Tu as choisi de laisser partir cette envie.', { exact: false }),
-    ).toBeVisible()
+    await expect(article.getByText('Cette carte est rangée.', { exact: false })).toBeVisible()
     await expect(article.getByText('Mes genoux préfèrent la natation.')).toBeVisible()
   })
 })

@@ -1,1 +1,16 @@
-{}
+{
+  "soon": {
+    "title": "To convert soon",
+    "seeAll": "All my cards",
+    "intro": "Near horizon or already started: within reach.",
+    "empty": "Give a card the “Soon” horizon, or start it: it will show up here."
+  },
+  "prepare": {
+    "title": "Prepare now",
+    "intro": "Rare cards that take time: the sooner you start, the easier they get."
+  },
+  "last": {
+    "title": "Last acquired card",
+    "seeAll": "My collection"
+  }
+}

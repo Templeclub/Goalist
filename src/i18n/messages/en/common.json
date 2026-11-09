@@ -6,12 +6,13 @@
   "nav": {
     "label": "Main navigation",
     "home": "Home",
-    "goals": "My wishes",
-    "new": "New wish",
+    "goals": "My cards",
+    "new": "New card",
     "me": "Me",
     "search": "Search",
     "collapse": "Collapse navigation",
-    "expand": "Expand navigation"
+    "expand": "Expand navigation",
+    "collection": "Collection"
   },
   "actions": {
     "keep": "Keep",

@@ -82,7 +82,7 @@ export function PlanSection({
   return (
     <div className="grid gap-8">
       <div className="grid gap-2">
-        <h1 className="font-display text-xl font-medium">{t('question')}</h1>
+        <h1 className="font-display text-xl font-bold">{t('question')}</h1>
         <p className="text-[0.9375rem] text-ink-2">{t('intro')}</p>
       </div>
 

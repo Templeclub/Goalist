@@ -4,18 +4,20 @@ import { cn } from '@/lib/cn'
 
 export const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center gap-2 rounded-md text-center font-semibold select-none',
-    'transition-[background-color,filter,color] duration-150 ease-out',
+    'inline-flex items-center justify-center gap-2 rounded-md text-center font-extrabold select-none',
+    'transition-[background-color,filter,color,transform,box-shadow] duration-150 ease-out',
     'disabled:cursor-not-allowed disabled:opacity-50',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
   ],
   {
     variants: {
       variant: {
-        primary: 'bg-accent text-ink-on-accent hover:brightness-95 active:brightness-90',
-        secondary: 'border border-line-strong text-ink hover:bg-paper-2',
+        primary:
+          'border-[2.5px] border-outline bg-accent text-ink-on-accent shadow-card hover:brightness-105 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
+        secondary:
+          'border-[2.5px] border-line-strong bg-card text-ink hover:bg-paper-2 active:translate-x-0.5 active:translate-y-0.5',
         ghost: 'text-ink-2 hover:bg-paper-2 hover:text-ink',
-        danger: 'bg-danger text-ink-on-accent hover:brightness-95',
+        danger: 'border-[2.5px] border-outline bg-danger text-ink-on-accent hover:brightness-95',
       },
       size: {
         md: 'min-h-13 px-5 text-base',

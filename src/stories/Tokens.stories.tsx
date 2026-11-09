@@ -73,7 +73,7 @@ export const Couleurs: Story = {
 export const Typographie: Story = {
   render: () => (
     <div className="grid max-w-3xl gap-4 bg-paper p-8">
-      <p className="font-display text-3xl font-medium tracking-[-0.015em]">
+      <p className="font-display text-3xl font-bold tracking-[-0.015em]">
         Dormir une nuit à la belle étoile
       </p>
       <p className="font-display text-2xl">Bonsoir, Camille</p>

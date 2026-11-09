@@ -20,7 +20,7 @@ export default function LandingPage({ params }: PageProps<'/[locale]'>) {
       <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-[1.2fr_1fr]">
         <div className="grid gap-5">
           <p className="label-caps">{t('eyebrow')}</p>
-          <h1 className="font-display text-3xl font-medium tracking-[-0.015em] md:text-[3.25rem] md:leading-[1.02]">
+          <h1 className="font-display text-3xl font-bold tracking-[-0.015em] md:text-[3.25rem] md:leading-[1.02]">
             {t('title')}
           </h1>
           <p className="max-w-[58ch] text-md text-ink-2">{t('lead', { appName: APP_NAME })}</p>

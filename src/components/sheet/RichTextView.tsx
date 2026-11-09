@@ -38,7 +38,7 @@ function block(node: Node, key: number): ReactNode {
       return <p key={key}>{inline(node.content)}</p>
     case 'heading':
       return (
-        <h3 key={key} className="font-display text-lg font-medium">
+        <h3 key={key} className="font-display text-lg font-bold">
           {inline(node.content)}
         </h3>
       )

@@ -9,7 +9,7 @@ test.skip(!process.env.E2E_SUPABASE, 'requires a Supabase backend (E2E_SUPABASE=
 test.describe('Capture et sauvegarde (avec Supabase)', () => {
   test('garder une envie en moins de 10 secondes, sans compte', async ({ page }) => {
     await page.goto('/home')
-    await expect(page.getByRole('heading', { name: 'Ton carnet est prêt.' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ton deck est prêt.' })).toBeVisible()
 
     const started = Date.now()
     await page.getByRole('button', { name: 'J’aimerais…' }).click()
@@ -60,6 +60,6 @@ test.describe('Capture et sauvegarde (avec Supabase)', () => {
     }
     await expect(page.getByRole('status').filter({ hasText: 'Envie gardée.' })).toBeVisible()
     await page.goto('/goals')
-    await expect(page.getByText('2 envies')).toBeVisible()
+    await expect(page.getByText('2 cartes à convertir')).toBeVisible()
   })
 })

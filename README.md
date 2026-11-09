@@ -2,7 +2,7 @@
 
 Un carnet d'envies, de projets et d'objectifs : une PWA mobile-first pour **écrire une envie en quelques secondes**, puis la **nommer, la décrire et la qualifier** à son rythme. Sans pression, sans classement, sans intelligence artificielle.
 
-> **État** : simplification après la phase 5. Fiche en 4 sections (l'envie, le pourquoi, préciser, premier pas), emoji et catégorie devinés d'après le titre, liste en grille (2 colonnes sur mobile) regroupée par horizon pour prioriser. Voir [`docs/decisions.md`](docs/decisions.md) (D-059 à D-061).
+> **État** : collection de cartes (D-062). Chaque envie est une carte à collectionner (direction « Arcade pop »), avec une rareté (préparation + budget + horizon) ; réalisée, elle se convertit et rejoint la collection, numérotée. Accueil avec des recommandations « à convertir bientôt ». Voir [`docs/decisions.md`](docs/decisions.md).
 
 ## Stack
 

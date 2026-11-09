@@ -93,7 +93,7 @@ export function CaptureSheet({
           aria-describedby={`${id}-hint`}
           enterKeyHint="done"
           autoCapitalize="sentences"
-          className="min-h-28 w-full resize-none bg-transparent font-display text-xl font-medium tracking-[-0.005em] text-ink placeholder:font-normal placeholder:text-ink-3 placeholder:italic focus-visible:outline-none"
+          className="min-h-28 w-full resize-none bg-transparent font-display text-xl font-bold tracking-[-0.005em] text-ink placeholder:font-normal placeholder:text-ink-3 placeholder:italic focus-visible:outline-none"
         />
         <p id={`${id}-hint`} className="text-[0.9375rem] text-ink-3">
           {remaining <= 20 ? t('counter', { remaining }) : t('hint')}

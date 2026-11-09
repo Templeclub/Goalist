@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Figtree, Fraunces } from 'next/font/google'
+import { Baloo_2, Nunito } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -7,17 +7,16 @@ import { APP_NAME } from '@/config/app'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
-const fraunces = Fraunces({
+const baloo = Baloo_2({
   subsets: ['latin'],
-  axes: ['opsz'],
-  style: ['normal', 'italic'],
-  variable: '--font-fraunces',
+  weight: ['600', '700', '800'],
+  variable: '--font-baloo',
   display: 'swap',
 })
 
-const figtree = Figtree({
+const nunito = Nunito({
   subsets: ['latin'],
-  variable: '--font-figtree',
+  variable: '--font-nunito',
   display: 'swap',
 })
 
@@ -43,8 +42,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f6f1e9' },
-    { media: '(prefers-color-scheme: dark)', color: '#1c1814' },
+    { media: '(prefers-color-scheme: light)', color: '#fff6e5' },
+    { media: '(prefers-color-scheme: dark)', color: '#15132b' },
   ],
 }
 
@@ -54,7 +53,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   setRequestLocale(locale)
 
   return (
-    <html lang={locale} className={`${fraunces.variable} ${figtree.variable}`}>
+    <html lang={locale} className={`${baloo.variable} ${nunito.variable}`}>
       <body className="min-h-dvh">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

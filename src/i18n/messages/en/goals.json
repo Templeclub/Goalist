@@ -2,14 +2,44 @@
   "list": {
     "quick": {
       "soon": "Soon",
-      "prepare_early": "Plan ahead"
+      "prepare_early": "Plan ahead",
+      "to_complete": "To reveal"
     },
     "sort": {
       "priority": "By horizon"
     },
-    "searchPlaceholder": "A word, a place, an idea…"
+    "searchPlaceholder": "A word, a place, an idea…",
+    "title": "My cards",
+    "count": "{count, plural, =0 {No card to convert} one {# card to convert} other {# cards to convert}}",
+    "search": "Search my cards"
   },
   "detail": {
-    "plan": "Getting there"
+    "plan": "Getting there",
+    "actions": {
+      "convert": "Done: convert the card",
+      "converted": "Card acquired! It joins your collection.",
+      "seeCollection": "See my collection",
+      "undoConvert": "Undo",
+      "store": "Put the card away",
+      "stored": "Card put away. You can take it out any time.",
+      "undoStore": "Take it out",
+      "reopen": "Back to cards to convert",
+      "takeOut": "Take the card out",
+      "failed": "That could not be saved. Try again in a moment."
+    },
+    "back": "My cards"
+  },
+  "collection": {
+    "title": "My collection",
+    "count": "{count, plural, =0 {No acquired card yet} one {# acquired card} other {# acquired cards}}",
+    "emptyTitle": "Your first card is waiting",
+    "emptyBody": "When a wish comes true, convert its card: it lands here, numbered and holographic.",
+    "toDeck": "See my cards to convert",
+    "series": "Series",
+    "seriesCount": "{label} · {count}",
+    "binder": "Binder",
+    "next": "Your next card will land here",
+    "stored": "{count, plural, one {# card put away} other {# cards put away}}",
+    "storedHint": "Set aside, never lost. Open one to take it out."
   }
 }
