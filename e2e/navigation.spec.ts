@@ -61,10 +61,17 @@ test.describe('Premiers pas (sans compte)', () => {
     ).toBeVisible()
   })
 
+  test('un compte Google qui a déjà son carnet est expliqué', async ({ page }) => {
+    await page.goto('/sign-in?error=googleTaken')
+    await expect(
+      page.getByRole('alert').filter({ hasText: 'Ce compte Google a déjà son carnet.' }),
+    ).toBeVisible()
+  })
+
   test('un lien expiré est expliqué', async ({ page }) => {
     await page.goto('/sign-in?error=callback')
     await expect(
-      page.getByRole('alert').filter({ hasText: 'Ce lien n’est plus valable.' }),
+      page.getByRole('alert').filter({ hasText: 'La connexion n’a pas abouti.' }),
     ).toBeVisible()
   })
 
