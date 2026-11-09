@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CardActions } from './CardActions'
 
 const meta = {
-  title: 'Envies/CardActions',
+  title: 'Envies/CardActions (suivi)',
   component: CardActions,
   parameters: { layout: 'padded' },
-  args: { goalId: '0192f3a4-7b1c-7d2e-8f3a-123456789abc', version: 3, status: 'confirmed' },
+  args: { goalId: '0192f3a4-7b1c-7d2e-8f3a-123456789abc', version: 3, status: 'preparing' },
   decorators: [
     (Story) => (
-      <div className="max-w-sm">
+      <div className="max-w-md">
         <Story />
       </div>
     ),
@@ -29,6 +29,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const AConvertir: Story = { name: 'Carte à convertir' }
+export const Idee: Story = { name: 'Idée', args: { status: 'idea' } }
+export const EnPreparation: Story = { name: 'En préparation' }
+export const EnCours: Story = { name: 'En cours (convertir)', args: { status: 'in_progress' } }
+export const EnPause: Story = { name: 'En pause', args: { status: 'paused' } }
 export const Acquise: Story = { args: { status: 'done' } }
 export const Rangee: Story = { name: 'Rangée', args: { status: 'let_go' } }

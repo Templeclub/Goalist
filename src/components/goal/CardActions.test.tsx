@@ -25,40 +25,56 @@ afterEach(() => vi.unstubAllGlobals())
 
 const body = (call: number) =>
   JSON.parse((vi.mocked(fetch).mock.calls[call]?.[1] as RequestInit).body as string)
+const click = async (name: string | RegExp) =>
+  act(async () => {
+    fireEvent.click(screen.getByRole('button', { name }))
+  })
 
 describe('CardActions', () => {
-  it('converts a card, then lets you undo it', async () => {
-    renderWithIntl(<CardActions goalId={id} version={3} status="confirmed" />)
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'C’est fait : convertir la carte' }))
-    })
-    expect(body(0)).toMatchObject({ patch: { status: 'done' }, baseVersion: 3 })
-    expect(screen.getByRole('status')).toHaveTextContent('Carte acquise !')
-    expect(screen.getByRole('link', { name: 'Voir ma collection' })).toHaveAttribute(
-      'href',
-      '/collection',
-    )
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Annuler la conversion' }))
-    })
-    expect(body(1)).toMatchObject({ patch: { status: 'confirmed' }, baseVersion: 4 })
+  it('shows the path and moves the card one step at a time', async () => {
+    renderWithIntl(<CardActions goalId={id} version={3} status="idea" />)
+    expect(screen.getByText('Étape 1 sur 5')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /convertir la carte/ })).not.toBeInTheDocument()
+    await click('Avancer : Confirmée →')
+    expect(body(0)).toMatchObject({ patch: { status: 'confirmed' }, baseVersion: 3 })
     expect(refresh).toHaveBeenCalled()
+  })
+
+  it('lets you jump to a step of the path', async () => {
+    renderWithIntl(<CardActions goalId={id} version={3} status="confirmed" />)
+    await click('Passer à l’étape : En préparation')
+    expect(body(0)).toMatchObject({ patch: { status: 'preparing' } })
+  })
+
+  it('offers to convert only at the last step, then lets you undo it', async () => {
+    renderWithIntl(<CardActions goalId={id} version={3} status="in_progress" />)
+    await click('C’est fait : convertir la carte ★')
+    expect(body(0)).toMatchObject({ patch: { status: 'done' } })
+    expect(screen.getByRole('status')).toHaveTextContent('Carte acquise !')
+    await click('Annuler la conversion')
+    expect(body(1)).toMatchObject({ patch: { status: 'in_progress' }, baseVersion: 4 })
+  })
+
+  it('keeps pause and put away as secondary moves', async () => {
+    renderWithIntl(<CardActions goalId={id} version={3} status="preparing" />)
+    await click('Mettre en pause')
+    expect(body(0)).toMatchObject({ patch: { status: 'paused' } })
   })
 
   it('puts a card away, never destroys it', async () => {
     renderWithIntl(<CardActions goalId={id} version={3} status="idea" />)
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Ranger la carte' }))
-    })
+    await click('Ranger la carte')
     expect(body(0)).toMatchObject({ patch: { status: 'let_go' } })
     expect(screen.getByRole('status')).toHaveTextContent('Tu peux la ressortir')
   })
 
-  it('brings an acquired card back to the deck', async () => {
-    renderWithIntl(<CardActions goalId={id} version={3} status="done" />)
-    await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: 'Remettre à convertir' }))
-    })
-    expect(body(0)).toMatchObject({ patch: { status: 'confirmed' } })
+  it('resumes a paused card and reopens an acquired one', async () => {
+    const { unmount } = renderWithIntl(<CardActions goalId={id} version={3} status="paused" />)
+    await click('Reprendre : En cours →')
+    expect(body(0)).toMatchObject({ patch: { status: 'in_progress' } })
+    unmount()
+    renderWithIntl(<CardActions goalId={id} version={5} status="done" />)
+    await click('Remettre en cours')
+    expect(body(1)).toMatchObject({ patch: { status: 'in_progress' } })
   })
 })
