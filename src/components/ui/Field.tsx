@@ -60,7 +60,7 @@ export function Field({
 
 /** Shared look for text inputs and textareas (16 px min to avoid iOS zoom). */
 export const inputClass = cn(
-  'w-full rounded-md border border-line-strong bg-card px-4 py-3 text-md text-ink',
-  'placeholder:text-ink-3 placeholder:italic',
+  'w-full rounded-md border-2 border-line-strong bg-card px-4 py-3 text-md text-ink',
+  'placeholder:text-ink-3',
   'focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-accent',
 )

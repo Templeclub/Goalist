@@ -29,14 +29,17 @@
   --color-accent-soft: var(--accent-soft);
   --color-accent-strong: var(--accent-strong);
   --color-gilt: var(--gilt);
+  --color-on-gilt: var(--on-gilt);
+  --color-acquired: var(--acquired);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-tone-ribbon: var(--tone-ribbon);
   --color-tone-bg: var(--tone-bg);
   --color-tone-fg: var(--tone-fg);
+  --color-outline: var(--outline);
 
-  --font-display: var(--font-fraunces), Georgia, 'Times New Roman', serif;
-  --font-sans: var(--font-figtree), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-baloo), 'Trebuchet MS', system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --radius-sm: var(--r-sm);
   --radius-md: var(--r-md);
@@ -44,6 +47,7 @@
   --radius-sheet: var(--r-sheet);
 
   --shadow-card: var(--elev-card);
+  --shadow-pop: var(--elev-pop);
   --shadow-sheet: var(--elev-sheet);
 
   --ease-out: var(--motion-ease-out);
@@ -141,6 +145,29 @@
   .signet {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
     background: var(--tone-ribbon);
+  }
+  /* Acquired card art: a holographic sheen across the series hues */
+  .holo {
+    background: linear-gradient(
+      125deg,
+      oklch(0.86 0.14 95),
+      oklch(0.83 0.15 150),
+      oklch(0.8 0.14 230),
+      oklch(0.8 0.15 320),
+      oklch(0.86 0.14 40),
+      oklch(0.86 0.14 95)
+    );
+    background-size: 220% 220%;
+    animation: holo 6s ease-in-out infinite alternate;
+  }
+  @keyframes holo {
+    to {
+      background-position: 100% 100%;
+    }
+  }
+  /* Sketch card art: hatched, waiting to be revealed */
+  .card-art-sketch {
+    background: repeating-linear-gradient(135deg, var(--paper-2) 0 10px, var(--paper) 10px 20px);
   }
   /* The notebook page: faint dot grid */
   .paper-dots {
