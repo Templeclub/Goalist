@@ -2,10 +2,11 @@ import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { quickFilterExpression, type ListQuery } from './list-query'
 import { categoryHue } from './palette'
+import { byPriority } from './priority'
 import type { CategoryKey, CompletenessLevel, GoalStatus } from './schema'
 
 const cardColumns =
-  'id, title, tagline, emoji, hue, horizon, status, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, hue))' as const
+  'id, title, tagline, emoji, hue, horizon, preparation, status, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, label, hue))' as const
 
 export type GoalSummary = {
   id: string
@@ -16,9 +17,12 @@ export type GoalSummary = {
   completenessLevel: CompletenessLevel
   missingSections: string[]
   categories: CategoryKey[]
-  /** Ribbon hue: the wish's own colour, else its first category's (system or personal). */
+  /** Ribbon hue: the first category's (system or personal), else the wish's own colour. */
   ribbonHue: number | null
+  /** The first category when it is a personal one (system ones are in `categories`). */
+  customCategory: { label: string; hue: number | null } | null
   horizon: string | null
+  preparation: string | null
   completionDismissed: boolean
   createdAt: string
   updatedAt: string
@@ -38,10 +42,11 @@ type Row = {
   version: number
   hue?: number | null
   horizon?: string | null
+  preparation?: string | null
   completion_dismissed_at?: string | null
   goal_categories?: {
     position: number
-    categories: { key: string | null; hue: number | null } | null
+    categories: { key: string | null; label?: string | null; hue: number | null } | null
   }[]
 }
 
@@ -60,9 +65,14 @@ function toSummary(row: Row): GoalSummary {
       .toSorted((a, b) => a.position - b.position)
       .map((gc) => gc.categories?.key)
       .filter((k): k is CategoryKey => Boolean(k)),
-    ribbonHue:
-      row.hue ??
-      (first ? (first.key ? (categoryHue[first.key as CategoryKey] ?? null) : first.hue) : null),
+    // The category gives the colour (D-060); a wish's own colour is only a fallback.
+    ribbonHue: first
+      ? first.key
+        ? (categoryHue[first.key as CategoryKey] ?? null)
+        : first.hue
+      : (row.hue ?? null),
+    customCategory: first && !first.key ? { label: first.label ?? '', hue: first.hue } : null,
+    preparation: row.preparation ?? null,
     completionDismissed: Boolean(row.completion_dismissed_at),
     horizon: row.horizon ?? null,
     createdAt: row.created_at,
@@ -316,13 +326,18 @@ export async function listRevisions(goalId: string) {
     .limit(50)
   if (error) throw error
   return data.map((r) => {
-    const goal = (r.snapshot as { goal?: { title?: string; tagline?: string | null } } | null)?.goal
+    const goal = (
+      r.snapshot as {
+        goal?: { title?: string; why?: string | null; tagline?: string | null }
+      } | null
+    )?.goal
     return {
       id: r.id,
       reason: r.reason,
       createdAt: r.created_at,
       title: goal?.title ?? '',
-      tagline: goal?.tagline ?? null,
+      // What tells two versions apart: the why, or the former tagline on older ones.
+      excerpt: goal?.why?.trim() || goal?.tagline || null,
     }
   })
 }
@@ -366,10 +381,8 @@ export async function searchGoals(query: ListQuery) {
   }
   for (const quick of query.quick) request = request.or(quickFilterExpression[quick])
   if (query.status.length) request = request.in('status', query.status)
-  if (query.difficulty.length) request = request.in('difficulty', query.difficulty)
   if (query.preparation.length) request = request.in('preparation', query.preparation)
   if (query.horizon.length) request = request.in('horizon', query.horizon)
-  if (query.energy.length) request = request.in('energy', query.energy)
   if (query.budget.length) request = request.in('budget_level', query.budget)
   if (query.category.length) request = request.in('cat_filter.category_id', query.category)
 
@@ -380,21 +393,13 @@ export async function searchGoals(query: ListQuery) {
     case 'title':
       request = request.order('title', { ascending: true })
       break
-    case 'target':
-      request = request
-        .order('target_date', { ascending: true, nullsFirst: false })
-        .order('updated_at', { ascending: false })
-      break
-    case 'easiest':
-      request = request
-        .order('difficulty', { ascending: true, nullsFirst: false })
-        .order('updated_at', { ascending: false })
-      break
     default:
+      // 'priority' is ordered below, on top of the most recently touched.
       request = request.order('updated_at', { ascending: false })
   }
 
   const { data, error } = await request.limit(500)
   if (error) throw error
-  return (data as unknown as Row[]).map(toSummary)
+  const goals = (data as unknown as Row[]).map(toSummary)
+  return query.sort === 'priority' ? byPriority(goals) : goals
 }

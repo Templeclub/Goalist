@@ -1,5 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { CreateGoalBody } from '@/features/goals/api-schema'
+import { classifyTitle } from '@/features/goals/auto-classify'
+import { refreshCompleteness, refreshSearchExtra } from '@/features/goals/route-helpers'
 import { json, problem, readBody } from '@/lib/http'
 import { createClient } from '@/lib/supabase/server'
 
@@ -16,9 +18,15 @@ export async function POST(request: NextRequest) {
   const userId = claims?.claims?.sub
   if (!userId) return problem(401, 'unauthenticated')
 
-  const { error } = await supabase
-    .from('goals')
-    .insert({ id: body.id, owner_id: userId, title: body.title, capture_mode: 'express' })
+  // Emoji and category guessed from the title (D-059), editable afterwards.
+  const guess = classifyTitle(body.title)
+  const { error } = await supabase.from('goals').insert({
+    id: body.id,
+    owner_id: userId,
+    title: body.title,
+    emoji: guess.emoji,
+    capture_mode: 'express',
+  })
 
   if (error && error.code !== '23505') {
     // 42501: RLS refused (e.g. the 50-wish limit of anonymous sessions).
@@ -34,6 +42,27 @@ export async function POST(request: NextRequest) {
     .eq('id', body.id)
     .maybeSingle()
   if (!goal) return problem(409, 'id_taken')
+
+  let version = goal.version
+  if (!error && guess.category) {
+    const { data: category } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('key', guess.category)
+      .is('owner_id', null)
+      .maybeSingle()
+    if (category) {
+      const { error: linkError } = await supabase
+        .from('goal_categories')
+        .insert({ goal_id: goal.id, category_id: category.id, position: 0 })
+      if (!linkError) {
+        const updated = await refreshCompleteness(supabase, goal.id, {
+          search_extra: await refreshSearchExtra(supabase, goal.id),
+        })
+        version = updated?.version ?? version
+      }
+    }
+  }
 
   // First wish ever: celebrate once, and record the declarations shown at capture.
   const { data: profile } = await supabase
@@ -58,5 +87,5 @@ export async function POST(request: NextRequest) {
     await supabase.from('profiles').update(profileUpdate).eq('id', userId)
   }
 
-  return json({ id: goal.id, version: goal.version, isFirst }, error ? 200 : 201)
+  return json({ id: goal.id, version, isFirst }, error ? 200 : 201)
 }

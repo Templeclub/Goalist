@@ -1,24 +1,13 @@
-# Écran 4 — Préciser (assistant SMART guidé, sans IA)
+# Écran 4 — Assistant SMART (remplacé)
 
-**Rôle** : rendre une envie plus claire, une question à la fois. Tout est facultatif.
+L'assistant en cinq écrans (S, M, A, R, T puis phrase assemblée) a été retiré (D-060) : il faisait répéter ce qui était déjà écrit ailleurs.
 
-Route : `/goals/:id/edit/smart` (section 4 du parcours). Cinq étapes internes à l'écran, avec « Précédent » et « Suivant ».
+Le SMART vit désormais dans le parcours, sans être nommé :
 
-| Lettre          | Question                                                                                  | Exemple avant → après                                                                      |
-| --------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| S — Spécifique  | Que veux-tu accomplir précisément ? Qui, quoi, où ?                                       | « Faire du sport » → « Courir 5 km d'affilée dans mon quartier »                           |
-| M — Mesurable   | À quoi verras-tu que c'est réussi ?                                                       | « Être en forme » → « Courir 5 km sans m'arrêter, même lentement »                         |
-| A — Atteignable | Qu'est-ce qui rend ça réaliste pour toi ? + « Le principal obstacle » + « Si… alors je… » | « Je verrai bien » → « Si il pleut, alors je cours sur le tapis de la salle »              |
-| R — Pertinent   | En quoi cela compte-t-il pour toi ?                                                       | « C'est bien pour la santé » → « Je veux retrouver le plaisir de bouger avec mes enfants » |
-| T — Temporel    | Pour quand, ou à quel rythme ? (date facultative)                                         | « Un jour » → « D'ici fin juin, trois sorties par semaine »                                |
+- **S** : le titre de l'envie ;
+- **M** : non demandé ;
+- **A** : « Qu'est-ce qui rend ça possible ? De quoi as-tu besoin ? », avec la préparation et le budget (section « Préciser ») ;
+- **R** : le pourquoi (section « Le pourquoi ») ;
+- **T** : l'horizon et la saison (section « Préciser »).
 
-## Après la 5ᵉ étape
-
-- **Phrase assemblée** à partir des réponses (gabarits écrits à la main, D-027), dans une zone éditable, avec « Copier ».
-- Repère : « {n} critères sur 5 renseignés. C'est un repère, pas une note. »
-- Si la personne a modifié la phrase, on ne l'écrase plus ; bouton « Réassembler à partir de mes réponses ».
-
-## Règles
-
-- Une barre de 5 points montre l'étape, sans couleur d'alerte. On peut sauter n'importe quelle étape.
-- Sauvegarde automatique de chaque réponse (`PATCH /api/goals/:id/smart`).
+Voir [`03-full-sheet-flow.md`](03-full-sheet-flow.md). Les réponses SMART déjà saisies restent en base et dans l'export.

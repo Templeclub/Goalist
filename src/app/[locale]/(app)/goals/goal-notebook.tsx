@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronLeft } from 'lucide-react'
+import { ChevronDown, ChevronLeft, Clock, Hourglass } from 'lucide-react'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { CategoryPill } from '@/components/goal/CategoryPill'
@@ -11,8 +11,9 @@ import { categoryHue } from '@/features/goals/palette'
 import { getGoalSheet } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import type { ValueKey } from '@/features/goals/schema'
-import { firstSectionToComplete } from '@/features/goals/sections'
-import { smartFilledCount } from '@/features/goals/smart'
+import { needsEarlyStart } from '@/features/goals/priority'
+import type { Horizon } from '@/features/goals/schema'
+import { firstSectionToComplete, sectionForMissing } from '@/features/goals/sections'
 import { factRows } from './[id]/facts'
 import { Link } from '@/i18n/navigation'
 import type { ReactNode } from 'react'
@@ -64,16 +65,20 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
   }
 
   const firstCategory = goal.categoryItems[0]
-  const smartCount = smartFilledCount(goal.smart)
   const facts = factRows(goal.qualify, tGoal, format)
   const doc = RichDoc.safeParse(goal.descriptionDoc)
   const hasImagine = doc.success || goal.imaginedOutcome || goal.whereWith
   const hasWhy =
     goal.why || goal.benefits || goal.valueKeys.length > 0 || goal.customValues.length > 0
-  const toComplete = (['describe', 'why', 'smart', 'qualify', 'first-steps'] as const).filter((s) =>
-    goal.missingSections.includes(s === 'first-steps' ? 'first_steps' : s),
-  )
-  const completeHref = `/goals/${goal.id}/edit/${firstSectionToComplete(goal.missingSections, Boolean(goal.tagline))}`
+  const toComplete = [
+    ...new Set(goal.missingSections.map((m) => sectionForMissing[m]).filter(Boolean)),
+  ] as NonNullable<(typeof sectionForMissing)[string]>[]
+  const completeHref = `/goals/${goal.id}/edit/${firstSectionToComplete(goal.missingSections)}`
+  const early = needsEarlyStart({
+    horizon: goal.qualify.horizon,
+    preparation: goal.qualify.preparation,
+    status: goal.status,
+  })
 
   const section = (title: string, children: ReactNode) => (
     <details open className="group border-t border-line pt-3">
@@ -94,12 +99,11 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
       <article className="relative mx-auto grid max-w-3xl gap-6 px-6 pt-6 pb-36 md:px-10 md:pb-16">
         <span
           {...toneProps(
-            goal.hue ??
-              (firstCategory
-                ? firstCategory.key
-                  ? categoryHue[firstCategory.key]
-                  : firstCategory.hue
-                : null),
+            firstCategory
+              ? firstCategory.key
+                ? categoryHue[firstCategory.key]
+                : firstCategory.hue
+              : goal.hue,
           )}
           aria-hidden="true"
           className="signet absolute top-0 right-7 h-22 w-5.5"
@@ -111,7 +115,6 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
             </span>
           )}
           <h1 className="font-display text-3xl font-medium tracking-[-0.015em]">{goal.title}</h1>
-          {goal.tagline && <p className="font-display text-lg text-ink-2 italic">{goal.tagline}</p>}
           <div className="flex flex-wrap items-center gap-2">
             <StatusPill status={goal.status} />
             {goal.categoryItems.map((c) =>
@@ -121,16 +124,22 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
                 <CategoryPill key={c.id} custom={{ label: c.label ?? '', hue: c.hue }} />
               ),
             )}
+            {goal.qualify.horizon && (
+              <span className="inline-flex min-h-7 items-center gap-1.5 rounded-full border border-line-strong px-2.5 py-0.5 text-sm font-semibold text-ink-2">
+                <Clock aria-hidden="true" className="size-4" />
+                {tGoal(`horizonShort.${goal.qualify.horizon as Horizon}`)}
+              </span>
+            )}
+            {early && (
+              <span
+                {...toneProps('accent')}
+                className="inline-flex min-h-7 items-center gap-1.5 rounded-full bg-tone-bg px-2.5 py-0.5 text-sm font-semibold text-tone-fg"
+              >
+                <Hourglass aria-hidden="true" className="size-4" />
+                {tGoal('card.prepareEarly')}
+              </span>
+            )}
           </div>
-          {goal.tags.length > 0 && (
-            <ul aria-label={t('tags')} className="flex flex-wrap gap-1.5">
-              {goal.tags.map((tag) => (
-                <li key={tag} className="rounded-full bg-paper-2 px-2.5 py-0.5 text-sm text-ink-2">
-                  {`#${tag}`}
-                </li>
-              ))}
-            </ul>
-          )}
         </header>
 
         {goal.status === 'let_go' && (
@@ -222,25 +231,10 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
             </>,
           )}
 
-        {(goal.smart.assembled_sentence || smartCount > 0) &&
+        {goal.smart.achievable &&
           section(
-            t('smart'),
-            <>
-              {goal.smart.assembled_sentence && (
-                <blockquote className="rounded-md border border-card-border bg-card px-4 py-3.5 font-display text-lg leading-relaxed shadow-card">
-                  {goal.smart.assembled_sentence}
-                </blockquote>
-              )}
-              <p className="text-sm text-ink-3">
-                {tFlow('smart.clarity', { count: smartCount })}{' '}
-                <Link
-                  href={`/goals/${goal.id}/edit/smart`}
-                  className="text-accent-strong underline-offset-2 hover:underline"
-                >
-                  {t('refine')}
-                </Link>
-              </p>
-            </>,
+            t('plan'),
+            <p className="max-w-[65ch] text-md whitespace-pre-line">{goal.smart.achievable}</p>,
           )}
 
         {facts.length > 0 &&

@@ -263,3 +263,17 @@ Les nonces imposent un rendu dynamique de chaque page, incompatible avec le pré
 ### D-058 · Budgets Lighthouse — Acceptée
 
 La CI vérifie Lighthouse en préréglage ordinateur sur les pages publiques et `/home` (performance ≥ 0,9, accessibilité ≥ 0,95, bonnes pratiques ≥ 0,9 ; scores mesurés 96–100). En mobile simulé (4G lente), `/`, `/welcome` et `/privacy` dépassent 90 ; `/home` et `/sign-in` sont à 84–85 parce que le modèle de simulation attribue au JavaScript l'affichage du contenu reçu en streaming, alors que la trace réelle montre le LCP à 0,4–0,7 s. Le client Supabase et la feuille de capture sont chargés à la demande pour alléger le premier rendu. Plausible et Sentry ne sont pas encore branchés : ils demandent des comptes et un réglage sans contenu utilisateur, à faire avec la mise en production.
+
+## Simplification (retours d'usage)
+
+### D-059 · Emoji et catégorie devinés d'après le titre, sans IA — Acceptée
+
+À la création, `classifyTitle` (`src/features/goals/auto-classify.ts`) cherche des débuts de mots dans le titre (sans accents ni majuscules) dans une liste écrite à la main : « courir » → 🏃 Sport & santé, « guitare » → 🎸 Créatif… Sinon ✨ et aucune catégorie. C'est une table de correspondance déterministe, locale et testée, pas un modèle : la règle « aucune IA » (CLAUDE.md) est précisée en ce sens. Tout reste modifiable dans la section « L'envie ».
+
+### D-060 · Parcours en 4 sections au lieu de 7 — Acceptée
+
+Retours d'usage : trop d'étapes, trop de redites (titre / accroche, pourquoi / R, horizon / temps estimé / date cible…). Le parcours devient L'envie (titre, emoji, catégorie, description), Le pourquoi (texte + valeurs), Préciser (A : ce qu'il faut, préparation, budget ; T : horizon, saison), Premier pas (étape + statut). La couleur vient de la catégorie. Les colonnes devenues inutiles restent en base (aucune migration destructive) : les données existantes sont conservées, affichées si présentes et exportées. La complétude compte 4 parties ; les anciennes valeurs de `missing_sections` sont simplement ignorées jusqu'à la prochaine modification de l'envie.
+
+### D-061 · Liste en grille, triée pour aider à choisir — Acceptée
+
+Cartes compactes en grille (2 colonnes sur mobile, jusqu'à 5 sur grand écran), avec catégorie, horizon et « À anticiper » (préparation lourde pour une envie encore devant soi). Par défaut : regroupement par horizon et tri « À l'horizon » (horizon proche, puis préparation lourde, puis le reste). Aucun score n'est affiché : c'est un ordre, pas une note. Le master-detail (D-053) est retiré : il empêchait d'afficher plusieurs cartes par ligne. Les filtres difficulté et énergie disparaissent avec leurs champs.

@@ -11,13 +11,10 @@
   "finish": "Garder et revenir à la page",
   "history": "Historique",
   "sections": {
-    "name": "Nommer",
-    "describe": "Décrire",
+    "name": "L’envie",
     "why": "Le pourquoi",
     "smart": "Préciser",
-    "qualify": "Qualifier",
-    "first-steps": "Premières pistes",
-    "review": "Relire & garder"
+    "first-steps": "Premier pas"
   },
   "state": {
     "done": "rempli",
@@ -25,37 +22,30 @@
     "empty": "à compléter"
   },
   "name": {
-    "question": "Comment l’appellerais-tu ?",
+    "question": "Ton envie, en quelques mots",
     "title": "Titre",
     "titleHelp": "Un titre court et concret, comme le titre d’une page de carnet. Commence par un verbe si ça vient naturellement.",
     "titleBefore": "« Faire du sport »",
     "titleAfter": "« Courir 5 km d’affilée dans mon quartier »",
     "emoji": "Emoji",
-    "emojiHint": "Facultatif : un seul suffit.",
-    "hue": "Couleur du signet",
-    "hueHint": "Facultatif : sinon le signet prend la couleur de la catégorie.",
+    "emojiHint": "Choisi d’après le titre. Remplace-le si tu veux.",
+    "categories": "Catégorie",
+    "categoriesHint": "Elle donne sa couleur à la carte. Tu peux en choisir plusieurs : la première compte.",
+    "newCategory": "Créer une catégorie",
+    "newCategoryName": "Nom de la catégorie",
+    "newCategoryHue": "Teinte",
+    "createCategory": "Créer",
+    "categoryExists": "Tu as déjà une catégorie de ce nom.",
     "hueNone": "Aucune couleur",
     "hueOption": "Teinte {hue}°",
-    "tagline": "Accroche",
-    "taglineHelp": "Une phrase qui dit ce que cette envie représente pour toi. Elle apparaît sous le titre, sur la carte.",
-    "taglineBefore": "« Une nuit dehors »",
-    "taglineAfter": "« Voir la Voie lactée de mes propres yeux, sans tente. »",
-    "taglinePlaceholder": "Ce que cette envie représente, en une phrase"
-  },
-  "describe": {
-    "question": "Raconte-la comme tu la vois",
     "description": "Description",
-    "descriptionHelp": "Écris librement : une image, un souvenir, des détails. Tu peux faire des listes et mettre des mots en gras.",
+    "descriptionHelp": "Si tu as envie d’en dire plus : une image, un souvenir, des détails.",
     "descriptionBefore": "« Dormir dehors. »",
     "descriptionAfter": "« Un plateau du Vercors en août, la chaleur qui retombe, le duvet sur l’herbe sèche… »",
-    "descriptionPlaceholder": "Commence par ce que tu vois quand tu y penses…",
-    "prompts": "Pour t’aider à écrire",
-    "promptList": {
-      "draws": "Qu’est-ce qui me donne envie là-dedans ?",
-      "after": "Qu’est-ce qui serait différent après ?",
-      "with": "Qui aimerais-je y associer ?"
-    },
-    "addPrompt": "Ajouter la question : {prompt}",
+    "descriptionPlaceholder": "Ce que tu vois quand tu y penses…",
+    "hueHint": "Facultatif : sinon le signet prend la couleur de la catégorie."
+  },
+  "describe": {
     "toolbar": "Mise en forme",
     "bold": "Gras",
     "italic": "Italique",
@@ -66,37 +56,18 @@
     "linkPrompt": "Adresse du lien",
     "linkApply": "Ajouter le lien",
     "linkRemove": "Retirer le lien",
-    "outcome": "À quoi ça ressemblerait si c’était fait ?",
-    "outcomeHelp": "Décris le moment où c’est fait : ce que tu vois, ce que tu ressens. C’est ce qui donnera envie de s’y mettre.",
-    "outcomeBefore": "« Ce serait bien. »",
-    "outcomeAfter": "« Je me réveille avant l’aube, le duvet humide de rosée, et le ciel est encore plein d’étoiles. »",
-    "outcomePlaceholder": "Le jour où c’est fait…",
-    "whereWith": "Où, avec qui ?",
-    "whereWithPlaceholder": "Sur un plateau du Vercors, avec Léa…",
-    "media": "Images et liens d’inspiration",
-    "addImage": "Ajouter une image",
-    "addLink": "Ajouter un lien",
-    "imageAlt": "Description de l’image",
-    "imageAltHint": "Une courte description, pour les personnes qui ne voient pas l’image.",
-    "imagesNeedAccount": "Les images seront disponibles une fois ton carnet relié à ton adresse.",
-    "uploading": "Envoi de l’image…",
-    "uploadFailed": "L’image n’a pas pu être envoyée. Essaie une image plus légère, ou réessaie dans un instant.",
-    "linkUrl": "Adresse du lien",
-    "linkTitle": "Titre (facultatif)",
-    "linkInvalid": "Ce lien ne semble pas complet. Il commence souvent par https://",
-    "remove": "Retirer : {name}",
-    "imageLabel": "Image d’inspiration"
+    "addPrompt": "Ajouter la question : {prompt}",
+    "imageLabel": "Image d’inspiration",
+    "prompts": "Pour t’aider à écrire"
   },
   "why": {
     "question": "Pourquoi c’est important pour toi ?",
-    "whyHelp": "Pas besoin d’une grande raison. Une sensation, un souvenir ou une intuition suffisent.",
-    "whyBefore": "« Parce que c’est bien. »",
-    "whyAfter": "« Parce que je ne me souviens plus de la dernière fois où j’ai vu la Voie lactée, et que ça me manque. »",
+    "whyHelp": "Une sensation, un souvenir, ce que ça changerait pour toi. Une phrase suffit.",
+    "whyBefore": "« C’est bien pour la santé. »",
+    "whyAfter": "« Retrouver le plaisir de bouger, et le partager avec mes enfants. »",
     "whyPlaceholder": "Parce que…",
-    "benefits": "Qu’est-ce que ça t’apporterait ?",
-    "benefitsHint": "Coche ce qui te parle, autant que tu veux.",
-    "benefitsMore": "Autre chose ? (facultatif)",
-    "benefitsPlaceholder": "Me sentir capable, retrouver du temps pour moi…"
+    "values": "Ce que ça t’apporterait",
+    "valuesHint": "Coche ce qui te parle."
   },
   "firstSteps": {
     "question": "Et pour commencer ?",
@@ -105,116 +76,22 @@
     "firstStepBefore": "« Organiser le voyage »",
     "firstStepAfter": "« Chercher les zones de bivouac autorisées dans le Vercors »",
     "firstStepPlaceholder": "En moins de 15 minutes, je pourrais…",
-    "notes": "Notes",
-    "notesPlaceholder": "Idées, contacts, questions à se poser…"
-  },
-  "review": {
-    "question": "Relis ta page",
     "status": "Où en est cette envie ?",
-    "visibility": "Qui peut la voir ?",
-    "visibilityHint": "Ton carnet est privé. Le partage avec un cercle ou la communauté arrivera plus tard.",
-    "soon": "Bientôt",
-    "toComplete": "Il reste de la place pour :",
     "letGoNote": "Un mot pour plus tard ? (facultatif)",
     "letGoNotePlaceholder": "Ce que je retiens, pourquoi je la laisse partir…"
   },
-  "smart": {
-    "question": "Rendre cette envie plus claire",
-    "intro": "Cinq questions courtes. Réponds à celles qui te parlent, passe les autres.",
-    "step": "Question {current} sur 5",
-    "previous": "Précédent",
-    "next": "Suivant",
-    "toSentence": "Voir ma phrase",
-    "letters": {
-      "specific": "S · Spécifique",
-      "measurable": "M · Mesurable",
-      "achievable": "A · Atteignable",
-      "relevant": "R · Pertinent",
-      "time_bound": "T · Temporel"
-    },
-    "questions": {
-      "specific": "Que veux-tu accomplir précisément ? Qui, quoi, où ?",
-      "measurable": "À quoi verras-tu que c’est réussi ?",
-      "achievable": "Qu’est-ce qui rend ça réaliste pour toi ? Quelles ressources ?",
-      "relevant": "En quoi cela compte-t-il pour toi ?",
-      "time_bound": "Pour quand, ou à quel rythme ?"
-    },
-    "help": {
-      "specific": "Plus c’est concret, plus c’est facile de s’y mettre. Un lieu, une quantité, une personne suffisent souvent.",
-      "measurable": "Un chiffre, un objet terminé ou une sensation décrite : quelque chose que tu pourras constater.",
-      "achievable": "Pense à ce que tu as déjà (temps, matériel, personnes) et à ce qui pourrait coincer.",
-      "relevant": "Le lien avec ce qui compte pour toi. Il t’aidera les jours où l’élan baisse.",
-      "time_bound": "Une date souple ou un rythme suffit. Rien n’oblige à fixer une échéance."
-    },
-    "before": {
-      "specific": "« Faire du sport »",
-      "measurable": "« Être en forme »",
-      "achievable": "« Je verrai bien »",
-      "relevant": "« C’est bien pour la santé »",
-      "time_bound": "« Un jour »"
-    },
-    "after": {
-      "specific": "« Courir 5 km d’affilée dans mon quartier »",
-      "measurable": "« Courir 5 km sans m’arrêter, même lentement »",
-      "achievable": "« J’ai des baskets et 30 minutes le matin »",
-      "relevant": "« Retrouver le plaisir de bouger avec mes enfants »",
-      "time_bound": "« D’ici fin juin, trois sorties par semaine »"
-    },
-    "placeholders": {
-      "specific": "Précisément, je voudrais…",
-      "measurable": "Je saurai que c’est réussi quand…",
-      "achievable": "C’est réaliste parce que…",
-      "relevant": "Ça compte pour moi parce que…",
-      "time_bound": "D’ici… / chaque semaine…"
-    },
-    "obstacle": "Le principal obstacle ?",
-    "obstaclePlaceholder": "La pluie, la fatigue, le manque de temps…",
-    "ifThen": "Si cet obstacle arrive, alors je…",
-    "ifThenPlaceholder": "Si il pleut, alors je cours sur le tapis de la salle.",
-    "sentence": "Ta phrase",
-    "sentenceHint": "Assemblée à partir de tes réponses. Tu peux la modifier librement.",
-    "reassemble": "Réassembler à partir de mes réponses",
-    "copy": "Copier la phrase",
-    "copied": "Copiée.",
-    "clarity": "{count, plural, =0 {Aucun critère renseigné pour l’instant.} one {# critère sur 5 renseigné.} other {# critères sur 5 renseignés.}} C’est un repère, pas une note.",
-    "templates": {
-      "timeFirst": "{time}, {specific}.",
-      "specificOnly": "{specific}.",
-      "measured": "Je saurai que c’est réussi quand {measurable}.",
-      "ifThen": "{ifThen}",
-      "because": "Parce que {relevant}."
-    }
-  },
-  "qualify": {
-    "question": "Comment tu la vois ?",
-    "intro": "Tout est facultatif, et modifiable à tout moment.",
-    "categories": "Catégories",
-    "categoriesHint": "Autant que tu veux. La première donne sa couleur au signet.",
-    "newCategory": "Créer une catégorie",
-    "newCategoryName": "Nom de la catégorie",
-    "newCategoryHue": "Teinte",
-    "createCategory": "Créer",
-    "categoryExists": "Tu as déjà une catégorie de ce nom.",
-    "targetDate": "Date cible",
-    "targetDateHint": "Facultatif. Une saison ou un mois suffit souvent.",
-    "precision": "Précision",
-    "precisions": {
-      "day": "Jour précis",
-      "month": "Mois",
-      "season": "Saison",
-      "year": "Année"
-    },
-    "clearDate": "Retirer la date",
-    "budgetRange": "Fourchette en euros",
-    "budgetMin": "De",
-    "budgetMax": "à",
-    "place": "Lieu",
-    "placeHint": "Texte libre. Jamais de localisation automatique.",
-    "placePlaceholder": "Vercors, à la maison, n’importe où…",
-    "tags": "Tags",
-    "tagsHint": "Des mots-clés à toi, pour retrouver tes envies.",
-    "tagsPlaceholder": "Ajouter un tag puis Entrée",
-    "removeTag": "Retirer le tag {tag}",
-    "suggestions": "Tes tags"
+  "plan": {
+    "question": "Pour y arriver",
+    "intro": "Ce qu’il faut, et pour quand. Tout est facultatif.",
+    "whatTitle": "Ce qu’il faut",
+    "achievable": "Qu’est-ce qui rend ça possible ? De quoi as-tu besoin ?",
+    "achievableHelp": "Ce que tu as déjà (temps, matériel, personnes) et ce qui manque encore.",
+    "achievableBefore": "« Je verrai bien »",
+    "achievableAfter": "« J’ai des baskets et 30 minutes le matin. Il me manque un parcours. »",
+    "achievablePlaceholder": "J’ai déjà…, il me faudrait…",
+    "whenTitle": "Pour quand",
+    "horizonHint": "Une idée suffit, rien ne t’engage.",
+    "season": "Plutôt en quelle saison ?",
+    "seasonHint": "Facultatif, autant que tu veux."
   }
 }

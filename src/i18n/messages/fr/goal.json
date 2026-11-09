@@ -112,7 +112,9 @@
   },
   "card": {
     "untitled": "Envie sans titre",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "horizon": "Horizon :",
+    "prepareEarly": "À anticiper"
   },
   "seasonOfDate": {
     "spring": "Printemps",
@@ -123,5 +125,17 @@
   "place": {
     "label": "Lieu"
   },
-  "targetDate": "Date cible"
+  "targetDate": "Date cible",
+  "horizonShort": {
+    "short": "Bientôt",
+    "medium": "Cette année",
+    "long": "Plus tard",
+    "someday": "Un jour"
+  },
+  "horizonGroup": {
+    "short": "Bientôt, moins de 3 mois",
+    "medium": "Cette année, 3 à 12 mois",
+    "long": "Plus tard, plus d’un an",
+    "someday": "Un jour"
+  }
 }

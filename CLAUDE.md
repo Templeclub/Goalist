@@ -6,11 +6,11 @@ Ce fichier guide tout travail de développement sur ce dépôt. À lire avant ch
 
 Élan est une PWA mobile-first pour **mettre par écrit ses envies, projets et objectifs**, puis les **nommer, décrire et qualifier** à son rythme. Écrire une envie, c'est déjà s'engager : l'outil doit rendre ce geste facile, agréable et complet.
 
-Le périmètre actuel couvre la capture (express et fiche guidée), la description, l'assistant SMART, la qualification, les statuts, la consultation et le compte. Communauté, tableau de bord, rappels et check-ins viendront plus tard : le modèle de données les anticipe, le code ne les implémente pas.
+Le périmètre actuel couvre la capture (express et fiche guidée en 4 sections : l'envie, le pourquoi, préciser, premier pas), les statuts, la consultation en grille pour prioriser, et le compte. Communauté, tableau de bord, rappels et check-ins viendront plus tard : le modèle de données les anticipe, le code ne les implémente pas.
 
 ## Règles non négociables
 
-1. **Aucune IA.** Aucun appel à un LLM ni à un service de génération, aucune suggestion générée automatiquement. L'accompagnement passe par des textes écrits à la main, des exemples et des questions guidées.
+1. **Aucune IA.** Aucun appel à un LLM ni à un service de génération. L'accompagnement passe par des textes écrits à la main, des exemples et des questions guidées. Seules exceptions : des correspondances déterministes écrites à la main (ex. mots-clés du titre → emoji et catégorie, D-059), toujours modifiables.
 2. **Seul le titre est obligatoire.** Aucun autre champ ne bloque jamais l'utilisateur.
 3. **Aucune perte de saisie.** Sauvegarde automatique continue ; pas de bouton « Enregistrer ».
 4. **Ton bienveillant.** Pas de rouge d'alerte (sauf actions destructrices), pas de streak, pas de classement, pas de pourcentage anxiogène, pas de « en retard » ni « abandonné ». Voir [`docs/principles.md`](docs/principles.md).

@@ -3,14 +3,13 @@
     "title": "Mes envies",
     "count": "{count, plural, one {# envie} other {# envies}}",
     "search": "Rechercher dans mes envies",
-    "searchPlaceholder": "Un mot, un lieu, un tag…",
+    "searchPlaceholder": "Un mot, un lieu, une idée…",
     "clearSearch": "Effacer la recherche",
     "quick": {
       "label": "Filtres rapides",
-      "weekend": "Ce week-end",
-      "low_energy": "Peu d’énergie",
+      "soon": "Bientôt",
+      "prepare_early": "À anticiper",
       "no_budget": "Sans budget",
-      "easy_start": "Facile à lancer",
       "to_complete": "À compléter"
     },
     "filters": "Filtres",
@@ -22,11 +21,10 @@
     "category": "Catégorie",
     "sort": {
       "label": "Trier",
+      "priority": "À l’horizon",
       "updated": "Modifiées récemment",
       "created": "Gardées récemment",
-      "title": "Titre A → Z",
-      "target": "Date cible la plus proche",
-      "easiest": "Plus faciles d’abord"
+      "title": "Titre A → Z"
     },
     "group": {
       "label": "Regrouper",
@@ -38,7 +36,6 @@
       "noHorizon": "Horizon non précisé"
     },
     "noResults": "Rien ne correspond à ces filtres.",
-    "choose": "Choisis une envie à gauche pour l’ouvrir ici.",
     "dismiss": "Ne plus me le proposer",
     "dismissed": "Elle ne sera plus proposée ici. Elle reste dans ton carnet.",
     "undoDismiss": "La proposer à nouveau"
@@ -46,8 +43,6 @@
   "detail": {
     "back": "Mes envies",
     "titleLabel": "Titre de l’envie",
-    "taglineLabel": "Accroche",
-    "taglinePlaceholder": "Ce que cette envie représente, en une phrase",
     "emojiLabel": "Emoji de l’envie",
     "emojiPlaceholder": "🙂",
     "keptOn": "Gardée le {date, date, short}",
@@ -66,11 +61,9 @@
     "sketchInvite": "Cette envie n’a qu’un titre pour l’instant, et c’est déjà bien. Tu veux lui donner un peu de corps ?",
     "history": "Historique",
     "openLink": "{title} (s’ouvre dans un nouvel onglet)",
-    "smart": "En clair",
     "facts": "Repères",
-    "refine": "Préciser",
     "letGo": "Tu as choisi de laisser partir cette envie. Elle reste dans ton carnet si tu veux y repenser.",
-    "tags": "Tags"
+    "plan": "Pour y arriver"
   },
   "history": {
     "title": "Historique",

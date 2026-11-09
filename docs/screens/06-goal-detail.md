@@ -50,3 +50,12 @@ Master-detail : liste à gauche (360 px), page à droite, largeur de lecture 65 
 - Section **Repères** : grille 2 colonnes (icône, libellé, valeur) des critères renseignés uniquement ; difficulté avec 5 points.
 - Pastilles de toutes les catégories ; tags en petites étiquettes neutres.
 - Statut « Lâché consciemment » : phrase « Tu as choisi de laisser partir cette envie. Elle reste dans ton carnet si tu veux y repenser. » + le mot laissé, s'il existe.
+
+## Version simplifiée (D-060, D-061)
+
+- Le signet prend la couleur de la première catégorie (la couleur propre à l'envie ne sert plus que s'il n'y a pas de catégorie).
+- Ligne de repères : statut, catégorie(s), horizon court, et « À anticiper » si la préparation est lourde.
+- La section « En clair » (phrase SMART) est remplacée par **Pour y arriver** : la réponse à « Qu'est-ce qui rend ça possible ? ».
+- L'accroche et les tags ne sont plus affichés. Les autres contenus saisis auparavant (où / avec qui, images, notes…) restent visibles s'ils existent.
+- « À compléter » propose les sections du nouveau parcours : L'envie, Le pourquoi, Préciser, Premier pas.
+- Desktop : page seule, plus de master-detail.

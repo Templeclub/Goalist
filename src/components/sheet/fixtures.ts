@@ -32,7 +32,6 @@ export const emptySmartAnswers: SmartAnswersRow = {
 export const emptySheetExtras = {
   qualify: emptyQualify,
   categoryItems: [],
-  tags: [],
-  smart: emptySmartAnswers,
+  achievable: null,
   statusNote: null,
 }

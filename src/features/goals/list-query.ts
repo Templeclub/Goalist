@@ -1,15 +1,9 @@
 import { z } from 'zod'
-import { budgetLevels, energies, goalStatuses, horizons, preparations } from './schema'
+import { budgetLevels, goalStatuses, horizons, preparations } from './schema'
 
 /** The list state lives in the URL (docs/screens/05, D-052). */
-export const quickFilters = [
-  'weekend',
-  'low_energy',
-  'no_budget',
-  'easy_start',
-  'to_complete',
-] as const
-export const sorts = ['updated', 'created', 'title', 'target', 'easiest'] as const
+export const quickFilters = ['soon', 'prepare_early', 'no_budget', 'to_complete'] as const
+export const sorts = ['priority', 'updated', 'created', 'title'] as const
 export const groups = ['none', 'status', 'horizon', 'category'] as const
 
 export type QuickFilter = (typeof quickFilters)[number]
@@ -40,10 +34,8 @@ const listSchema = z.object({
     ),
   quick: csv(quickFilters),
   status: csv(goalStatuses),
-  difficulty: csv(['1', '2', '3', '4', '5'] as const).transform((v) => v.map(Number)),
   preparation: csv(preparations),
   horizon: csv(horizons),
-  energy: csv(energies),
   budget: csv(budgetLevels),
   category: z
     .string()
@@ -54,9 +46,8 @@ const listSchema = z.object({
         .filter((v) => z.uuid().safeParse(v).success)
         .slice(0, 20),
     ),
-  sort: z.enum(sorts).catch('updated').default('updated'),
-  group: z.enum(groups).catch('none').default('none'),
-  open: z.uuid().optional().catch(undefined),
+  sort: z.enum(sorts).catch('priority').default('priority'),
+  group: z.enum(groups).catch('horizon').default('horizon'),
 })
 
 export type ListQuery = z.infer<typeof listSchema>
@@ -72,9 +63,8 @@ export function parseListQuery(params: Params): ListQuery {
 
 /** Count of filters behind the "Filtres" button (quick filters are visible on their own). */
 export function activeFilterCount(q: ListQuery) {
-  return [q.status, q.difficulty, q.preparation, q.horizon, q.energy, q.budget, q.category].filter(
-    (v) => v.length > 0,
-  ).length
+  return [q.status, q.preparation, q.horizon, q.budget, q.category].filter((v) => v.length > 0)
+    .length
 }
 
 export function hasAnyFilter(q: ListQuery) {
@@ -85,31 +75,20 @@ export function hasAnyFilter(q: ListQuery) {
 export function listQueryToSearch(q: Partial<ListQuery>): string {
   const params = new URLSearchParams()
   if (q.q) params.set('q', q.q)
-  for (const key of [
-    'quick',
-    'status',
-    'difficulty',
-    'preparation',
-    'horizon',
-    'energy',
-    'budget',
-    'category',
-  ] as const) {
+  for (const key of ['quick', 'status', 'preparation', 'horizon', 'budget', 'category'] as const) {
     const value = q[key] as readonly (string | number)[] | undefined
     if (value && value.length > 0) params.set(key, value.join(','))
   }
-  if (q.sort && q.sort !== 'updated') params.set('sort', q.sort)
-  if (q.group && q.group !== 'none') params.set('group', q.group)
-  if (q.open) params.set('open', q.open)
+  if (q.sort && q.sort !== 'priority') params.set('sort', q.sort)
+  if (q.group && q.group !== 'horizon') params.set('group', q.group)
   const s = params.toString()
   return s ? `?${s}` : ''
 }
 
 /** PostgREST `or` expressions for the quick filters (all ANDed together). */
 export const quickFilterExpression: Record<QuickFilter, string> = {
-  weekend: 'time_estimate.in.(minutes,day,weekend),seasons.cs.{weekend}',
-  low_energy: 'energy.eq.low',
+  soon: 'horizon.eq.short',
+  prepare_early: 'and(preparation.in.(heavy,very_heavy),horizon.neq.someday)',
   no_budget: 'budget_level.eq.none',
-  easy_start: 'difficulty.lte.2,preparation.in.(none,light)',
   to_complete: 'and(completeness_level.eq.sketch,completion_dismissed_at.is.null)',
 }

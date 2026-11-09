@@ -67,7 +67,7 @@ async function History({
                 {t(`reason.${r.reason as 'section_exit' | 'review' | 'interval' | 'restore'}`)}
               </p>
               <p className="font-display text-lg leading-snug">{r.title}</p>
-              {r.tagline && <p className="text-[0.9375rem] text-ink-2 italic">{r.tagline}</p>}
+              {r.excerpt && <p className="line-clamp-2 text-[0.9375rem] text-ink-2">{r.excerpt}</p>}
               <RestoreButton goalId={id} revisionId={r.id} />
             </li>
           ))}

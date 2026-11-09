@@ -15,13 +15,7 @@ import {
   type QuickFilter,
   type Sort,
 } from '@/features/goals/list-query'
-import {
-  budgetLevels,
-  energies,
-  goalStatuses,
-  horizons,
-  preparations,
-} from '@/features/goals/schema'
+import { budgetLevels, goalStatuses, horizons, preparations } from '@/features/goals/schema'
 import { useRouter } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 import { categoryIcon } from '../goal/icons'
@@ -82,10 +76,8 @@ export function GoalsToolbar({ query, categories }: GoalsToolbarProps) {
       q: '',
       quick: [],
       status: [],
-      difficulty: [],
       preparation: [],
       horizon: [],
-      energy: [],
       budget: [],
       category: [],
     })
@@ -194,16 +186,6 @@ export function GoalsToolbar({ query, categories }: GoalsToolbarProps) {
             )}
             <ChipGroup
               type="multiple"
-              legend={tGoal('difficulty.label')}
-              options={(['1', '2', '3', '4', '5'] as const).map((d) => ({
-                value: d,
-                label: tGoal(`difficulty.${d}`),
-              }))}
-              value={query.difficulty.map(String) as ('1' | '2' | '3' | '4' | '5')[]}
-              onChange={(v) => go({ difficulty: v.map(Number) })}
-            />
-            <ChipGroup
-              type="multiple"
               legend={tGoal('preparation.label')}
               options={preparations.map((p) => ({ value: p, label: tGoal(`preparation.${p}`) }))}
               value={query.preparation}
@@ -212,16 +194,9 @@ export function GoalsToolbar({ query, categories }: GoalsToolbarProps) {
             <ChipGroup
               type="multiple"
               legend={tGoal('horizon.label')}
-              options={horizons.map((h) => ({ value: h, label: tGoal(`horizon.${h}`) }))}
+              options={horizons.map((h) => ({ value: h, label: tGoal(`horizonShort.${h}`) }))}
               value={query.horizon}
               onChange={(horizon) => go({ horizon })}
-            />
-            <ChipGroup
-              type="multiple"
-              legend={tGoal('energy.label')}
-              options={energies.map((e) => ({ value: e, label: tGoal(`energy.${e}`) }))}
-              value={query.energy}
-              onChange={(energy) => go({ energy })}
             />
             <ChipGroup
               type="multiple"

@@ -1,1 +1,18 @@
-{}
+{
+  "horizonShort": {
+    "short": "Soon",
+    "medium": "This year",
+    "long": "Later",
+    "someday": "Someday"
+  },
+  "horizonGroup": {
+    "short": "Soon, under 3 months",
+    "medium": "This year, 3 to 12 months",
+    "long": "Later, over a year",
+    "someday": "Someday"
+  },
+  "card": {
+    "horizon": "Horizon:",
+    "prepareEarly": "Plan ahead"
+  }
+}

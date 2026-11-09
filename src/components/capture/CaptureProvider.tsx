@@ -19,8 +19,10 @@ import { uuidv7 } from '@/lib/uuid'
 import { useToast } from '../ui/Toast'
 import dynamic from 'next/dynamic'
 
-// The sheet (vaul) loads on first use, not with every page.
-const CaptureSheet = dynamic(() => import('./CaptureSheet').then((m) => m.CaptureSheet), {
+// The sheet (vaul) stays out of the first load, then is fetched while the browser is idle,
+// so the first "J'aimerais…" or N opens at once.
+const loadCaptureSheet = () => import('./CaptureSheet')
+const CaptureSheet = dynamic(() => loadCaptureSheet().then((m) => m.CaptureSheet), {
   ssr: false,
 })
 
@@ -71,6 +73,16 @@ export function CaptureProvider({ children }: { children: ReactNode }) {
     void hasLocalSession()
       .then((has) => setShowConsent(!has))
       .catch(() => setShowConsent(true))
+  }, [])
+
+  useEffect(() => {
+    const preload = () => void loadCaptureSheet().catch(() => {})
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(preload, { timeout: 3000 })
+      return () => window.cancelIdleCallback(id)
+    }
+    const timer = setTimeout(preload, 1500)
+    return () => clearTimeout(timer)
   }, [])
 
   // Replay wishes kept offline, at start and whenever the network returns.
