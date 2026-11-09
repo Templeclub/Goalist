@@ -293,3 +293,14 @@ Demande d'une expérience plus ludique, inspirée des cartes à collectionner, s
 - **Navigation** : Accueil · Mes cartes · + · Collection · Moi.
 
 Les principes de ton sont ajustés : collectionner et voir la rareté est permis ; rien ne punit, rien ne se perd, rien ne compare.
+
+### D-063 · Cartes « Arcade Pro », suivi en chemin, filtres compacts, thème — Acceptée
+
+Retours d'usage sur D-062 et propositions validées (maquette, page « Version 2 ») :
+
+- **Carte Arcade Pro**, même anatomie à toutes les tailles : cadre à la couleur de la série, titre et **niveau** (Niv. 1 à 9 = points d'effort préparation + budget + horizon), médaillon de série, illustration tramée, série · **rareté** (palier, losanges), trois caractéristiques (préparation et budget en barres, horizon en mot, chacune avec un texte pour les lecteurs d'écran), progression en pied. Acquise : cadre et illustration holographiques, reflet qui balaie la carte, n° et date.
+- **Dynamique** : la carte s'incline vers le pointeur ou le doigt (± 8°, `CardTilt`) ; elle se retourne à la conversion (400 ms, Web Animations) ; l'accueil présente « à convertir bientôt » en éventail. Tout s'arrête sous `prefers-reduced-motion` ou si « Animations des cartes » est décoché dans Moi (`data-motion="reduced"`).
+- **Suivi** (`CardActions`) : chemin Idée → Confirmée → En préparation → En cours → Acquise (`features/goals/progress.ts`). Le bouton principal avance d'une étape ; « C'est fait : convertir la carte » n'apparaît qu'« En cours ». « Mettre en pause » et « Ranger la carte » sont secondaires ; une étape du chemin se choisit aussi directement. Journal de la carte daté, lu dans `goal_status_history`. Le libellé « Envie confirmée » devient « Confirmée ».
+- **Filtres compacts** : recherche repliée en loupe (déployée au focus ou avec du texte, toujours présente pour le raccourci `/`), bouton « Filtres » qui contient aussi le tri et le regroupement, filtres rapides sur une ligne défilante.
+- **Accueil allégé** : l'éventail, puis un seul panneau « Et aussi » (cartes à préparer, à révéler, dernière acquise).
+- **Thème** dans Moi : Automatique, Clair, Sombre. Gardé sur l'appareil (`localStorage`, appliqué par un script en tête de page avant le premier affichage) et sur le compte (`profiles.theme`, déjà présent) pour suivre la personne d'un appareil à l'autre.
