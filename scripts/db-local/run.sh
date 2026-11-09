@@ -39,7 +39,26 @@ if [ "${1:-}" = "--types" ]; then
     from information_schema.columns c
     join information_schema.tables t on t.table_schema = c.table_schema and t.table_name = c.table_name
     where c.table_schema = 'public' and t.table_type = 'BASE TABLE') c" > "$WORK/columns.json"
-  node "$ROOT/scripts/db-local/gen-types.mjs" "$WORK/columns.json" "$ROOT/src/lib/supabase/database.types.ts"
+  # Functions callable by signed-in people (supabase.rpc), with their IN arguments and
+  # their result: a set of rows (RETURNS TABLE) or a single scalar.
+  "${PSQL[@]}" -t -A -c "select coalesce(json_agg(f order by f.name), '[]') from (
+    select p.proname as name,
+      coalesce((select json_agg(json_build_object('name', a.n, 'type', ty.typname) order by a.ord)
+        from unnest(p.proargnames, coalesce(p.proallargtypes, p.proargtypes::oid[])) with ordinality a(n, t, ord)
+        join pg_type ty on ty.oid = a.t
+        where coalesce(p.proargmodes[a.ord], 'i') = 'i'), '[]') as args,
+      coalesce((select json_agg(json_build_object('name', a.n, 'type', ty.typname) order by a.ord)
+        from unnest(p.proargnames, coalesce(p.proallargtypes, p.proargtypes::oid[])) with ordinality a(n, t, ord)
+        join pg_type ty on ty.oid = a.t
+        where p.proargmodes[a.ord] in ('o', 't')), '[]') as columns,
+      rt.typname as returns, p.proretset as returns_set
+    from pg_proc p
+    join pg_namespace ns on ns.oid = p.pronamespace
+    join pg_type rt on rt.oid = p.prorettype
+    where ns.nspname = 'public' and p.prokind = 'f'
+      and has_function_privilege('authenticated', p.oid, 'execute')
+      and rt.typname <> 'trigger') f" > "$WORK/functions.json"
+  node "$ROOT/scripts/db-local/gen-types.mjs" "$WORK/columns.json" "$ROOT/src/lib/supabase/database.types.ts" "$WORK/functions.json"
 fi
 
 status=0

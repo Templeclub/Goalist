@@ -5,6 +5,10 @@ The script also records each migration in supabase_migrations.schema_migrations,
 so a later `supabase db push` treats them as applied. Run it once on a fresh project:
 
     python3 scripts/db-local/bundle-schema.py > elan-schema.sql
+
+Then, for migrations added later, only the new ones (from a version on):
+
+    python3 scripts/db-local/bundle-schema.py --from 20261109090000 > elan-update.sql
 """
 import glob
 import os
@@ -12,9 +16,13 @@ import sys
 
 root = os.path.join(os.path.dirname(__file__), '..', '..')
 files = sorted(glob.glob(os.path.join(root, 'supabase', 'migrations', '*.sql')))
+since = sys.argv[sys.argv.index('--from') + 1] if '--from' in sys.argv else None
+if since:
+    files = [f for f in files if os.path.basename(f)[:14] >= since]
 tag = '$elan_migration$'
 out = [
-    '-- Élan: full schema for Supabase > SQL Editor > New query > Run. Run once.',
+    '-- Élan: ' + (f'migrations from {since}' if since else 'full schema')
+    + ' for Supabase > SQL Editor > New query > Run. Run once.',
     'begin;',
     'create schema if not exists supabase_migrations;',
     'create table if not exists supabase_migrations.schema_migrations '
