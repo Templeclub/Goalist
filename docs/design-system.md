@@ -1,4 +1,17 @@
-# Design system — « le carnet »
+# Design system — « la collection » (Arcade pop)
+
+> **Mise à jour (D-062)** : la direction « Atelier » est remplacée par **Arcade pop**, une direction inspirée des cartes à collectionner. La section 0 ci-dessous fait foi ; les sections suivantes décrivent l'historique et restent valables pour la structure des jetons (tons par teinte, thèmes, accessibilité).
+
+## 0. Arcade pop (direction actuelle)
+
+- **Esprit** : chaque envie est une carte à collectionner. Contours épais à l'encre (`--outline`, 2,5 à 3 px), ombres décalées façon autocollant (`--elev-card` 3 px, `--elev-pop` 5 px), couleurs vives par série, coins généreux (`--r-card` 18 px).
+- **Polices** : Baloo 2 (titres, 700–800) et Nunito (texte). Chargées par `next/font`.
+- **Clair** : fond crème `#fff6e5`, cartes blanches, encre indigo `#1f1d3a`, accent violet électrique `#4b2ee0`, doré `#ffd23f` pour les cartes acquises.
+- **Sombre** : fond nuit `#15132b`, cartes `#241f48`, contours lavande `#a79fe6`, ombres presque noires, accent `#a993ff`.
+- **Séries** : la couleur d'une carte vient de la teinte de sa catégorie (12 teintes OKLCH, inchangées) ; `--tone-ribbon` sert au cadre et à l'illustration, `--tone-bg` au fond, `--tone-fg` au texte.
+- **États d'une carte** (`GoalCard`) : _esquisse_ (bord pointillé, illustration hachurée, « Révéler la carte »), _à convertir_ (fond de la série, rareté, horizon, premier pas), _acquise_ (fond doré pâle, illustration holographique animée — figée si les animations sont réduites —, pastille « Acquise ! », numéro et date), _rangée_ (atténuée, jamais détruite).
+- **Rareté** : 1 à 5 losanges, toujours doublés d'un texte (« Rareté : Épique ») : jamais l'information par la couleur seule.
+- **Boutons et puces** : contour à l'encre, primaire avec ombre décalée qui s'enfonce au clic ; puce cochée pleine (accent) avec ombre.
 
 > Version 0.2 · **direction retenue : A « Atelier »** (D-029). B et C restent décrites pour mémoire. Les trois directions artistiques sont visibles côte à côte, appliquées aux écrans clés, dans [`mockups/maquettes.html`](mockups/maquettes.html) (sélecteur de direction et de thème en haut de page).
 

@@ -6,14 +6,14 @@ Ce fichier guide tout travail de développement sur ce dépôt. À lire avant ch
 
 Élan est une PWA mobile-first pour **mettre par écrit ses envies, projets et objectifs**, puis les **nommer, décrire et qualifier** à son rythme. Écrire une envie, c'est déjà s'engager : l'outil doit rendre ce geste facile, agréable et complet.
 
-Le périmètre actuel couvre la capture (express et fiche guidée en 4 sections : l'envie, le pourquoi, préciser, premier pas), les statuts, la consultation en grille pour prioriser, et le compte. Communauté, tableau de bord, rappels et check-ins viendront plus tard : le modèle de données les anticipe, le code ne les implémente pas.
+Le périmètre actuel couvre la capture (express et fiche guidée en 4 sections : l'envie, le pourquoi, préciser, premier pas), la collection de cartes (cartes à convertir, rareté, conversion, collection des cartes acquises), les recommandations d'accueil, et le compte. Communauté, tableau de bord, rappels et check-ins viendront plus tard : le modèle de données les anticipe, le code ne les implémente pas.
 
 ## Règles non négociables
 
 1. **Aucune IA.** Aucun appel à un LLM ni à un service de génération. L'accompagnement passe par des textes écrits à la main, des exemples et des questions guidées. Seules exceptions : des correspondances déterministes écrites à la main (ex. mots-clés du titre → emoji et catégorie, D-059), toujours modifiables.
 2. **Seul le titre est obligatoire.** Aucun autre champ ne bloque jamais l'utilisateur.
 3. **Aucune perte de saisie.** Sauvegarde automatique continue ; pas de bouton « Enregistrer ».
-4. **Ton bienveillant.** Pas de rouge d'alerte (sauf actions destructrices), pas de streak, pas de classement, pas de pourcentage anxiogène, pas de « en retard » ni « abandonné ». Voir [`docs/principles.md`](docs/principles.md).
+4. **Ton bienveillant.** Pas de rouge d'alerte (sauf actions destructrices), pas de streak, pas de niveau de joueur ni de points, pas de classement, pas de pourcentage anxiogène, pas de « en retard » ni « abandonné ». La collection de cartes (rareté, cartes acquises, D-062) est permise : rien ne se perd, tout s'annule. Voir [`docs/principles.md`](docs/principles.md).
 5. **Aucun texte en dur.** Tout passe par `next-intl` (`src/i18n/messages/<locale>/*.json`). Produit en français, tutoiement.
 6. **RLS d'abord.** Par défaut seul le propriétaire accède à ses données. La clé `service_role` ne s'utilise que dans `src/server/admin/`.
 7. **Design system d'abord.** Tokens sémantiques uniquement (jamais de couleur littérale dans un composant). Un composant existe dans Storybook avant d'être utilisé dans un écran. Un écran est décrit dans `docs/screens/` avant d'être codé.

@@ -24,3 +24,15 @@ Rail de navigation à gauche. Colonne centrale de 720 px max : salutation, champ
 ## Micro-copies
 
 `home.greeting.morning` Bonjour, {name} · `home.greeting.evening` Bonsoir, {name} · `home.capture.cta` J'aimerais… · `home.recent.title` Tes dernières envies · `home.recent.seeAll` Tout voir · `home.toComplete.title` Fiches à compléter · `home.toComplete.intro` {count, plural, one {Une envie attend} other {# envies attendent}} un peu d'attention, quand tu veux. · `home.toComplete.action` Compléter
+
+## Version collection de cartes (D-062)
+
+Remplace les points 3 à 5.
+
+3. **À convertir bientôt** : cartes compactes en rangée défilante sur mobile (grille sur ordinateur) : horizon « Bientôt » ou carte déjà commencée, celles qui ont un premier pas d'abord, puis l'ordre « À l'horizon ». Sans carte éligible : une phrase qui explique comment en faire apparaître une. Lien « Toutes mes cartes ».
+4. **À préparer dès maintenant** : cartes à préparation importante dont l'horizon est moyen ou long (« À anticiper »).
+5. **Dernière carte acquise** : la carte holographique, avec son numéro, et un lien « Ma collection ».
+6. **Cartes à révéler** : les esquisses (bloc contouré), avec « Révéler ».
+7. **Navigation basse** : Accueil · Mes cartes · « + » · Collection · Moi.
+
+Toutes les règles sont déterministes (`homeRecommendations`) : aucune suggestion générée.
