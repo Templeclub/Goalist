@@ -12,5 +12,8 @@
   "last": {
     "title": "Last acquired card",
     "seeAll": "My collection"
+  },
+  "recent": {
+    "title": "Your latest cards"
   }
 }
