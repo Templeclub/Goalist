@@ -262,7 +262,7 @@ Les nonces imposent un rendu dynamique de chaque page, incompatible avec le pré
 
 ### D-058 · Budgets Lighthouse — Acceptée
 
-La CI vérifie Lighthouse en préréglage ordinateur sur les pages publiques et `/home` (performance ≥ 0,9, accessibilité ≥ 0,95, bonnes pratiques ≥ 0,9 ; scores mesurés 96–100). En mobile simulé (4G lente), `/`, `/welcome` et `/privacy` dépassent 90 ; `/home` et `/sign-in` sont à 84–85 parce que le modèle de simulation attribue au JavaScript l'affichage du contenu reçu en streaming, alors que la trace réelle montre le LCP à 0,4–0,7 s. Le client Supabase et la feuille de capture sont chargés à la demande pour alléger le premier rendu. Plausible et Sentry ne sont pas encore branchés : ils demandent des comptes et un réglage sans contenu utilisateur, à faire avec la mise en production.
+La CI vérifie Lighthouse (trois mesures par page, médiane retenue : une mesure unique juste après le démarrage du serveur variait trop) en préréglage ordinateur sur les pages publiques et `/home` (performance ≥ 0,9, accessibilité ≥ 0,95, bonnes pratiques ≥ 0,9 ; scores mesurés 96–100). En mobile simulé (4G lente), `/`, `/welcome` et `/privacy` dépassent 90 ; `/home` et `/sign-in` sont à 84–85 parce que le modèle de simulation attribue au JavaScript l'affichage du contenu reçu en streaming, alors que la trace réelle montre le LCP à 0,4–0,7 s. Le client Supabase et la feuille de capture sont chargés à la demande pour alléger le premier rendu. Plausible et Sentry ne sont pas encore branchés : ils demandent des comptes et un réglage sans contenu utilisateur, à faire avec la mise en production.
 
 ## Simplification (retours d'usage)
 
