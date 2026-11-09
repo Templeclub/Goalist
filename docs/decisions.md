@@ -304,3 +304,16 @@ Retours d'usage sur D-062 et propositions validées (maquette, page « Version 2
 - **Filtres compacts** : recherche repliée en loupe (déployée au focus ou avec du texte, toujours présente pour le raccourci `/`), bouton « Filtres » qui contient aussi le tri et le regroupement, filtres rapides sur une ligne défilante.
 - **Accueil allégé** : l'éventail, puis un seul panneau « Et aussi » (cartes à préparer, à révéler, dernière acquise).
 - **Thème** dans Moi : Automatique, Clair, Sombre. Gardé sur l'appareil (`localStorage`, appliqué par un script en tête de page avant le premier affichage) et sur le compte (`profiles.theme`, déjà présent) pour suivre la personne d'un appareil à l'autre.
+
+## Amis
+
+### D-064 · Amis par lien d'invitation, partage carte par carte — Acceptée
+
+La dimension sociale prévue au départ (« cercle d'amis », soutenir, contribuer) ouvre avec les amis ; la « communauté » reste fermée.
+
+- **Amitié réciproque par lien d'invitation** : chacun a un lien personnel (`friend_invites`, code aléatoire de 24 caractères, renouvelable). L'ouvrir et accepter crée l'amitié (`friendships`, une ligne par paire, `accept_friend_invite()`). Pas d'annuaire ni de recherche de personnes : personne ne peut être trouvé sans qu'on lui ait donné son lien. Les sessions anonymes n'ont pas d'amis. Un blocage (`blocks`, en réserve) fait passer un lien pour inconnu.
+- **Partage carte par carte** : `visibility = 'circle'` (« Mes amis ») ; privée par défaut. `goal_shared_with_me()` ne laisse passer que `circle` entre amis ; `community` est refusé en écriture et invisible en lecture, quel que soit le drapeau `sharing_enabled` (désormais à vrai). Les amis voient la ligne de la carte (titre, pourquoi, premier pas, description, caractéristiques) et sa série ; jamais les notes, l'historique, les réponses SMART, les images ni les valeurs (leurs tables restent réservées au propriétaire).
+- **Interactions** sur la carte partagée d'un ami (`is_friend_goal()`) : encouragements (`reactions`, trois sortes : bravo, courage, inspire), messages (`comments`, 500 caractères, supprimables par leur auteur et par le propriétaire de la carte), « moi aussi » (`interest_signals`, avec copie possible du titre dans son propre deck), « je peux aider » (`contribution_offers`, visibles seulement par leur auteur et le propriétaire ; seul le statut peut changer : le propriétaire accepte ou décline, l'auteur retire). Personne n'interagit avec sa propre carte.
+- **Pseudos** : seul le pseudo d'un ami est lisible, via `my_friends()` et `invite_preview()` (fonctions `security definer` limitées à ces colonnes) ; le reste du profil reste privé.
+- **Fin d'une amitié** : l'un ou l'autre la retire ; l'accès aux cartes partagées et à ce qui s'y est dit disparaît aussitôt, des deux côtés.
+- Tests pgTAP : `supabase/tests/database/friends.test.sql` (39 assertions). Le générateur de types local produit désormais aussi les fonctions SQL.

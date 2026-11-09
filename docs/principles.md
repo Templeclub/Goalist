@@ -87,3 +87,7 @@ Pour chaque texte, répondre oui à toutes les questions :
 4. Est-ce qu'il tient en une ou deux phrases courtes ?
 5. Est-ce qu'il sonne comme un ami attentif, pas comme une application ou une entreprise ?
 6. Est-ce qu'il fonctionne sans la couleur ni l'icône qui l'accompagnent ?
+
+## Entre amis (D-064)
+
+On partage ce qu'on veut, avec qui on veut, carte par carte. Les amis encouragent, disent « moi aussi », proposent leur aide ou laissent un mot : jamais de note, de classement, de compteur public ni de comparaison. Une proposition d'aide se décline sans justification (« Pas pour cette fois »), une amitié se retire sans drame, et chacun peut effacer les messages laissés sur ses cartes.

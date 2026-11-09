@@ -87,6 +87,7 @@ test.describe('Premiers pas (sans compte)', () => {
     '/home',
     '/goals',
     '/collection',
+    '/friends',
     '/me',
     '/sign-in',
     '/privacy',

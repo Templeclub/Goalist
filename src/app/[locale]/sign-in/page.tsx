@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { SignInPanel } from '@/components/auth/SignInPanel'
 import { Link } from '@/i18n/navigation'
 import { isCallbackError } from '@/features/auth/callback-error'
+import { safeNext } from '@/lib/http'
 import { initLocale } from '@/i18n/page-locale'
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/sign-in'>) {
@@ -35,6 +36,11 @@ async function Panel({
 }: {
   searchParams: PageProps<'/[locale]/sign-in'>['searchParams']
 }) {
-  const { error } = await searchParams
-  return <SignInPanel initialError={isCallbackError(error) ? error : null} />
+  const { error, next } = await searchParams
+  return (
+    <SignInPanel
+      initialError={isCallbackError(error) ? error : null}
+      next={typeof next === 'string' ? safeNext(next) : undefined}
+    />
+  )
 }

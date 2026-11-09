@@ -30,7 +30,14 @@ function fail(error: AuthError | Error): never {
 }
 
 /** Wires the sign-in form to Supabase Auth, converting an anonymous notebook when there is one. */
-export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | null }) {
+export function SignInPanel({
+  initialError,
+  next,
+}: {
+  initialError?: AuthErrorKey | null
+  /** Where to go once signed in (an internal path, already checked). */
+  next?: string
+}) {
   const t = useTranslations('auth')
   const router = useRouter()
   const [converting, setConverting] = useState(false)
@@ -42,8 +49,8 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
       .then(({ data }) => setConverting(data?.claims?.is_anonymous === true))
   }, [])
 
-  const callback = (next = '/home') =>
-    `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(next)}`
+  const callback = (after = next ?? '/home') =>
+    `${window.location.origin}/api/auth/callback?next=${encodeURIComponent(after)}`
 
   return (
     <div className="grid gap-6">
@@ -59,7 +66,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
         onMagicLink={async (email) => {
           const auth = (await loadBrowserClient()).auth
           const { error } = converting
-            ? await auth.updateUser({ email }, { emailRedirectTo: callback('/me') })
+            ? await auth.updateUser({ email }, { emailRedirectTo: callback(next ?? '/me') })
             : await auth.signInWithOtp({
                 email,
                 options: { emailRedirectTo: callback(), captchaToken: await getCaptchaToken() },
@@ -74,7 +81,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
             converting && !googleSignInInstead
               ? await auth.linkIdentity({
                   provider: 'google',
-                  options: { redirectTo: callback('/me') },
+                  options: { redirectTo: callback(next ?? '/me') },
                 })
               : await auth.signInWithOAuth({
                   provider: 'google',
@@ -91,7 +98,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
               options: { captchaToken: await getCaptchaToken() },
             })
             if (error) fail(error)
-            router.push('/home')
+            router.push(next ?? '/home')
             router.refresh()
             return 'done'
           }
@@ -102,7 +109,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
           })
           if (error) fail(error)
           if (data.session) {
-            router.push('/home')
+            router.push(next ?? '/home')
             return 'done'
           }
           return 'check-email'

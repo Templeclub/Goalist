@@ -1,11 +1,12 @@
 // Generates src/lib/supabase/database.types.ts from a local database, in the
-// shape produced by `supabase gen types typescript` (tables only).
+// shape produced by `supabase gen types typescript` (tables and functions).
 // Used by scripts/db-local/run.sh --types when Docker is unavailable;
 // `pnpm db:types` (Supabase CLI) remains the reference when it is.
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const [input, output] = process.argv.slice(2)
+const [input, output, functionsInput] = process.argv.slice(2)
 const rows = JSON.parse(readFileSync(input, 'utf8'))
+const functions = functionsInput ? JSON.parse(readFileSync(functionsInput, 'utf8')) : []
 
 const scalar = {
   uuid: 'string',
@@ -74,13 +75,31 @@ ${ind(8)}Relationships: []
 ${ind(6)}}
 `
 }
+function functionsBlock() {
+  if (functions.length === 0) return '    Functions: { [_ in never]: never }'
+  const entries = functions.map((f) => {
+    const args =
+      f.args.length === 0
+        ? 'never'
+        : `{ ${f.args.map((a) => `${a.name}: ${tsType(a.type)}`).join('; ')} }`
+    const returns =
+      f.columns.length > 0
+        ? `{ ${f.columns.map((c) => `${c.name}: ${tsType(c.type)}`).join('; ')} }[]`
+        : f.returns === 'void'
+          ? 'undefined'
+          : `${tsType(f.returns)}${f.returns_set ? '[]' : ''}`
+    return `${ind(6)}${f.name}: {\n${ind(8)}Args: ${args}\n${ind(8)}Returns: ${returns}\n${ind(6)}}`
+  })
+  return `    Functions: {\n${entries.join('\n')}\n    }`
+}
+
 out += `    }
     Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
+${functionsBlock()}
     Enums: { [_ in never]: never }
     CompositeTypes: { [_ in never]: never }
   }
 }
 `
 writeFileSync(output, out)
-console.log(`types    ${tables.size} tables -> ${output}`)
+console.log(`types    ${tables.size} tables, ${functions.length} functions -> ${output}`)

@@ -184,6 +184,42 @@ export type Database = {
         }
         Relationships: []
       }
+      friend_invites: {
+        Row: {
+          owner_id: string
+          code: string
+          created_at: string
+        }
+        Insert: {
+          owner_id: string
+          code: string
+          created_at?: string
+        }
+        Update: {
+          owner_id?: string
+          code?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      friendships: {
+        Row: {
+          user_low: string
+          user_high: string
+          created_at: string
+        }
+        Insert: {
+          user_low: string
+          user_high: string
+          created_at?: string
+        }
+        Update: {
+          user_low?: string
+          user_high?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       goal_categories: {
         Row: {
           goal_id: string
@@ -660,7 +696,52 @@ export type Database = {
       }
     }
     Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
+    Functions: {
+      accept_friend_invite: {
+        Args: { invite_code: string }
+        Returns: string
+      }
+      app_flag: {
+        Args: { flag: string }
+        Returns: boolean
+      }
+      are_friends: {
+        Args: { a: string; b: string }
+        Returns: boolean
+      }
+      can_create_goal: {
+        Args: never
+        Returns: boolean
+      }
+      can_use_category: {
+        Args: { target_category_id: string }
+        Returns: boolean
+      }
+      goal_shared_with_me: {
+        Args: { target_owner_id: string; target_visibility: string }
+        Returns: boolean
+      }
+      invite_preview: {
+        Args: { invite_code: string }
+        Returns: { owner_id: string; display_name: string }[]
+      }
+      is_anonymous: {
+        Args: never
+        Returns: boolean
+      }
+      is_friend_goal: {
+        Args: { target_goal_id: string }
+        Returns: boolean
+      }
+      is_goal_owner: {
+        Args: { target_goal_id: string }
+        Returns: boolean
+      }
+      my_friends: {
+        Args: never
+        Returns: { friend_id: string; display_name: string; since: string }[]
+      }
+    }
     Enums: { [_ in never]: never }
     CompositeTypes: { [_ in never]: never }
   }

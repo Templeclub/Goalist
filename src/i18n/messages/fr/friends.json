@@ -1,0 +1,119 @@
+{
+  "title": "Amis",
+  "intro": "Partage les cartes que tu veux avec les personnes que tu choisis. Elles peuvent t’encourager, vouloir la même chose ou proposer leur aide.",
+  "noName": "Un ami sans pseudo",
+  "you": "Toi",
+  "needAccount": {
+    "title": "Il te faut un compte pour avoir des amis",
+    "body": "Ton carnet n’est gardé que sur cet appareil. Relie-le à ton adresse, puis invite qui tu veux.",
+    "action": "Garder mon carnet"
+  },
+  "invite": {
+    "title": "Inviter un ami",
+    "body": "Envoie ce lien à quelqu’un : en l’ouvrant, vous devenez amis. Il n’y a pas d’annuaire, personne ne peut te trouver autrement.",
+    "create": "Créer mon lien d’invitation",
+    "share": "Partager le lien",
+    "copy": "Copier le lien",
+    "copied": "Lien copié.",
+    "renew": "Renouveler le lien",
+    "renewed": "Nouveau lien prêt. L’ancien ne fonctionne plus.",
+    "shareText": "Rejoins-moi sur {appName} : on pourra se partager nos envies et s’encourager.",
+    "failed": "Le lien n’a pas pu être préparé. Réessaie dans un instant."
+  },
+  "activity": {
+    "title": "Sur tes cartes",
+    "empty": "Quand tes amis encourageront une de tes cartes partagées, tu le verras ici.",
+    "reaction": "{name} : {reaction} sur « {title} »",
+    "comment": "{name} a écrit sur « {title} » : {text}",
+    "interest": "{name} aimerait aussi « {title} »",
+    "offer": "{name} propose son aide pour « {title} »"
+  },
+  "feed": {
+    "title": "Leurs cartes",
+    "empty": "Aucune carte partagée pour l’instant. Tes amis choisissent eux-mêmes ce qu’ils partagent.",
+    "by": "Carte de {name}"
+  },
+  "list": {
+    "title": "Tes amis",
+    "empty": "Pas encore d’amis ici. Envoie ton lien d’invitation pour commencer.",
+    "shared": "{count, plural, =0 {Aucune carte partagée} one {# carte partagée} other {# cartes partagées}}",
+    "since": "Amis depuis le {date}",
+    "remove": "Retirer",
+    "removeConfirm": "Retirer {name} de tes amis ? Vos cartes partagées ne seront plus visibles l’un pour l’autre.",
+    "removeYes": "Retirer",
+    "removeNo": "Garder",
+    "removed": "C’est fait."
+  },
+  "acceptPage": {
+    "title": "Une invitation",
+    "from": "{name} t’invite à être ami·e sur {appName}.",
+    "fromUnknown": "Quelqu’un t’invite à être ami·e sur {appName}.",
+    "explain": "Vous pourrez voir les cartes que chacun choisit de partager, et vous encourager.",
+    "accept": "Accepter l’invitation",
+    "signIn": "Me connecter pour accepter",
+    "needAccount": "Il te faut un compte (gratuit) pour accepter.",
+    "notFound": "Ce lien n’est plus valable. Demande à ton ami de t’en envoyer un nouveau.",
+    "own": "C’est ton propre lien : envoie-le à quelqu’un d’autre.",
+    "done": "Vous êtes amis.",
+    "failed": "Ça n’a pas marché cette fois. Réessaie dans un instant."
+  },
+  "card": {
+    "back": "Amis",
+    "owner": "Carte de {name}",
+    "why": "Pourquoi c’est important",
+    "firstStep": "Premier pas",
+    "description": "Description"
+  },
+  "reactions": {
+    "label": "Encourager",
+    "bravo": "Bravo",
+    "courage": "Courage",
+    "inspire": "Ça m’inspire",
+    "count": "{label} · {count}"
+  },
+  "meToo": {
+    "label": "Moi aussi",
+    "on": "Tu aimerais aussi",
+    "copy": "Ajouter à mes cartes",
+    "copied": "Ajoutée à tes cartes.",
+    "open": "Voir ma carte"
+  },
+  "help": {
+    "title": "Je peux aider",
+    "placeholder": "Un conseil, un prêt, un coup de main…",
+    "send": "Proposer mon aide",
+    "sent": "Proposition envoyée. Seul ton ami la voit.",
+    "withdraw": "Retirer ma proposition",
+    "status": {
+      "open": "En attente",
+      "accepted": "Acceptée",
+      "declined": "Pas pour cette fois",
+      "withdrawn": "Retirée"
+    }
+  },
+  "comments": {
+    "title": "Messages",
+    "empty": "Pas encore de message.",
+    "label": "Ton message",
+    "placeholder": "Un mot d’encouragement…",
+    "send": "Envoyer",
+    "delete": "Supprimer le message",
+    "failed": "Le message n’est pas parti. Réessaie dans un instant."
+  },
+  "share": {
+    "legend": "Qui peut voir cette carte ?",
+    "private": "Moi seul",
+    "friends": "Mes amis",
+    "hint": "Tes amis voient la carte, son pourquoi, son premier pas et sa description. Jamais tes notes ni ton historique."
+  },
+  "own": {
+    "title": "Côté amis",
+    "nothing": "Rien pour l’instant. Tes amis peuvent t’encourager sur cette carte.",
+    "interested": "{count, plural, one {# ami aimerait aussi} other {# amis aimeraient aussi}}",
+    "offers": "Propositions d’aide",
+    "accept": "Accepter",
+    "decline": "Pas pour cette fois",
+    "reopen": "Revenir dessus"
+  },
+  "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant."
+}

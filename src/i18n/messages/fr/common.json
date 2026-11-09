@@ -6,13 +6,14 @@
   "nav": {
     "label": "Navigation principale",
     "home": "Accueil",
-    "goals": "Mes cartes",
+    "goals": "Cartes",
     "new": "Nouvelle carte",
     "me": "Moi",
     "search": "Rechercher",
     "collapse": "Replier la navigation",
     "expand": "Déplier la navigation",
-    "collection": "Collection"
+    "collection": "Collection",
+    "friends": "Amis"
   },
   "actions": {
     "keep": "Garder",

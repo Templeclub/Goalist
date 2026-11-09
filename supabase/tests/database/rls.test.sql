@@ -144,10 +144,10 @@ select pg_temp.act_as('b0000000-0000-4000-8000-000000000002');
 select is((select count(*)::int from public.goals), 0, 'a "community" wish stays private while sharing is closed');
 reset role;
 
--- The modelled rule works once the flag is opened (future phase).
+-- Sharing is open for friends only (D-064): « community » stays closed.
 update public.app_flags set enabled = true where key = 'sharing_enabled';
 select pg_temp.act_as('b0000000-0000-4000-8000-000000000002');
-select is((select count(*)::int from public.goals), 1, 'with sharing opened, Bob would see a community wish');
+select is((select count(*)::int from public.goals), 0, 'the community stays closed even with sharing opened (D-064)');
 reset role;
 select pg_temp.act_as('c0000000-0000-4000-8000-000000000003', true);
 select is((select count(*)::int from public.goals), 0, 'anonymous sessions never see community wishes');

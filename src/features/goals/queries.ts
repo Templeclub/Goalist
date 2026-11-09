@@ -5,7 +5,7 @@ import { categoryHue } from './palette'
 import { byPriority, needsEarlyStart } from './priority'
 import type { CategoryKey, CompletenessLevel, GoalStatus } from './schema'
 
-const cardColumns =
+export const cardColumns =
   'id, title, tagline, emoji, hue, horizon, preparation, budget_level, first_step, status, status_changed_at, completeness_level, missing_sections, completion_dismissed_at, updated_at, created_at, version, goal_categories(position, categories(key, label, hue))' as const
 
 export type GoalSummary = {
@@ -33,7 +33,7 @@ export type GoalSummary = {
   version: number
 }
 
-type Row = {
+export type Row = {
   id: string
   title: string
   tagline: string | null
@@ -57,7 +57,7 @@ type Row = {
   }[]
 }
 
-function toSummary(row: Row): GoalSummary {
+export function toSummary(row: Row): GoalSummary {
   const ordered = (row.goal_categories ?? []).toSorted((a, b) => a.position - b.position)
   const first = ordered[0]?.categories
   return {

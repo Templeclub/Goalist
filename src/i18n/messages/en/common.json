@@ -6,13 +6,14 @@
   "nav": {
     "label": "Main navigation",
     "home": "Home",
-    "goals": "My cards",
+    "goals": "Cards",
     "new": "New card",
     "me": "Me",
     "search": "Search",
     "collapse": "Collapse navigation",
     "expand": "Expand navigation",
-    "collection": "Collection"
+    "collection": "Collection",
+    "friends": "Friends"
   },
   "actions": {
     "keep": "Keep",
