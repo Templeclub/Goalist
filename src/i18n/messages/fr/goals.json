@@ -65,16 +65,27 @@
     "letGo": "Cette carte est rangée. Elle reste dans ta collection si tu veux y repenser.",
     "plan": "Pour y arriver",
     "actions": {
-      "convert": "C’est fait : convertir la carte",
+      "convert": "C’est fait : convertir la carte ★",
       "converted": "Carte acquise ! Elle rejoint ta collection.",
       "seeCollection": "Voir ma collection",
       "undoConvert": "Annuler la conversion",
       "store": "Ranger la carte",
       "stored": "Carte rangée. Tu peux la ressortir quand tu veux.",
       "undoStore": "La ressortir",
-      "reopen": "Remettre à convertir",
+      "reopen": "Remettre en cours",
       "takeOut": "Ressortir la carte",
-      "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant."
+      "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant.",
+      "track": "Suivi",
+      "stepOf": "Étape {current} sur {total}",
+      "goTo": "Passer à l’étape : {step}",
+      "advance": "Avancer : {step} →",
+      "resume": "Reprendre : En cours →",
+      "pause": "Mettre en pause"
+    },
+    "journal": {
+      "title": "Journal de la carte",
+      "kept": "Carte gardée",
+      "moved": "→ {status}"
     }
   },
   "history": {

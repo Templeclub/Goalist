@@ -117,7 +117,7 @@ describe('SheetEditor', () => {
     renderWithIntl(
       <SheetEditor data={data} section="first-steps" send={send} sendValues={vi.fn()} />,
     )
-    fireEvent.click(screen.getByRole('radio', { name: 'Envie confirmée' }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Confirmée' }))
     await act(() => vi.advanceTimersByTimeAsync(800))
     expect(send.mock.calls[0]?.[0]).toEqual({ status: 'confirmed' })
     fireEvent.click(screen.getByRole('button', { name: 'Garder et revenir à la page' }))
