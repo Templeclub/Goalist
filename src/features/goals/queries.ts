@@ -177,6 +177,8 @@ export async function homeRecommendations() {
   return {
     total: goals.length,
     soon,
+    /** Shown instead of "soon" when nothing is near: the latest cards touched. */
+    recent: goals.slice(0, 4),
     prepare,
     lastAcquired: lastRow ? toSummary(lastRow) : null,
   }
