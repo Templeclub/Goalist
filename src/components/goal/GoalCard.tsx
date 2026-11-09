@@ -1,46 +1,51 @@
 import { Clock, Hourglass } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useFormatter, useTranslations } from 'next-intl'
 import { categoryEmoji } from '@/features/goals/auto-classify'
-import { needsEarlyStart } from '@/features/goals/priority'
 import { categoryHue } from '@/features/goals/palette'
-import type { CategoryKey, GoalStatus, Horizon } from '@/features/goals/schema'
+import { needsEarlyStart } from '@/features/goals/priority'
+import { gemCount, rarityOf } from '@/features/goals/rarity'
+import type { CategoryKey, CompletenessLevel, GoalStatus, Horizon } from '@/features/goals/schema'
 import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
 import { Skeleton } from '../ui/Skeleton'
-import { CategoryPill } from './CategoryPill'
 import { StatusPill } from './StatusPill'
 import { toneProps } from './tone'
 
 export type GoalCardData = {
   title: string
   emoji?: string | null
-  /** System categories, in order. The first gives the ribbon its hue. */
+  /** System categories, in order. The first gives the card its series and colour. */
   categories?: readonly CategoryKey[]
   /** A personal first category (label + hue), shown when there is no system one. */
   customCategory?: { label: string; hue: number | null } | null
   status?: GoalStatus | null
   horizon?: string | null
   preparation?: string | null
-  /** Ribbon colour when no system category gives one (personal category, legacy colour). */
+  budgetLevel?: string | null
+  firstStep?: string | null
+  completenessLevel?: CompletenessLevel | null
+  /** Set once the card is acquired (status done): its number in the collection and date. */
+  acquired?: { number: number; at: string } | null
+  /** Colour when no category gives one (legacy wish colour). */
   hue?: number | null
 }
 
 type GoalCardProps = GoalCardData & {
   href?: string
-  /** "large" on the home screen, "compact" in the list grid. */
-  size?: 'large' | 'compact'
-  /** Plays the gentle landing bounce (just kept). */
+  /** "compact" in grids, "large" on the home screen, "hero" on the card's own page. */
+  size?: 'compact' | 'large' | 'hero'
+  /** Plays the gentle landing bounce (just kept or just converted). */
   justKept?: boolean
-  headingLevel?: 'h2' | 'h3' | 'h4'
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4'
   className?: string
 }
 
-const badgeClass =
-  'inline-flex min-h-7 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-[0.8125rem] leading-tight font-semibold'
+const activeStatuses = new Set(['preparing', 'in_progress', 'paused'])
 
 /**
- * The wish card: a notebook page with a bookmark ribbon in the category's hue, the
- * category, when it is for and whether it needs preparing early (D-061).
+ * A wish as a collectible card (D-062): its series (category) colours the frame and the art,
+ * its rarity (preparation, budget, horizon) shows as gems. A sketch waits to be revealed;
+ * a done wish is an acquired card, numbered in the collection; a let-go one is put away.
  */
 export function GoalCard({
   title,
@@ -50,6 +55,10 @@ export function GoalCard({
   status,
   horizon,
   preparation,
+  budgetLevel,
+  firstStep,
+  completenessLevel,
+  acquired,
   hue: fallbackHue,
   href,
   size = 'large',
@@ -58,89 +67,172 @@ export function GoalCard({
   className,
 }: GoalCardProps) {
   const t = useTranslations('goal.card')
-  const tHorizon = useTranslations('goal.horizonShort')
+  const tGoal = useTranslations('goal')
+  const format = useFormatter()
   const first = categories[0]
   const hue = first ? categoryHue[first] : (customCategory?.hue ?? fallbackHue ?? null)
-  const compact = size === 'compact'
-  const shownEmoji = emoji ?? (first ? categoryEmoji[first] : null)
-  const showStatus = status && status !== 'idea'
+  const isAcquired = status === 'done'
+  const isStored = status === 'let_go'
+  const isSketch = !isAcquired && !isStored && completenessLevel === 'sketch'
+  const rarity = rarityOf({ preparation, budget_level: budgetLevel, horizon })
+  const gems = gemCount(rarity)
+  const series = first ? tGoal(`categories.${first}`) : (customCategory?.label ?? t('noSeries'))
+  const shownEmoji = emoji ?? (first ? categoryEmoji[first] : '✨')
   const early = needsEarlyStart({ horizon, preparation, status })
+  const compact = size === 'compact'
+  const hero = size === 'hero'
+  const titleNode = title || t('untitled')
 
   return (
     <article
       {...toneProps(hue)}
+      data-state={isAcquired ? 'acquired' : isStored ? 'stored' : isSketch ? 'sketch' : 'active'}
       className={cn(
-        'relative grid content-start gap-1.5 rounded-card border border-card-border bg-card shadow-card',
-        compact ? 'py-3.5 pr-9 pl-3.5' : 'py-4 pr-12 pl-4.5',
-        'transition-shadow duration-150 has-[a:hover]:shadow-[0_1px_2px_rgb(0_0_0/0.06),0_12px_28px_-12px_rgb(70_45_25/0.3)]',
-        'has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent',
+        'relative grid content-start rounded-card border-[3px] text-ink',
+        isSketch ? 'border-dashed border-line-strong bg-card' : 'border-outline shadow-pop',
+        isAcquired ? 'bg-acquired' : !isSketch && 'bg-tone-bg',
+        isStored && 'opacity-80 saturate-50',
+        compact ? 'gap-1.5 p-2.5' : hero ? 'gap-3 p-4' : 'gap-2 p-3',
+        'transition-transform duration-150 has-[a:hover]:-translate-y-0.5',
+        'has-[a:focus-visible]:outline-[3px] has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-accent',
         justKept && 'animate-land',
         className,
       )}
     >
-      <span
-        aria-hidden="true"
-        className={cn(
-          'signet absolute -top-1.5 rounded-t-[2px]',
-          compact ? 'right-3 h-7 w-3' : 'right-4.5 h-9 w-4',
-        )}
-      />
-      {shownEmoji && (
-        <span aria-hidden="true" className={cn('leading-none', compact ? 'text-xl' : 'text-2xl')}>
-          {shownEmoji}
+      {isAcquired && (
+        <span
+          className={cn(
+            'absolute -top-3 -right-2.5 z-10 rotate-6 rounded-full border-[2.5px] border-outline bg-gilt px-2.5 py-0.5 font-display font-extrabold text-on-gilt',
+            compact ? 'text-xs' : 'text-sm',
+          )}
+        >
+          {t('acquiredSticker')}
         </span>
       )}
-      <Heading
+
+      <div className="flex items-start justify-between gap-2">
+        <Heading
+          className={cn(
+            'min-w-0 font-display leading-[1.05] font-extrabold break-words',
+            compact ? 'line-clamp-3 text-[1.0625rem]' : hero ? 'text-3xl' : 'text-xl',
+          )}
+        >
+          {href ? (
+            <Link
+              href={href}
+              className="outline-none after:absolute after:inset-0 after:rounded-card"
+            >
+              {titleNode}
+            </Link>
+          ) : (
+            titleNode
+          )}
+        </Heading>
+        {!isSketch && (
+          <span
+            className="flex shrink-0 gap-0.5 pt-1.5 text-tone-fg"
+            role="img"
+            aria-label={t('rarityLabel', { rarity: tGoal(`rarity.${rarity}`) })}
+          >
+            {Array.from({ length: gems }, (_, i) => (
+              <span
+                key={i}
+                className={cn(
+                  'rotate-45 rounded-[2px] bg-current',
+                  compact ? 'size-1.5' : 'size-2',
+                )}
+              />
+            ))}
+          </span>
+        )}
+      </div>
+
+      <div
+        aria-hidden="true"
         className={cn(
-          'font-display leading-tight font-medium tracking-[-0.005em] break-words',
-          compact ? 'line-clamp-4 text-[1.0625rem]' : 'text-lg',
+          'grid place-items-center rounded-[calc(var(--r-card)-6px)] border-[2.5px] leading-none',
+          isSketch ? 'card-art-sketch border-line-strong' : 'border-outline',
+          isAcquired ? 'holo' : !isSketch && 'bg-tone-ribbon',
+          compact ? 'h-20 text-4xl' : hero ? 'h-44 text-7xl' : 'h-28 text-5xl',
         )}
       >
-        {href ? (
-          <Link
-            href={href}
-            className="outline-none after:absolute after:inset-0 after:rounded-card"
-          >
-            {title || t('untitled')}
-          </Link>
-        ) : (
-          title || t('untitled')
+        <span className={cn(isSketch && 'opacity-60 grayscale')}>{shownEmoji}</span>
+      </div>
+
+      <p
+        className={cn(
+          'font-extrabold tracking-wide uppercase',
+          compact ? 'text-[0.6875rem]' : 'text-xs',
         )}
-      </Heading>
-      {(first || customCategory || horizon || early || showStatus) && (
-        <div className="mt-1 flex min-w-0 flex-wrap gap-1.5">
-          {first ? (
-            <CategoryPill
-              category={first}
-              className={cn('max-w-full', compact && 'text-[0.8125rem]')}
-            />
-          ) : customCategory ? (
-            <CategoryPill
-              custom={customCategory}
-              className={cn('max-w-full', compact && 'text-[0.8125rem]')}
-            />
-          ) : null}
+      >
+        {isSketch
+          ? `${series} · ${t('sketch')}`
+          : isStored
+            ? `${series} · ${t('stored')}`
+            : `${series} · ${tGoal(`rarity.${rarity}`)}`}
+      </p>
+
+      {!isSketch && !isAcquired && (horizon || (status && activeStatuses.has(status))) && (
+        <div className="flex min-w-0 flex-wrap items-center gap-1.5">
           {horizon && (
-            <span className={cn(badgeClass, 'border border-line-strong text-ink-2')}>
+            <span
+              className={cn(
+                'inline-flex items-center gap-1 font-bold text-ink-2',
+                compact ? 'text-[0.75rem]' : 'text-sm',
+              )}
+            >
               <Clock aria-hidden="true" className="size-3.5 shrink-0" />
               <span className="sr-only">{t('horizon')}</span>
-              {tHorizon(horizon as Horizon)}
+              {tGoal(`horizonShort.${horizon as Horizon}`)}
             </span>
           )}
-          {early && (
-            <span {...toneProps('accent')} className={cn(badgeClass, 'bg-tone-bg text-tone-fg')}>
-              <Hourglass aria-hidden="true" className="size-3.5 shrink-0" />
-              {t('prepareEarly')}
-            </span>
-          )}
-          {showStatus && (
-            <StatusPill
-              status={status}
-              className={cn('max-w-full', compact && 'text-[0.8125rem]')}
-            />
+          {status && activeStatuses.has(status) && (
+            <StatusPill status={status} className={cn(compact && 'min-h-6 text-[0.75rem]')} />
           )}
         </div>
       )}
+
+      {isAcquired && acquired && (
+        <p className={cn('font-extrabold text-ink-2', compact ? 'text-[0.75rem]' : 'text-sm')}>
+          {t('acquiredOn', {
+            number: String(acquired.number).padStart(3, '0'),
+            date: format.dateTime(new Date(acquired.at), { dateStyle: 'medium' }),
+          })}
+        </p>
+      )}
+
+      {isSketch ? (
+        href ? (
+          <p
+            className={cn(
+              'mt-auto font-extrabold text-accent-strong',
+              compact ? 'text-xs' : 'text-sm',
+            )}
+          >
+            {t('reveal')}
+          </p>
+        ) : null
+      ) : !isAcquired && !isStored && (early || firstStep) ? (
+        <p
+          className={cn(
+            'mt-auto flex items-start gap-1 rounded-[10px] border-2 border-outline bg-card px-2 py-1 leading-snug font-bold',
+            compact ? 'text-[0.75rem]' : 'text-sm',
+          )}
+        >
+          {early ? (
+            <>
+              <Hourglass aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+              {t('prepareEarly')}
+            </>
+          ) : (
+            <>
+              <span aria-hidden="true">▶</span>
+              <span className="sr-only">{t('firstStep')}</span>
+              <span className={cn(compact && 'line-clamp-2')}>{firstStep}</span>
+            </>
+          )}
+        </p>
+      ) : null}
     </article>
   )
 }
@@ -150,17 +242,14 @@ export function GoalCardSkeleton({ className }: { className?: string }) {
     <div
       aria-hidden="true"
       className={cn(
-        'grid gap-2.5 rounded-card border border-card-border bg-card p-4 shadow-card',
+        'grid gap-2.5 rounded-card border-[3px] border-dashed border-line-strong bg-card p-3',
         className,
       )}
     >
-      <Skeleton className="size-6 rounded-full" />
       <Skeleton className="h-5 w-4/5" />
+      <Skeleton className="h-20 w-full rounded-md" />
       <Skeleton className="h-4 w-3/5" />
-      <div className="mt-1 flex gap-1.5">
-        <Skeleton className="h-7 w-24 rounded-full" />
-        <Skeleton className="h-7 w-16 rounded-full" />
-      </div>
+      <Skeleton className="h-7 w-full rounded-md" />
     </div>
   )
 }

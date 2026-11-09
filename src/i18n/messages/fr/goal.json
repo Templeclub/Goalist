@@ -19,9 +19,9 @@
     "confirmed": "Envie confirmée",
     "preparing": "En préparation",
     "in_progress": "En cours",
-    "done": "Réalisé",
+    "done": "Acquise",
     "paused": "En pause",
-    "let_go": "Lâché consciemment"
+    "let_go": "Rangée"
   },
   "values": {
     "freedom": "Liberté",
@@ -114,7 +114,15 @@
     "untitled": "Envie sans titre",
     "cancel": "Annuler",
     "horizon": "Horizon :",
-    "prepareEarly": "À anticiper"
+    "prepareEarly": "À anticiper",
+    "acquiredSticker": "Acquise !",
+    "acquiredOn": "n° {number} · {date}",
+    "sketch": "Esquisse",
+    "reveal": "Révéler la carte →",
+    "stored": "Rangée",
+    "noSeries": "Sans série",
+    "rarityLabel": "Rareté : {rarity}",
+    "firstStep": "Premier pas :"
   },
   "seasonOfDate": {
     "spring": "Printemps",
@@ -137,5 +145,12 @@
     "medium": "Cette année, 3 à 12 mois",
     "long": "Plus tard, plus d’un an",
     "someday": "Un jour"
+  },
+  "rarity": {
+    "common": "Commune",
+    "uncommon": "Peu commune",
+    "rare": "Rare",
+    "epic": "Épique",
+    "legendary": "Légendaire"
   }
 }

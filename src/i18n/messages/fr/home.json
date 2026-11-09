@@ -8,25 +8,35 @@
   "capture": {
     "cta": "J’aimerais…"
   },
-  "recent": {
-    "title": "Tes dernières envies",
-    "seeAll": "Tout voir"
-  },
   "toComplete": {
-    "title": "Fiches à compléter",
-    "intro": "{count, plural, one {Une envie attend} other {# envies attendent}} un peu d’attention, quand tu veux.",
-    "couldAdd": "Il reste de la place pour une description",
-    "action": "Compléter",
-    "seeAll": "Voir toutes les fiches à compléter"
+    "title": "Cartes à révéler",
+    "intro": "{count, plural, one {Une carte attend} other {# cartes attendent}} d’être révélées, quand tu veux.",
+    "couldAdd": "Un pourquoi ou un horizon suffit à la révéler",
+    "action": "Révéler",
+    "seeAll": "Voir toutes les cartes à révéler"
   },
   "empty": {
-    "title": "Ton carnet est prêt.",
-    "body": "Une envie, même petite, suffit pour commencer.",
+    "title": "Ton deck est prêt.",
+    "body": "Une envie, même petite, devient ta première carte.",
     "examples": {
       "stars": "Dormir une nuit à la belle étoile",
       "bread": "Apprendre à faire son pain",
       "letter": "Écrire à une vieille amie"
     },
     "cta": "Écrire une envie"
+  },
+  "soon": {
+    "title": "À convertir bientôt",
+    "seeAll": "Toutes mes cartes",
+    "intro": "Horizon proche ou déjà commencées : elles sont à portée de main.",
+    "empty": "Donne l’horizon « Bientôt » à une carte, ou commence-la : elle apparaîtra ici."
+  },
+  "prepare": {
+    "title": "À préparer dès maintenant",
+    "intro": "Des cartes rares qui demandent du temps : plus tôt on s’y met, plus elles deviennent faciles."
+  },
+  "last": {
+    "title": "Dernière carte acquise",
+    "seeAll": "Ma collection"
   }
 }

@@ -47,7 +47,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
   return (
     <div className="grid gap-6">
       <div className="grid gap-2">
-        <h1 className="font-display text-2xl font-medium">
+        <h1 className="font-display text-2xl font-bold">
           {converting ? t('titleConvert') : t('title')}
         </h1>
         <p className="text-md text-ink-2">{converting ? t('leadConvert') : t('lead')}</p>

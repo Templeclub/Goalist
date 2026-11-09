@@ -52,7 +52,7 @@ function SideNavView({
           >
             {appName.charAt(0)}
           </span>
-          {!collapsed && <span className="font-display text-lg font-medium">{appName}</span>}
+          {!collapsed && <span className="font-display text-lg font-bold">{appName}</span>}
         </span>
         <IconButton
           label={collapsed ? t('expand') : t('collapse')}

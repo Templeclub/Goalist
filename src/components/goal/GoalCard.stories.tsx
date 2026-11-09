@@ -2,19 +2,23 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { GoalCard, GoalCardSkeleton } from './GoalCard'
 
 const meta = {
-  title: 'Envies/GoalCard',
+  title: 'Envies/GoalCard (carte à collectionner)',
   component: GoalCard,
   parameters: { layout: 'padded' },
   args: {
-    title: 'Dormir une nuit à la belle étoile',
+    title: 'Dormir à la belle étoile',
     emoji: '🏕️',
     categories: ['travel'],
     status: 'confirmed',
-    horizon: 'medium',
+    horizon: 'short',
+    preparation: 'medium',
+    budgetLevel: 'low',
+    firstStep: 'Repérer un bivouac autorisé',
+    completenessLevel: 'on_track',
   },
   decorators: [
     (Story) => (
-      <div className="max-w-sm">
+      <div className="max-w-xs p-3">
         <Story />
       </div>
     ),
@@ -24,26 +28,41 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Large: Story = {}
-export const AvecLien: Story = { name: 'Cliquable', args: { href: '/goals/123' } }
-export const Compacte: Story = { args: { size: 'compact' } }
-export const AAnticiper: Story = {
-  name: 'À anticiper',
-  args: { horizon: 'long', preparation: 'heavy', status: 'idea' },
+export const AConvertir: Story = { name: 'À convertir' }
+export const Compacte: Story = { args: { size: 'compact', href: '/goals/1' } }
+export const Hero: Story = { args: { size: 'hero', headingLevel: 'h1' } }
+export const Esquisse: Story = {
+  args: { completenessLevel: 'sketch', href: '/goals/1', horizon: null, firstStep: null },
 }
+export const Legendaire: Story = {
+  name: 'Légendaire, à anticiper',
+  args: {
+    title: 'Apprendre le violoncelle',
+    emoji: '🎸',
+    categories: ['creative'],
+    preparation: 'very_heavy',
+    budgetLevel: 'medium',
+    horizon: 'long',
+  },
+}
+export const Acquise: Story = {
+  args: {
+    title: 'Courir 5 km d’affilée',
+    emoji: '🏃',
+    categories: ['sport_health'],
+    status: 'done',
+    acquired: { number: 7, at: '2026-08-03T10:00:00Z' },
+  },
+}
+export const Rangee: Story = { name: 'Rangée', args: { status: 'let_go' } }
 export const CategoriePerso: Story = {
-  name: 'Catégorie personnelle',
+  name: 'Série personnelle',
   args: { categories: [], customCategory: { label: 'Astronomie', hue: 240 }, emoji: '🔭' },
 }
-export const Esquisse: Story = {
-  name: 'Esquisse (titre seul)',
-  args: { emoji: null, categories: [], status: 'idea', horizon: null },
-}
-export const JusteGardee: Story = { name: 'Juste gardée', args: { justKept: true } }
 
-/** The list grid: two cards per row on a phone, more on a wider screen. */
+/** The deck grid: two cards per row on a phone, more on a wider screen. */
 export const Grille: Story = {
-  name: 'Grille (liste)',
+  name: 'Grille (deck)',
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
@@ -53,40 +72,58 @@ export const Grille: Story = {
     ),
   ],
   render: () => (
-    <div className="grid w-full grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
       <GoalCard
         size="compact"
-        title="Dormir une nuit à la belle étoile"
+        href="/goals/1"
+        title="Dormir à la belle étoile"
         emoji="🏕️"
         categories={['travel']}
-        status="confirmed"
         horizon="short"
+        preparation="medium"
+        budgetLevel="low"
+        firstStep="Repérer un bivouac"
+        completenessLevel="on_track"
       />
       <GoalCard
         size="compact"
-        title="Apprendre le violoncelle"
-        emoji="🎸"
-        categories={['creative']}
-        status="idea"
-        horizon="long"
-        preparation="very_heavy"
-      />
-      <GoalCard
-        size="compact"
-        title="Organiser un repas de quartier avec toute la rue et les voisins d’en face"
-        emoji="🥂"
-        categories={['social']}
-        status="preparing"
+        href="/goals/2"
+        title="Le tour du Mont-Blanc"
+        emoji="🥾"
+        categories={['sport_health']}
         horizon="medium"
+        preparation="heavy"
+        budgetLevel="medium"
+        completenessLevel="well_filled"
       />
       <GoalCard
         size="compact"
+        href="/goals/3"
+        title="Écrire à une vieille amie"
+        emoji="✍️"
+        categories={['creative']}
+        completenessLevel="sketch"
+      />
+      <GoalCard
+        size="compact"
+        href="/goals/4"
+        title="Repeindre la chambre"
+        emoji="🏡"
+        categories={['home']}
+        status="in_progress"
+        horizon="short"
+        firstStep="Choisir la couleur"
+        completenessLevel="on_track"
+      />
+      <GoalCard
+        size="compact"
+        href="/goals/5"
         title="Courir 5 km d’affilée"
         emoji="🏃"
         categories={['sport_health']}
         status="done"
+        acquired={{ number: 7, at: '2026-08-03T10:00:00Z' }}
       />
-      <GoalCard size="compact" title="Une idée en vrac" />
       <GoalCardSkeleton />
     </div>
   ),

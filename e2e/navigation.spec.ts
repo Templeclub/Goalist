@@ -17,16 +17,16 @@ test.describe('Premiers pas (sans compte)', () => {
     await page.getByRole('button', { name: 'Continuer' }).click()
     await page.getByRole('button', { name: 'Écrire ma première envie' }).click()
     await expect(page).toHaveURL(/\/home$/)
-    await expect(page.getByRole('heading', { name: 'Ton carnet est prêt.' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ton deck est prêt.' })).toBeVisible()
   })
 
   test('la capture s’ouvre avec « + » et avec la touche N', async ({ page, isMobile }) => {
     await page.goto('/home')
-    await expect(page.getByRole('heading', { name: 'Ton carnet est prêt.' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Ton deck est prêt.' })).toBeVisible()
     if (isMobile) {
       await page
         .getByRole('navigation', { name: 'Navigation principale' })
-        .getByRole('button', { name: 'Nouvelle envie' })
+        .getByRole('button', { name: 'Nouvelle carte' })
         .click()
     } else {
       await page.keyboard.press('n')
@@ -73,7 +73,15 @@ test.describe('Premiers pas (sans compte)', () => {
     ).toBeVisible()
   })
 
-  for (const path of ['/welcome', '/home', '/goals', '/me', '/sign-in', '/privacy']) {
+  for (const path of [
+    '/welcome',
+    '/home',
+    '/goals',
+    '/collection',
+    '/me',
+    '/sign-in',
+    '/privacy',
+  ]) {
     for (const colorScheme of ['light', 'dark'] as const) {
       test(`${path} respecte WCAG 2.2 AA (${colorScheme === 'light' ? 'clair' : 'sombre'})`, async ({
         page,

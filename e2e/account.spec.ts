@@ -22,5 +22,5 @@ test('supprimer son compte efface tout, après une confirmation tapée', async (
   await expect(page.getByText('Ton compte et toutes tes données ont été supprimés.')).toBeVisible()
 
   await page.goto('/goals')
-  await expect(page.getByRole('heading', { name: 'Ton carnet est prêt.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Ton deck est prêt.' })).toBeVisible()
 })

@@ -24,13 +24,13 @@ export default async function PrivacyPage({ params }: PageProps<'/[locale]/priva
         <Link href="/home" className="text-[0.9375rem] font-semibold text-accent-strong">
           {tNav('home')}
         </Link>
-        <h1 className="font-display text-3xl font-medium">{t('title')}</h1>
+        <h1 className="font-display text-3xl font-bold">{t('title')}</h1>
         <p className="text-sm text-ink-3">
           {t('draft', { date: format.dateTime(DRAFT_DATE, 'short') })}
         </p>
         {sections.map((key) => (
           <section key={key} className="grid gap-2">
-            <h2 className="font-display text-lg font-medium">{t(`sections.${key}.title`)}</h2>
+            <h2 className="font-display text-lg font-bold">{t(`sections.${key}.title`)}</h2>
             <p className="text-md text-ink-2">{t(`sections.${key}.body`)}</p>
           </section>
         ))}

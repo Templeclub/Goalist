@@ -32,7 +32,7 @@ describe('messages', () => {
   it('falls back to French for missing English messages', async () => {
     const en = await loadMessages('en')
     expect(en.common.actions.keep).toBe('Keep')
-    expect(en.goal.statuses.let_go).toBe(frMessages.goal.statuses.let_go)
+    expect(en.goal.statuses.idea).toBe(frMessages.goal.statuses.idea)
   })
 
   it('avoids the guilt-inducing vocabulary listed in docs/principles.md', () => {

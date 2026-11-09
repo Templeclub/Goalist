@@ -1,18 +1,16 @@
-import { ChevronDown, ChevronLeft, Clock, Hourglass } from 'lucide-react'
+import { ChevronDown, ChevronLeft } from 'lucide-react'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { CategoryPill } from '@/components/goal/CategoryPill'
-import { StatusPill } from '@/components/goal/StatusPill'
-import { toneProps } from '@/components/goal/tone'
+import { CardActions } from '@/components/goal/CardActions'
+import { cardProps } from '@/components/goal/card-props'
+import { GoalCard } from '@/components/goal/GoalCard'
 import { RichTextView } from '@/components/sheet/RichTextView'
 import { buttonVariants } from '@/components/ui/Button'
 import { getViewer } from '@/features/auth/session'
-import { categoryHue } from '@/features/goals/palette'
-import { getGoalSheet } from '@/features/goals/queries'
+import { acquiredNumber, getGoalSheet } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import type { ValueKey } from '@/features/goals/schema'
-import { needsEarlyStart } from '@/features/goals/priority'
-import type { Horizon } from '@/features/goals/schema'
 import { firstSectionToComplete, sectionForMissing } from '@/features/goals/sections'
 import { factRows } from './[id]/facts'
 import { Link } from '@/i18n/navigation'
@@ -52,7 +50,7 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
       <>
         {!embedded && <BackLink label={t('back')} />}
         <section className="mx-auto grid max-w-3xl justify-items-start gap-4 px-6 pt-12 md:px-10">
-          <h1 className="font-display text-2xl font-medium">{t('notFound')}</h1>
+          <h1 className="font-display text-2xl font-bold">{t('notFound')}</h1>
           <Link
             href="/goals"
             className="font-semibold text-accent-strong underline-offset-2 hover:underline"
@@ -64,7 +62,6 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
     )
   }
 
-  const firstCategory = goal.categoryItems[0]
   const facts = factRows(goal.qualify, tGoal, format)
   const doc = RichDoc.safeParse(goal.descriptionDoc)
   const hasImagine = doc.success || goal.imaginedOutcome || goal.whereWith
@@ -74,11 +71,7 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
     ...new Set(goal.missingSections.map((m) => sectionForMissing[m]).filter(Boolean)),
   ] as NonNullable<(typeof sectionForMissing)[string]>[]
   const completeHref = `/goals/${goal.id}/edit/${firstSectionToComplete(goal.missingSections)}`
-  const early = needsEarlyStart({
-    horizon: goal.qualify.horizon,
-    preparation: goal.qualify.preparation,
-    status: goal.status,
-  })
+  const number = goal.status === 'done' ? await acquiredNumber(goal) : undefined
 
   const section = (title: string, children: ReactNode) => (
     <details open className="group border-t border-line pt-3">
@@ -97,49 +90,25 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
     <>
       {!embedded && <BackLink label={t('back')} />}
       <article className="relative mx-auto grid max-w-3xl gap-6 px-6 pt-6 pb-36 md:px-10 md:pb-16">
-        <span
-          {...toneProps(
-            firstCategory
-              ? firstCategory.key
-                ? categoryHue[firstCategory.key]
-                : firstCategory.hue
-              : goal.hue,
+        <header className="grid gap-5">
+          <GoalCard
+            size="hero"
+            headingLevel="h1"
+            className="mx-auto w-full max-w-sm"
+            {...cardProps(goal, number)}
+          />
+          <CardActions goalId={goal.id} version={goal.version} status={goal.status} />
+          {goal.categoryItems.length > 1 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {goal.categoryItems.map((c) =>
+                c.key ? (
+                  <CategoryPill key={c.id} category={c.key} />
+                ) : (
+                  <CategoryPill key={c.id} custom={{ label: c.label ?? '', hue: c.hue }} />
+                ),
+              )}
+            </div>
           )}
-          aria-hidden="true"
-          className="signet absolute top-0 right-7 h-22 w-5.5"
-        />
-        <header className="grid gap-3 pr-10">
-          {goal.emoji && (
-            <span aria-hidden="true" className="text-[2.625rem] leading-none">
-              {goal.emoji}
-            </span>
-          )}
-          <h1 className="font-display text-3xl font-medium tracking-[-0.015em]">{goal.title}</h1>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={goal.status} />
-            {goal.categoryItems.map((c) =>
-              c.key ? (
-                <CategoryPill key={c.id} category={c.key} />
-              ) : (
-                <CategoryPill key={c.id} custom={{ label: c.label ?? '', hue: c.hue }} />
-              ),
-            )}
-            {goal.qualify.horizon && (
-              <span className="inline-flex min-h-7 items-center gap-1.5 rounded-full border border-line-strong px-2.5 py-0.5 text-sm font-semibold text-ink-2">
-                <Clock aria-hidden="true" className="size-4" />
-                {tGoal(`horizonShort.${goal.qualify.horizon as Horizon}`)}
-              </span>
-            )}
-            {early && (
-              <span
-                {...toneProps('accent')}
-                className="inline-flex min-h-7 items-center gap-1.5 rounded-full bg-tone-bg px-2.5 py-0.5 text-sm font-semibold text-tone-fg"
-              >
-                <Hourglass aria-hidden="true" className="size-4" />
-                {tGoal('card.prepareEarly')}
-              </span>
-            )}
-          </div>
         </header>
 
         {goal.status === 'let_go' && (

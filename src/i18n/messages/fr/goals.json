@@ -1,16 +1,16 @@
 {
   "list": {
-    "title": "Mes envies",
-    "count": "{count, plural, one {# envie} other {# envies}}",
-    "search": "Rechercher dans mes envies",
-    "searchPlaceholder": "Un mot, un lieu, une idée…",
+    "title": "Mes cartes",
+    "count": "{count, plural, =0 {Aucune carte à convertir} one {# carte à convertir} other {# cartes à convertir}}",
+    "search": "Rechercher dans mes cartes",
+    "searchPlaceholder": "Un mot, une série, une idée…",
     "clearSearch": "Effacer la recherche",
     "quick": {
       "label": "Filtres rapides",
       "soon": "Bientôt",
       "prepare_early": "À anticiper",
       "no_budget": "Sans budget",
-      "to_complete": "À compléter"
+      "to_complete": "À révéler"
     },
     "filters": "Filtres",
     "filtersActive": "Filtres ({count})",
@@ -41,7 +41,7 @@
     "undoDismiss": "La proposer à nouveau"
   },
   "detail": {
-    "back": "Mes envies",
+    "back": "Mes cartes",
     "titleLabel": "Titre de l’envie",
     "emojiLabel": "Emoji de l’envie",
     "emojiPlaceholder": "🙂",
@@ -62,8 +62,20 @@
     "history": "Historique",
     "openLink": "{title} (s’ouvre dans un nouvel onglet)",
     "facts": "Repères",
-    "letGo": "Tu as choisi de laisser partir cette envie. Elle reste dans ton carnet si tu veux y repenser.",
-    "plan": "Pour y arriver"
+    "letGo": "Cette carte est rangée. Elle reste dans ta collection si tu veux y repenser.",
+    "plan": "Pour y arriver",
+    "actions": {
+      "convert": "C’est fait : convertir la carte",
+      "converted": "Carte acquise ! Elle rejoint ta collection.",
+      "seeCollection": "Voir ma collection",
+      "undoConvert": "Annuler la conversion",
+      "store": "Ranger la carte",
+      "stored": "Carte rangée. Tu peux la ressortir quand tu veux.",
+      "undoStore": "La ressortir",
+      "reopen": "Remettre à convertir",
+      "takeOut": "Ressortir la carte",
+      "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant."
+    }
   },
   "history": {
     "title": "Historique",
@@ -81,5 +93,18 @@
     "confirmNo": "Annuler",
     "restored": "C’est fait. La version précédente reste dans l’historique.",
     "failed": "Le retour en arrière n’a pas abouti. Réessaie dans un instant."
+  },
+  "collection": {
+    "title": "Ma collection",
+    "count": "{count, plural, =0 {Aucune carte acquise pour l’instant} one {# carte acquise} other {# cartes acquises}}",
+    "emptyTitle": "Ta première carte t’attend",
+    "emptyBody": "Quand une envie est réalisée, convertis sa carte : elle arrive ici, numérotée et holographique.",
+    "toDeck": "Voir mes cartes à convertir",
+    "series": "Séries",
+    "seriesCount": "{label} · {count}",
+    "binder": "Classeur",
+    "next": "La prochaine carte arrivera ici",
+    "stored": "{count, plural, one {# carte rangée} other {# cartes rangées}}",
+    "storedHint": "Mises de côté, jamais perdues. Ouvre-en une pour la ressortir."
   }
 }

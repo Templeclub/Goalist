@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { CaptureExamples } from '@/components/capture/CaptureTrigger'
 import { GoalCard, GoalCardSkeleton } from '@/components/goal/GoalCard'
+import { cardProps } from '@/components/goal/card-props'
 import { DismissButton } from '@/components/goals/DismissButton'
 import { GoalsToolbar } from '@/components/goals/GoalsToolbar'
 import { NotebookIllustration } from '@/components/ui/NotebookIllustration'
@@ -32,7 +33,7 @@ export default async function GoalsPage({ params, searchParams }: PageProps<'/[l
       <Suspense
         fallback={
           <div className="grid gap-4">
-            <h1 className="font-display text-2xl font-medium">{t('title')}</h1>
+            <h1 className="font-display text-3xl font-extrabold">{t('title')}</h1>
             <Skeleton className="h-13 w-full max-w-2xl rounded-md" />
             <div className={gridClass}>
               {[0, 1, 2, 3].map((i) => (
@@ -49,8 +50,7 @@ export default async function GoalsPage({ params, searchParams }: PageProps<'/[l
 }
 
 /** Two cards per row on a phone, up to five on a wide screen (D-061). */
-const gridClass =
-  'grid grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5'
+const gridClass = 'grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5'
 
 const groupKey = (goal: GoalSummary, group: ListQuery['group']) =>
   group === 'status'
@@ -114,14 +114,7 @@ async function GoalsView({
         size="compact"
         headingLevel={query.group === 'none' ? 'h2' : 'h3'}
         href={`/goals/${goal.id}`}
-        title={goal.title}
-        emoji={goal.emoji}
-        categories={goal.categories}
-        customCategory={goal.customCategory}
-        status={goal.status}
-        horizon={goal.horizon}
-        preparation={goal.preparation}
-        hue={goal.ribbonHue}
+        {...cardProps(goal)}
         className="h-full"
       />
       {query.quick.includes('to_complete') && !goal.completionDismissed && (
@@ -132,7 +125,7 @@ async function GoalsView({
 
   return (
     <div className="grid content-start gap-5">
-      <h1 className="font-display text-2xl font-medium">{t('title')}</h1>
+      <h1 className="font-display text-3xl font-extrabold">{t('title')}</h1>
       <div className="max-w-2xl">
         <GoalsToolbar query={query} categories={categories} />
       </div>

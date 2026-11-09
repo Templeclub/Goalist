@@ -3,12 +3,18 @@ import { getFormatter, getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { CaptureExamples, CaptureTrigger } from '@/components/capture/CaptureTrigger'
 import { GoalCard, GoalCardSkeleton } from '@/components/goal/GoalCard'
+import { cardProps } from '@/components/goal/card-props'
 import { DismissButton } from '@/components/goals/DismissButton'
 import { buttonVariants } from '@/components/ui/Button'
 import { NotebookIllustration } from '@/components/ui/NotebookIllustration'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
-import { getProfile, listGoals, listGoalsToComplete } from '@/features/goals/queries'
+import {
+  acquiredNumber,
+  getProfile,
+  homeRecommendations,
+  listGoalsToComplete,
+} from '@/features/goals/queries'
 import { Link } from '@/i18n/navigation'
 import { initLocale } from '@/i18n/page-locale'
 import { cn } from '@/lib/cn'
@@ -49,9 +55,10 @@ async function HomeContent() {
     getFormatter(),
     getViewer(),
   ])
-  const [profile, recent, toComplete] = viewer
-    ? await Promise.all([getProfile(), listGoals({ limit: 3 }), listGoalsToComplete({ limit: 3 })])
-    : [null, [], { goals: [], total: 0 }]
+  const [profile, rec, toComplete] = viewer
+    ? await Promise.all([getProfile(), homeRecommendations(), listGoalsToComplete({ limit: 3 })])
+    : [null, { total: 0, soon: [], prepare: [], lastAcquired: null }, { goals: [], total: 0 }]
+  const lastNumber = rec.lastAcquired ? await acquiredNumber(rec.lastAcquired) : undefined
 
   const now = new Date()
   const hour = Number(
@@ -71,56 +78,105 @@ async function HomeContent() {
     <>
       <header className="grid gap-0.5">
         <p className="text-sm text-ink-3 first-letter:uppercase">{format.dateTime(now, 'long')}</p>
-        <h1 className="font-display text-2xl font-medium tracking-[-0.01em]">{greeting}</h1>
+        <h1 className="font-display text-2xl font-bold tracking-[-0.01em]">{greeting}</h1>
       </header>
 
       {viewer?.isAnonymous && <AnonymousBanner />}
 
       <CaptureTrigger />
 
-      {recent.length === 0 ? (
+      {rec.total === 0 && !rec.lastAcquired ? (
         <section className="grid justify-items-center gap-4 py-4 text-center">
           <NotebookIllustration />
-          <h2 className="font-display text-xl">{t('empty.title')}</h2>
+          <h2 className="font-display text-xl font-extrabold">{t('empty.title')}</h2>
           <p className="max-w-[32ch] text-md text-ink-2">{t('empty.body')}</p>
           <CaptureExamples />
         </section>
       ) : (
-        <section aria-labelledby="recent-title" className="grid gap-3">
-          <div className="flex items-baseline justify-between">
-            <h2 id="recent-title" className="label-caps">
-              {t('recent.title')}
-            </h2>
-            <Link
-              href="/goals"
-              className="text-[0.9375rem] font-semibold text-accent-strong hover:underline"
-            >
-              {t('recent.seeAll')}
-            </Link>
-          </div>
-          <div className="grid gap-3.5">
-            {recent.map((goal) => (
-              <GoalCard
-                key={goal.id}
-                href={`/goals/${goal.id}`}
-                title={goal.title}
-                emoji={goal.emoji}
-                categories={goal.categories}
-                customCategory={goal.customCategory}
-                status={goal.status}
-                horizon={goal.horizon}
-                preparation={goal.preparation}
-                hue={goal.ribbonHue}
-              />
-            ))}
-          </div>
-        </section>
+        <>
+          <section aria-labelledby="soon-title" className="grid gap-3">
+            <div className="flex items-baseline justify-between gap-3">
+              <h2 id="soon-title" className="font-display text-xl font-extrabold">
+                {t('soon.title')}
+              </h2>
+              <Link
+                href="/goals"
+                className="text-[0.9375rem] font-extrabold text-accent-strong hover:underline"
+              >
+                {t('soon.seeAll')}
+              </Link>
+            </div>
+            <p className="-mt-2 text-[0.9375rem] text-ink-2">{t('soon.intro')}</p>
+            {rec.soon.length > 0 ? (
+              <ul className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pt-3 pb-3 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 xl:grid-cols-4">
+                {rec.soon.map((goal) => (
+                  <li key={goal.id} className="w-44 shrink-0 snap-start md:w-auto">
+                    <GoalCard
+                      size="compact"
+                      href={`/goals/${goal.id}`}
+                      {...cardProps(goal)}
+                      className="h-full"
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="rounded-card border-[3px] border-dashed border-line-strong p-4 text-[0.9375rem] text-ink-2">
+                {t('soon.empty')}
+              </p>
+            )}
+          </section>
+
+          {rec.prepare.length > 0 && (
+            <section aria-labelledby="prepare-title" className="grid gap-3">
+              <h2 id="prepare-title" className="font-display text-xl font-extrabold">
+                {t('prepare.title')}
+              </h2>
+              <p className="-mt-2 text-[0.9375rem] text-ink-2">{t('prepare.intro')}</p>
+              <ul className="grid grid-cols-2 gap-3 pt-2 md:grid-cols-3 xl:grid-cols-4">
+                {rec.prepare.map((goal) => (
+                  <li key={goal.id}>
+                    <GoalCard
+                      size="compact"
+                      href={`/goals/${goal.id}`}
+                      {...cardProps(goal)}
+                      className="h-full"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {rec.lastAcquired && (
+            <section aria-labelledby="last-title" className="grid gap-3">
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 id="last-title" className="font-display text-xl font-extrabold">
+                  {t('last.title')}
+                </h2>
+                <Link
+                  href="/collection"
+                  className="text-[0.9375rem] font-extrabold text-accent-strong hover:underline"
+                >
+                  {t('last.seeAll')}
+                </Link>
+              </div>
+              <div className="w-44 pt-3 md:w-56">
+                <GoalCard
+                  size="compact"
+                  href={`/goals/${rec.lastAcquired.id}`}
+                  {...cardProps(rec.lastAcquired, lastNumber)}
+                />
+              </div>
+            </section>
+          )}
+        </>
       )}
 
-      {toComplete.total > 0 && recent.length > 1 && (
+      {toComplete.total > 0 && rec.total > 1 && (
         <section
           aria-labelledby="to-complete-title"
-          className="grid gap-3 rounded-card bg-paper-2 p-4.5"
+          className="grid gap-3 rounded-card border-[3px] border-outline bg-paper-2 p-4.5"
         >
           <h2 id="to-complete-title" className="label-caps">
             {t('toComplete.title')}

@@ -196,7 +196,7 @@ export function SheetEditor({
 
   const question = (key: string, extra?: ReactNode) => (
     <div className="flex items-start justify-between gap-2">
-      <h1 className="font-display text-xl font-medium tracking-[-0.005em]">{t(key as never)}</h1>
+      <h1 className="font-display text-xl font-bold tracking-[-0.005em]">{t(key as never)}</h1>
       {extra}
     </div>
   )
@@ -291,7 +291,7 @@ export function SheetEditor({
               explanation: t('why.whyHelp'),
               example: { before: t('why.whyBefore'), after: t('why.whyAfter') },
             }}
-            className="[&>div>label]:font-display [&>div>label]:text-xl [&>div>label]:font-medium"
+            className="[&>div>label]:font-display [&>div>label]:text-xl [&>div>label]:font-bold"
           >
             <AutoGrowTextarea
               id={`${id}-why`}
