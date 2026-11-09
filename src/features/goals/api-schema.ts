@@ -62,7 +62,8 @@ export const GoalPatch = z
     /** "Ne plus me le proposer" in Fiches à compléter (true) or undo (false). */
     completion_dismissed: z.boolean(),
     // Sharing is closed until the community phase (D-013).
-    visibility: z.literal('private'),
+    // « circle » = shared with friends (D-064); « community » stays closed.
+    visibility: z.enum(['private', 'circle']),
   })
   .partial()
   .strict()

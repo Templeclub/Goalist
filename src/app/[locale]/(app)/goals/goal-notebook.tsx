@@ -2,12 +2,15 @@ import { ChevronDown, ChevronLeft } from 'lucide-react'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { CategoryPill } from '@/components/goal/CategoryPill'
+import { OwnCardSocial } from '@/components/friends/OwnCardSocial'
+import { ShareToggle } from '@/components/friends/ShareToggle'
 import { CardActions } from '@/components/goal/CardActions'
 import { cardProps } from '@/components/goal/card-props'
 import { GoalCard } from '@/components/goal/GoalCard'
 import { RichTextView } from '@/components/sheet/RichTextView'
 import { buttonVariants } from '@/components/ui/Button'
 import { getViewer } from '@/features/auth/session'
+import { cardSocial, listFriends } from '@/features/friends/queries'
 import { acquiredNumber, getGoalSheet } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import type { ValueKey } from '@/features/goals/schema'
@@ -72,6 +75,18 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
   ] as NonNullable<(typeof sectionForMissing)[string]>[]
   const completeHref = `/goals/${goal.id}/edit/${firstSectionToComplete(goal.missingSections)}`
   const number = goal.status === 'done' ? await acquiredNumber(goal) : undefined
+  // Sharing with friends needs an account (D-064).
+  const social =
+    viewer && !viewer.isAnonymous
+      ? await (async () => {
+          const friends = await listFriends()
+          const data = await cardSocial(goal.id, viewer.id, friends)
+          const hasActivity =
+            data.comments.length + data.offers.length + data.interestCount > 0 ||
+            Object.values(data.reactions).some((n) => n > 0)
+          return { data, hasActivity }
+        })()
+      : null
 
   const section = (title: string, children: ReactNode) => (
     <details open className="group border-t border-line pt-3">
@@ -98,6 +113,18 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
             {...cardProps(goal, number)}
           />
           <CardActions goalId={goal.id} version={goal.version} status={goal.status} />
+          {social && (
+            <div className="grid gap-4 rounded-card border-[3px] border-outline bg-card p-4 shadow-card">
+              <ShareToggle
+                goalId={goal.id}
+                version={goal.version}
+                visibility={goal.visibility === 'circle' ? 'circle' : 'private'}
+              />
+            </div>
+          )}
+          {social && (goal.visibility === 'circle' || social.hasActivity) && (
+            <OwnCardSocial goalId={goal.id} userId={viewer!.id} social={social.data} />
+          )}
           {goal.categoryItems.length > 1 && (
             <div className="flex flex-wrap items-center gap-2">
               {goal.categoryItems.map((c) =>

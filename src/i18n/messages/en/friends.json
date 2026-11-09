@@ -1,0 +1,119 @@
+{
+  "title": "Friends",
+  "intro": "Share the cards you choose with the people you choose. They can cheer you on, want the same thing or offer help.",
+  "noName": "A friend without a nickname",
+  "you": "You",
+  "needAccount": {
+    "title": "You need an account to have friends",
+    "body": "Your notebook only lives on this device. Link it to your email, then invite anyone you like.",
+    "action": "Keep my notebook"
+  },
+  "invite": {
+    "title": "Invite a friend",
+    "body": "Send this link to someone: opening it makes you friends. There is no directory, nobody can find you otherwise.",
+    "create": "Create my invite link",
+    "share": "Share the link",
+    "copy": "Copy the link",
+    "copied": "Link copied.",
+    "renew": "Renew the link",
+    "renewed": "New link ready. The old one no longer works.",
+    "shareText": "Join me on {appName}: we can share our wishes and cheer each other on.",
+    "failed": "The link could not be prepared. Try again in a moment."
+  },
+  "activity": {
+    "title": "On your cards",
+    "empty": "When friends cheer one of your shared cards, you will see it here.",
+    "reaction": "{name}: {reaction} on “{title}”",
+    "comment": "{name} wrote on “{title}”: {text}",
+    "interest": "{name} would like “{title}” too",
+    "offer": "{name} offers help with “{title}”"
+  },
+  "feed": {
+    "title": "Their cards",
+    "empty": "No shared card yet. Your friends choose what they share.",
+    "by": "{name}’s card"
+  },
+  "list": {
+    "title": "Your friends",
+    "empty": "No friends here yet. Send your invite link to start.",
+    "shared": "{count, plural, =0 {No shared card} one {# shared card} other {# shared cards}}",
+    "since": "Friends since {date}",
+    "remove": "Remove",
+    "removeConfirm": "Remove {name} from your friends? Your shared cards will no longer be visible to each other.",
+    "removeYes": "Remove",
+    "removeNo": "Keep",
+    "removed": "Done."
+  },
+  "acceptPage": {
+    "title": "An invitation",
+    "from": "{name} invites you to be friends on {appName}.",
+    "fromUnknown": "Someone invites you to be friends on {appName}.",
+    "explain": "You will see the cards each of you chooses to share, and cheer each other on.",
+    "accept": "Accept the invitation",
+    "signIn": "Sign in to accept",
+    "needAccount": "You need a (free) account to accept.",
+    "notFound": "This link no longer works. Ask your friend for a new one.",
+    "own": "This is your own link: send it to someone else.",
+    "done": "You are friends.",
+    "failed": "That did not work this time. Try again in a moment."
+  },
+  "card": {
+    "back": "Friends",
+    "owner": "{name}’s card",
+    "why": "Why it matters",
+    "firstStep": "First step",
+    "description": "Description"
+  },
+  "reactions": {
+    "label": "Cheer on",
+    "bravo": "Bravo",
+    "courage": "Courage",
+    "inspire": "Inspiring",
+    "count": "{label} · {count}"
+  },
+  "meToo": {
+    "label": "Me too",
+    "on": "You would like it too",
+    "copy": "Add to my cards",
+    "copied": "Added to your cards.",
+    "open": "See my card"
+  },
+  "help": {
+    "title": "I can help",
+    "placeholder": "A tip, a loan, a hand…",
+    "send": "Offer my help",
+    "sent": "Offer sent. Only your friend sees it.",
+    "withdraw": "Withdraw my offer",
+    "status": {
+      "open": "Waiting",
+      "accepted": "Accepted",
+      "declined": "Not this time",
+      "withdrawn": "Withdrawn"
+    }
+  },
+  "comments": {
+    "title": "Messages",
+    "empty": "No message yet.",
+    "label": "Your message",
+    "placeholder": "A word of encouragement…",
+    "send": "Send",
+    "delete": "Delete the message",
+    "failed": "The message was not sent. Try again in a moment."
+  },
+  "share": {
+    "legend": "Who can see this card?",
+    "private": "Only me",
+    "friends": "My friends",
+    "hint": "Friends see the card, its why, its first step and its description. Never your notes or history."
+  },
+  "own": {
+    "title": "From friends",
+    "nothing": "Nothing yet. Your friends can cheer you on this card.",
+    "interested": "{count, plural, one {# friend would like it too} other {# friends would like it too}}",
+    "offers": "Offers of help",
+    "accept": "Accept",
+    "decline": "Not this time",
+    "reopen": "Reconsider"
+  },
+  "failed": "That could not be saved. Try again in a moment."
+}
