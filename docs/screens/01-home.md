@@ -36,3 +36,9 @@ Remplace les points 3 à 5.
 7. **Navigation basse** : Accueil · Mes cartes · « + » · Collection · Moi.
 
 Toutes les règles sont déterministes (`homeRecommendations`) : aucune suggestion générée.
+
+## Version allégée (D-063)
+
+1. Salutation, capture.
+2. **À convertir bientôt** (ou « Tes dernières cartes » si aucune n'est proche) en **éventail** : cartes légèrement inclinées et superposées, qui se redressent au survol ou au focus ; défilement horizontal.
+3. **Et aussi** : un panneau de lignes-liens — « N cartes à préparer dès maintenant », « N cartes à révéler », « Dernière acquise : … (n° …) ».

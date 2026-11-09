@@ -49,3 +49,7 @@ Remplace les points 2 à 6 de la version phase 4.
 ## Version collection de cartes (D-062)
 
 « Mes envies » devient **Mes cartes** : seules les cartes _à convertir_ y figurent (les cartes acquises et rangées sont dans la collection, ou via le filtre de statut). Les cartes sont les `GoalCard` compactes de la collection (esquisse, série et rareté, horizon, premier pas ou « À anticiper »). Le filtre rapide « À compléter » devient « À révéler ». Compteur : « 4 cartes à convertir ».
+
+## Barre compacte (D-063)
+
+Une seule ligne : loupe (le champ se déploie sur toute la largeur au focus ou s'il contient du texte), bouton plein « Filtres » (avec le nombre de réglages actifs), filtres rapides défilants. Le tri et le regroupement sont dans la feuille des filtres, en tête.

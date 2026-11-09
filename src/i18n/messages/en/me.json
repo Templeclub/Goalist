@@ -1,1 +1,14 @@
-{}
+{
+  "appearance": {
+    "title": "Appearance",
+    "theme": "Theme",
+    "themes": {
+      "system": "Automatic",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "themeHint": "“Automatic” follows your phone or computer setting.",
+    "motion": "Card animations",
+    "motionHint": "Tilt, sheen, flip. Always off if your device asks for less motion."
+  }
+}

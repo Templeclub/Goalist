@@ -21,7 +21,15 @@
     "stored": "Put away",
     "noSeries": "No series",
     "rarityLabel": "Rarity: {rarity}",
-    "firstStep": "First step:"
+    "firstStep": "First step:",
+    "level": "Lv. {level}",
+    "acquiredNumber": "★ No. {number}",
+    "unknown": "not set",
+    "stats": {
+      "preparation": "Prep",
+      "budget": "Budget",
+      "horizon": "Horizon"
+    }
   },
   "rarity": {
     "common": "Common",

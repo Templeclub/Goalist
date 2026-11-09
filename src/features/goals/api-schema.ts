@@ -87,6 +87,7 @@ export const PatchProfileBody = z
   .object({
     displayName: z.string().trim().max(40).nullable(),
     onboardingCompleted: z.literal(true),
+    theme: z.enum(['system', 'light', 'dark']),
   })
   .partial()
   .strict()

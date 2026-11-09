@@ -65,3 +65,9 @@ Master-detail : liste à gauche (360 px), page à droite, largeur de lecture 65 
 - En tête, la **carte en grand** (`GoalCard` taille « hero », titre en `h1`).
 - Dessous, les **actions de carte** (`CardActions`) : « C'est fait : convertir la carte » (primaire) et « Ranger la carte » (discret). Après conversion : message « Carte acquise ! Elle rejoint ta collection. », « Voir ma collection », « Annuler la conversion ». Une carte acquise propose « Remettre à convertir », une carte rangée « Ressortir la carte ».
 - Le reste de la page (description, pourquoi, pour y arriver, repères, premier pas, à compléter, historique) est inchangé.
+
+## Suivi (D-063)
+
+Sous la carte en grand, le bloc **Suivi** : « Étape 3 sur 5 », le chemin en 5 pastilles (Idée, Confirmée, En préparation, En cours, Acquise ; les étapes passées sont cochées, l'actuelle est pleine, chacune est un bouton « Passer à l'étape : … »), une barre de progression, puis le bouton principal « Avancer : {étape} → » (« C'est fait : convertir la carte ★ » à l'étape En cours, « Reprendre : En cours → » si en pause). Secondaires : « Mettre en pause », « Ranger la carte ». Une carte acquise propose « Remettre en cours », une carte rangée « Ressortir la carte ». La conversion retourne la carte puis affiche « Carte acquise ! » avec « Voir ma collection » et « Annuler la conversion ».
+
+Plus bas, **Journal de la carte** : date de création puis chaque changement d'étape, avec le mot éventuel.

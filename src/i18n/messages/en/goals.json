@@ -16,18 +16,29 @@
   "detail": {
     "plan": "Getting there",
     "actions": {
-      "convert": "Done: convert the card",
+      "convert": "Done: convert the card ★",
       "converted": "Card acquired! It joins your collection.",
       "seeCollection": "See my collection",
       "undoConvert": "Undo",
       "store": "Put the card away",
       "stored": "Card put away. You can take it out any time.",
       "undoStore": "Take it out",
-      "reopen": "Back to cards to convert",
+      "reopen": "Back in progress",
       "takeOut": "Take the card out",
-      "failed": "That could not be saved. Try again in a moment."
+      "failed": "That could not be saved. Try again in a moment.",
+      "track": "Progress",
+      "stepOf": "Step {current} of {total}",
+      "goTo": "Go to step: {step}",
+      "advance": "Move on: {step} →",
+      "resume": "Resume: In progress →",
+      "pause": "Pause"
     },
-    "back": "My cards"
+    "back": "My cards",
+    "journal": {
+      "title": "Card log",
+      "kept": "Card kept",
+      "moved": "→ {status}"
+    }
   },
   "collection": {
     "title": "My collection",

@@ -58,7 +58,7 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await page
       .getByLabel(/^Quelle serait la toute première petite étape/)
       .fill('Chercher les zones de bivouac autorisées')
-    await page.getByText('Envie confirmée', { exact: true }).click()
+    await page.getByText('Confirmée', { exact: true }).click()
     await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
 
     // The notebook page shows everything, nothing was lost.

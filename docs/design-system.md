@@ -4,6 +4,8 @@
 
 ## 0. Arcade pop (direction actuelle)
 
+> **Cartes « Arcade Pro » (D-063)** : cadre de série + panneau crème contouré, titre et pastille de niveau dorée, médaillon de série sur l'illustration tramée, ligne série · rareté, caractéristiques en barres, pied de progression. Inclinaison au pointeur (`.card-tilt`), reflet holographique (`.holo-sheen`), éventail (`.fan`). Réglage « Animations des cartes » : `data-motion="reduced"` sur `<html>`.
+
 - **Esprit** : chaque envie est une carte à collectionner. Contours épais à l'encre (`--outline`, 2,5 à 3 px), ombres décalées façon autocollant (`--elev-card` 3 px, `--elev-pop` 5 px), couleurs vives par série, coins généreux (`--r-card` 18 px).
 - **Polices** : Baloo 2 (titres, 700–800) et Nunito (texte). Chargées par `next/font`.
 - **Clair** : fond crème `#fff6e5`, cartes blanches, encre indigo `#1f1d3a`, accent violet électrique `#4b2ee0`, doré `#ffd23f` pour les cartes acquises.

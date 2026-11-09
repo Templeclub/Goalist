@@ -16,7 +16,7 @@
   },
   "statuses": {
     "idea": "Idée",
-    "confirmed": "Envie confirmée",
+    "confirmed": "Confirmée",
     "preparing": "En préparation",
     "in_progress": "En cours",
     "done": "Acquise",
@@ -122,7 +122,15 @@
     "stored": "Rangée",
     "noSeries": "Sans série",
     "rarityLabel": "Rareté : {rarity}",
-    "firstStep": "Premier pas :"
+    "firstStep": "Premier pas :",
+    "level": "Niv. {level}",
+    "acquiredNumber": "★ n° {number}",
+    "unknown": "non précisé",
+    "stats": {
+      "preparation": "Prépa",
+      "budget": "Budget",
+      "horizon": "Horizon"
+    }
   },
   "seasonOfDate": {
     "spring": "Printemps",

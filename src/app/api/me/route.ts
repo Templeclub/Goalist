@@ -3,7 +3,7 @@ import { PatchProfileBody } from '@/features/goals/api-schema'
 import { json, problem, readBody } from '@/lib/http'
 import { createClient } from '@/lib/supabase/server'
 
-/** Profile autosave (pseudo) and onboarding milestone. */
+/** Profile autosave (pseudo, theme) and onboarding milestone. */
 export async function PATCH(request: NextRequest) {
   const body = await readBody(request, PatchProfileBody)
   if (!body) return problem(422, 'invalid_patch')
@@ -13,9 +13,14 @@ export async function PATCH(request: NextRequest) {
   const userId = claims?.claims?.sub
   if (!userId) return problem(401, 'unauthenticated')
 
-  const update: { display_name?: string | null; onboarding_completed_at?: string } = {}
+  const update: {
+    display_name?: string | null
+    onboarding_completed_at?: string
+    theme?: 'system' | 'light' | 'dark'
+  } = {}
   if (body.displayName !== undefined) update.display_name = body.displayName || null
   if (body.onboardingCompleted) update.onboarding_completed_at = new Date().toISOString()
+  if (body.theme) update.theme = body.theme
 
   const { data, error } = await supabase
     .from('profiles')

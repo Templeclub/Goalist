@@ -172,7 +172,7 @@ export async function homeRecommendations() {
       (g) =>
         !shown.has(g.id) && needsEarlyStart(g) && (g.horizon === 'medium' || g.horizon === 'long'),
     ),
-  ).slice(0, 3)
+  )
   const lastRow = (last.data as unknown as Row[] | null)?.[0]
   return {
     total: goals.length,
@@ -225,7 +225,7 @@ export async function getProfile() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('profiles')
-    .select('display_name, onboarding_completed_at, first_goal_celebrated_at')
+    .select('display_name, onboarding_completed_at, first_goal_celebrated_at, theme')
     .maybeSingle()
   return data
 }
@@ -258,6 +258,8 @@ export type GoalSheet = GoalSummary & {
   tags: string[]
   smart: SmartAnswersRow
   statusNote: string | null
+  /** Status changes, oldest first: the card's log (D-063). */
+  statusHistory: { status: GoalStatus; note: string | null; at: string }[]
 }
 
 export type CategoryItem = {
@@ -316,7 +318,7 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
   const { data, error } = await supabase
     .from('goals')
     .select(
-      `${cardColumns}, hue, description_doc, imagined_outcome, where_with, why, benefits, first_step, notes, visibility, ${qualifyColumns}, goal_values(value_key, custom_label), goal_media(id, kind, url, title, alt_text, storage_path, position), goal_tags(tags(label)), smart_answers(*), goal_status_history(note, changed_at, id), cat_items:goal_categories(position, categories(id, key, label, hue))`,
+      `${cardColumns}, hue, description_doc, imagined_outcome, where_with, why, benefits, first_step, notes, visibility, ${qualifyColumns}, goal_values(value_key, custom_label), goal_media(id, kind, url, title, alt_text, storage_path, position), goal_tags(tags(label)), smart_answers(*), goal_status_history(to_status, note, changed_at, id), cat_items:goal_categories(position, categories(id, key, label, hue))`,
     )
     .eq('id', id)
     .is('deleted_at', null)
@@ -346,7 +348,12 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
     }[]
     goal_tags: { tags: { label: string } | null }[]
     smart_answers: SmartAnswersRow | SmartAnswersRow[] | null
-    goal_status_history: { note: string | null; changed_at: string; id: number }[]
+    goal_status_history: {
+      to_status: string
+      note: string | null
+      changed_at: string
+      id: number
+    }[]
     cat_items: { position: number; categories: CategoryItem | null }[]
   } & GoalQualify
 
@@ -390,6 +397,9 @@ export async function getGoalSheet(id: string): Promise<GoalSheet | null> {
       )
       return picked as SmartAnswersRow
     })(),
+    statusHistory: row.goal_status_history
+      .toSorted((a, b) => a.changed_at.localeCompare(b.changed_at) || a.id - b.id)
+      .map((h) => ({ status: h.to_status as GoalStatus, note: h.note, at: h.changed_at })),
     statusNote:
       row.goal_status_history.toSorted(
         (a, b) => b.changed_at.localeCompare(a.changed_at) || b.id - a.id,

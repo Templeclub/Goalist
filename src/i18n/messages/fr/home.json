@@ -41,5 +41,11 @@
   },
   "recent": {
     "title": "Tes dernières cartes"
+  },
+  "more": {
+    "title": "Et aussi",
+    "prepare": "{count, plural, one {# carte à préparer dès maintenant} other {# cartes à préparer dès maintenant}}",
+    "reveal": "{count, plural, one {# carte à révéler} other {# cartes à révéler}}",
+    "last": "Dernière acquise : {title} (n° {number})"
   }
 }

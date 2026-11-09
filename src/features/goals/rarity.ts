@@ -38,3 +38,14 @@ export function rarityOf(input: RarityInput): Rarity {
 
 /** Number of gems shown on the card, 1 to 5. */
 export const gemCount = (rarity: Rarity) => rarities.indexOf(rarity) + 1
+
+/** Card level (D-063): the effort points themselves, 1 to 9 (a bare title is level 1). */
+export const levelOf = (input: RarityInput) => Math.max(1, rarityPoints(input))
+
+/** Share of a stat bar: preparation over 5 steps, budget over 4 (nothing known: empty). */
+export function statShare(stat: 'preparation' | 'budget', value?: string | null): number {
+  if (!value) return 0
+  return stat === 'preparation'
+    ? ((preparationPoints[value] ?? -1) + 1) / 5
+    : ((budgetPoints[value] ?? -1) + 1) / 4
+}

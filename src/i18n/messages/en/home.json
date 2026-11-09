@@ -15,5 +15,11 @@
   },
   "recent": {
     "title": "Your latest cards"
+  },
+  "more": {
+    "title": "Also",
+    "prepare": "{count, plural, one {# card to prepare now} other {# cards to prepare now}}",
+    "reveal": "{count, plural, one {# card to reveal} other {# cards to reveal}}",
+    "last": "Last acquired: {title} (No. {number})"
   }
 }

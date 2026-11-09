@@ -48,5 +48,17 @@
     "images": "Images",
     "kept": "Gardée le",
     "readme": "Export de ton carnet {appName}, le {date}. Le fichier elan-export.json contient toutes tes données ; le dossier envies/ une page lisible par envie."
+  },
+  "appearance": {
+    "title": "Apparence",
+    "theme": "Thème",
+    "themes": {
+      "system": "Automatique",
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "themeHint": "« Automatique » suit le réglage de ton téléphone ou de ton ordinateur.",
+    "motion": "Animations des cartes",
+    "motionHint": "Inclinaison, reflets, retournement. Coupées d’office si ton appareil demande moins d’animations."
   }
 }

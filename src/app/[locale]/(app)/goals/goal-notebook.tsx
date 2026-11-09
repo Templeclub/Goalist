@@ -268,6 +268,29 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
           </div>
         )}
 
+        {section(
+          t('journal.title'),
+          <ol className="grid gap-1.5 text-[0.9375rem]">
+            <li className="grid grid-cols-[6.5rem_1fr] gap-2">
+              <span className="font-extrabold text-ink-2">
+                {format.dateTime(new Date(goal.createdAt), { dateStyle: 'medium' })}
+              </span>
+              <span className="font-bold">{t('journal.kept')}</span>
+            </li>
+            {goal.statusHistory.map((h, i) => (
+              <li key={i} className="grid grid-cols-[6.5rem_1fr] gap-2">
+                <span className="font-extrabold text-ink-2">
+                  {format.dateTime(new Date(h.at), { dateStyle: 'medium' })}
+                </span>
+                <span className="font-bold">
+                  {t('journal.moved', { status: tGoal(`statuses.${h.status}`) })}
+                  {h.note && <span className="block font-normal text-ink-2">{h.note}</span>}
+                </span>
+              </li>
+            ))}
+          </ol>,
+        )}
+
         <p className="text-sm text-ink-3">
           {t('keptOn', { date: new Date(goal.createdAt) })}
           {' · '}

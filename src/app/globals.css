@@ -165,6 +165,54 @@
       background-position: 100% 100%;
     }
   }
+  /* A card leans towards the pointer (CardTilt sets --rx, --ry) */
+  .card-tilt {
+    transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform var(--duration-base) var(--motion-ease-out);
+    will-change: transform;
+  }
+  /* Home « à convertir bientôt »: a hand of cards (--fan-r, --fan-y per card) */
+  .fan > li + li {
+    margin-left: -1.75rem;
+  }
+  .fan > li {
+    transform: translateY(var(--fan-y, 0)) rotate(var(--fan-r, 0deg));
+    transition: transform var(--duration-base) var(--motion-ease-out);
+  }
+  .fan > li:hover,
+  .fan > li:focus-within {
+    z-index: 10;
+    transform: translateY(-0.75rem) rotate(0deg);
+  }
+  /* Card art: a halftone dot screen over the series colour */
+  .card-halftone {
+    background-image: radial-gradient(circle, rgb(31 29 58 / 0.16) 1.2px, transparent 1.7px);
+    background-size: 9px 9px;
+  }
+  /* Acquired card: a sheen sweeping across, following the pointer when tilted */
+  .holo-sheen {
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.65) 45%,
+      rgb(255 210 63 / 0.35) 50%,
+      rgb(126 240 200 / 0.35) 55%,
+      transparent 70%
+    );
+    background-size: 220% 100%;
+    background-position: var(--mx, 0%) 0;
+    mix-blend-mode: soft-light;
+    animation: sheen 3.6s ease-in-out infinite;
+  }
+  @keyframes sheen {
+    from {
+      background-position: 120% 0;
+    }
+    60%,
+    to {
+      background-position: -60% 0;
+    }
+  }
   /* Sketch card art: hatched, waiting to be revealed */
   .card-art-sketch {
     background: repeating-linear-gradient(135deg, var(--paper-2) 0 10px, var(--paper) 10px 20px);
@@ -176,6 +224,18 @@
     background-size: 20px 20px;
     background-position: 10px 6px;
   }
+}
+
+/* The app setting « Animations des cartes » off (Moi) */
+[data-motion='reduced'] .holo,
+[data-motion='reduced'] .holo-sheen {
+  animation: none !important;
+}
+[data-motion='reduced'] .card-tilt {
+  transform: none !important;
+}
+[data-motion='reduced'] .fan > li {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

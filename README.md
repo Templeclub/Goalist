@@ -2,7 +2,7 @@
 
 Un carnet d'envies, de projets et d'objectifs : une PWA mobile-first pour **écrire une envie en quelques secondes**, puis la **nommer, la décrire et la qualifier** à son rythme. Sans pression, sans classement, sans intelligence artificielle.
 
-> **État** : collection de cartes (D-062). Chaque envie est une carte à collectionner (direction « Arcade pop »), avec une rareté (préparation + budget + horizon) ; réalisée, elle se convertit et rejoint la collection, numérotée. Accueil avec des recommandations « à convertir bientôt ». Voir [`docs/decisions.md`](docs/decisions.md).
+> **État** : collection de cartes « Arcade Pro » (D-062, D-063). Chaque envie est une carte avec niveau, rareté et série ; elle se suit étape par étape (Idée → Acquise) et se convertit à la fin, puis rejoint la collection. Thème réglable dans Moi. Voir [`docs/decisions.md`](docs/decisions.md).
 
 ## Stack
 
