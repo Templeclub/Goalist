@@ -57,7 +57,11 @@ async function HomeContent() {
   ])
   const [profile, rec, toComplete] = viewer
     ? await Promise.all([getProfile(), homeRecommendations(), listGoalsToComplete({ limit: 3 })])
-    : [null, { total: 0, soon: [], prepare: [], lastAcquired: null }, { goals: [], total: 0 }]
+    : [
+        null,
+        { total: 0, soon: [], recent: [], prepare: [], lastAcquired: null },
+        { goals: [], total: 0 },
+      ]
   const lastNumber = rec.lastAcquired ? await acquiredNumber(rec.lastAcquired) : undefined
 
   const now = new Date()
@@ -97,7 +101,7 @@ async function HomeContent() {
           <section aria-labelledby="soon-title" className="grid gap-3">
             <div className="flex items-baseline justify-between gap-3">
               <h2 id="soon-title" className="font-display text-xl font-extrabold">
-                {t('soon.title')}
+                {rec.soon.length > 0 ? t('soon.title') : t('recent.title')}
               </h2>
               <Link
                 href="/goals"
@@ -106,10 +110,12 @@ async function HomeContent() {
                 {t('soon.seeAll')}
               </Link>
             </div>
-            <p className="-mt-2 text-[0.9375rem] text-ink-2">{t('soon.intro')}</p>
-            {rec.soon.length > 0 ? (
+            <p className="-mt-2 text-[0.9375rem] text-ink-2">
+              {rec.soon.length > 0 ? t('soon.intro') : t('soon.empty')}
+            </p>
+            {(rec.soon.length > 0 ? rec.soon : rec.recent).length > 0 && (
               <ul className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pt-3 pb-3 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 xl:grid-cols-4">
-                {rec.soon.map((goal) => (
+                {(rec.soon.length > 0 ? rec.soon : rec.recent).map((goal) => (
                   <li key={goal.id} className="w-44 shrink-0 snap-start md:w-auto">
                     <GoalCard
                       size="compact"
@@ -120,10 +126,6 @@ async function HomeContent() {
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="rounded-card border-[3px] border-dashed border-line-strong p-4 text-[0.9375rem] text-ink-2">
-                {t('soon.empty')}
-              </p>
             )}
           </section>
 

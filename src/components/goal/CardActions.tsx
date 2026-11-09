@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { GoalStatus } from '@/features/goals/schema'
 import { Link, useRouter } from '@/i18n/navigation'
 import { cn } from '@/lib/cn'
@@ -19,10 +19,16 @@ type Moment = { kind: 'converted' | 'stored'; previous: GoalStatus; version: num
 export function CardActions({ goalId, version: initialVersion, status }: CardActionsProps) {
   const t = useTranslations('goals.detail.actions')
   const router = useRouter()
-  const [version, setVersion] = useState(initialVersion)
+  // Versions only grow: the newest of the server's and the one our last change returned.
+  const [localVersion, setVersion] = useState(initialVersion)
+  const version = Math.max(initialVersion, localVersion)
   const [moment, setMoment] = useState<Moment>(null)
   const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState(false)
+
+  // Next keeps a visited page alive but hidden (React Activity), which runs effect cleanups:
+  // leaving the page closes the "just converted" moment.
+  useEffect(() => () => setMoment(null), [])
 
   const setStatus = async (next: GoalStatus, baseVersion: number) => {
     setBusy(true)

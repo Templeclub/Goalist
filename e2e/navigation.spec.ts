@@ -29,6 +29,8 @@ test.describe('Premiers pas (sans compte)', () => {
         .getByRole('button', { name: 'Nouvelle carte' })
         .click()
     } else {
+      // Shortcuts listen once the page is hydrated.
+      await page.waitForLoadState('networkidle')
       await page.keyboard.press('n')
     }
     const field = page.getByRole('textbox', { name: 'Ton envie' })
