@@ -19,6 +19,8 @@ export type AuthErrorKey =
   | 'captcha'
   | 'unknown'
   | 'callback'
+  | 'googleTaken'
+  | 'googleLinkOff'
 
 export type SignInFormProps = {
   /** An anonymous notebook already exists on this device: we convert it. */

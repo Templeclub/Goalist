@@ -1,5 +1,6 @@
 import type { EmailOtpType } from '@supabase/supabase-js'
 import { NextResponse, type NextRequest } from 'next/server'
+import { callbackError } from '@/features/auth/callback-error'
 import { safeNext } from '@/lib/http'
 import { createClient } from '@/lib/supabase/server'
 
@@ -23,7 +24,10 @@ export async function GET(request: NextRequest) {
     ok = !(await supabase.auth.verifyOtp({ token_hash: tokenHash, type })).error
   }
 
-  if (!ok) return NextResponse.redirect(new URL('/sign-in?error=callback', url.origin))
+  if (!ok) {
+    const reason = callbackError(url.searchParams.get('error_code'))
+    return NextResponse.redirect(new URL(`/sign-in?error=${reason}`, url.origin))
+  }
 
   const { data: claims } = await supabase.auth.getClaims()
   const userId = claims?.claims?.sub

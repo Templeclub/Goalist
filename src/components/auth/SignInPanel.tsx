@@ -34,6 +34,7 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
   const t = useTranslations('auth')
   const router = useRouter()
   const [converting, setConverting] = useState(false)
+  const googleSignInInstead = initialError === 'googleTaken' || initialError === 'googleLinkOff'
 
   useEffect(() => {
     void loadBrowserClient()
@@ -67,15 +68,18 @@ export function SignInPanel({ initialError }: { initialError?: AuthErrorKey | nu
         }}
         onGoogle={async () => {
           const auth = (await loadBrowserClient()).auth
-          const { error } = converting
-            ? await auth.linkIdentity({
-                provider: 'google',
-                options: { redirectTo: callback('/me') },
-              })
-            : await auth.signInWithOAuth({
-                provider: 'google',
-                options: { redirectTo: callback() },
-              })
+          // Linking failed because this Google account already has a notebook (or linking
+          // is off): sign in with it instead.
+          const { error } =
+            converting && !googleSignInInstead
+              ? await auth.linkIdentity({
+                  provider: 'google',
+                  options: { redirectTo: callback('/me') },
+                })
+              : await auth.signInWithOAuth({
+                  provider: 'google',
+                  options: { redirectTo: callback() },
+                })
           if (error) fail(error)
         }}
         onPassword={async (mode, email, password) => {

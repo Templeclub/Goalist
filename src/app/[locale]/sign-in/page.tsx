@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { SignInPanel } from '@/components/auth/SignInPanel'
 import { Link } from '@/i18n/navigation'
+import { isCallbackError } from '@/features/auth/callback-error'
 import { initLocale } from '@/i18n/page-locale'
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/sign-in'>) {
@@ -35,5 +36,5 @@ async function Panel({
   searchParams: PageProps<'/[locale]/sign-in'>['searchParams']
 }) {
   const { error } = await searchParams
-  return <SignInPanel initialError={error === 'callback' ? 'callback' : null} />
+  return <SignInPanel initialError={isCallbackError(error) ? error : null} />
 }
