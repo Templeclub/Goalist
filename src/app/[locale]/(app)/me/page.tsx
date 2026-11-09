@@ -3,10 +3,12 @@ import { Suspense } from 'react'
 import { DeleteAccount } from '@/components/me/DeleteAccount'
 import { PseudoField } from '@/components/me/PseudoField'
 import { SignOutButton } from '@/components/me/SignOutButton'
+import { ThemePicker } from '@/components/me/ThemePicker'
 import { buttonVariants } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
 import { getProfile } from '@/features/goals/queries'
+import { isTheme } from '@/features/theme/theme'
 import { Link } from '@/i18n/navigation'
 import { initLocale } from '@/i18n/page-locale'
 import { PageContainer } from '../page-container'
@@ -39,6 +41,15 @@ async function MeContent() {
 
   return (
     <>
+      <section
+        aria-labelledby="appearance-title"
+        className="grid gap-3 rounded-card border-[3px] border-card-border bg-card p-5 shadow-card"
+      >
+        <h2 id="appearance-title" className="label-caps">
+          {t('appearance.title')}
+        </h2>
+        <ThemePicker accountTheme={isTheme(profile?.theme) ? profile.theme : null} />
+      </section>
       <section
         aria-labelledby="notebook-title"
         className="grid gap-3 rounded-card border border-card-border bg-card p-5 shadow-card"

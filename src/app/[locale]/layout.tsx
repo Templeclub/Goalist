@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { APP_NAME } from '@/config/app'
+import { themeScript } from '@/features/theme/theme'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -53,7 +54,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<'/[
   setRequestLocale(locale)
 
   return (
-    <html lang={locale} className={`${baloo.variable} ${nunito.variable}`}>
+    // The theme script sets data-theme / data-motion before hydration.
+    <html lang={locale} className={`${baloo.variable} ${nunito.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-dvh">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
