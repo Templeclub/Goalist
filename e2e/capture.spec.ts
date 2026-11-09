@@ -26,7 +26,7 @@ test.describe('Capture et sauvegarde (avec Supabase)', () => {
     await expect(page.getByText('Ton carnet n’est gardé que sur cet appareil.')).toBeVisible()
   })
 
-  test('compléter le nom depuis la page de l’envie, sans jamais rien perdre', async ({ page }) => {
+  test('l’emoji est deviné, puis modifiable sans jamais rien perdre', async ({ page }) => {
     await page.goto('/home')
     await page.getByRole('button', { name: 'J’aimerais…' }).click()
     await page.getByRole('textbox', { name: 'Ton envie' }).fill('Apprendre le violoncelle')
@@ -35,19 +35,18 @@ test.describe('Capture et sauvegarde (avec Supabase)', () => {
     await page.getByRole('link', { name: 'Compléter la fiche' }).click()
     await expect(page).toHaveURL(/\/edit\/name$/)
 
+    // Emoji guessed from the title, editable and saved as you type.
+    const emoji = page.getByLabel(/^Emoji/)
+    await expect(emoji).toHaveValue('🎸')
     // Wait for the autosave request itself, registered before typing.
     const saved = page.waitForResponse(
       (r) => r.url().includes('/api/goals/') && r.request().method() === 'PATCH' && r.ok(),
     )
-    await page
-      .getByLabel(/^Accroche/)
-      .fill('Jouer un morceau entier pour les 80 ans de ma grand-mère.')
+    await emoji.fill('🎻')
     await saved
 
     await page.reload()
-    await expect(page.getByLabel(/^Accroche/)).toHaveValue(
-      'Jouer un morceau entier pour les 80 ans de ma grand-mère.',
-    )
+    await expect(page.getByLabel(/^Emoji/)).toHaveValue('🎻')
   })
 
   test('une seconde envie ne refait pas le message de la première', async ({ page }) => {

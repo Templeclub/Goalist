@@ -1,1 +1,15 @@
-{}
+{
+  "list": {
+    "quick": {
+      "soon": "Soon",
+      "prepare_early": "Plan ahead"
+    },
+    "sort": {
+      "priority": "By horizon"
+    },
+    "searchPlaceholder": "A word, a place, an idea…"
+  },
+  "detail": {
+    "plan": "Getting there"
+  }
+}

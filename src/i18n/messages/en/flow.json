@@ -1,1 +1,43 @@
-{}
+{
+  "sections": {
+    "name": "The wish",
+    "why": "The why",
+    "smart": "Make it clear",
+    "first-steps": "First step"
+  },
+  "name": {
+    "question": "Your wish, in a few words",
+    "emojiHint": "Picked from the title. Change it if you like.",
+    "categories": "Category",
+    "categoriesHint": "It gives the card its colour. You can pick several: the first one counts.",
+    "newCategory": "Create a category",
+    "newCategoryName": "Category name",
+    "newCategoryHue": "Hue",
+    "createCategory": "Create",
+    "categoryExists": "You already have a category with this name.",
+    "description": "Description",
+    "descriptionHelp": "If you feel like saying more: an image, a memory, details.",
+    "descriptionPlaceholder": "What you see when you think about it…"
+  },
+  "why": {
+    "whyHelp": "A feeling, a memory, what it would change for you. One sentence is enough.",
+    "values": "What it would bring you",
+    "valuesHint": "Tick what speaks to you."
+  },
+  "plan": {
+    "question": "Getting there",
+    "intro": "What it takes, and when. Everything is optional.",
+    "whatTitle": "What it takes",
+    "achievable": "What makes it possible? What do you need?",
+    "achievableHelp": "What you already have (time, gear, people) and what is still missing.",
+    "achievablePlaceholder": "I already have…, I would need…",
+    "whenTitle": "When",
+    "horizonHint": "A rough idea is enough, nothing binds you.",
+    "season": "Which season, rather?",
+    "seasonHint": "Optional, as many as you like."
+  },
+  "firstSteps": {
+    "status": "Where is this wish at?",
+    "letGoNote": "A word for later? (optional)"
+  }
+}

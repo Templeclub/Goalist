@@ -2,15 +2,14 @@ import 'server-only'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/database.types'
 import { computeCompleteness, type CompletenessInput } from './completeness'
-import { smartFilledCount, type SmartAnswers } from './smart'
 
 const columns =
-  'version, description_text, imagined_outcome, where_with, why, benefits, first_step, notes, difficulty, preparation, horizon, energy, budget_level, time_estimate, mode, seasons, place, goal_values(count), goal_categories(count), smart_answers(specific, measurable, achievable, obstacle, if_then, relevant, time_bound)'
+  'version, description_text, why, first_step, preparation, horizon, budget_level, seasons, goal_values(count), goal_categories(count), smart_answers(achievable)'
 
 type Counted = {
   goal_values: { count: number }[]
   goal_categories: { count: number }[]
-  smart_answers: SmartAnswers | SmartAnswers[] | null
+  smart_answers: { achievable: string | null } | { achievable: string | null }[] | null
 }
 
 /** Reads what completeness depends on (RLS applies). Null when the goal is not visible. */
@@ -29,10 +28,9 @@ export async function readCompletenessInput(supabase: SupabaseClient<Database>, 
       ...counted,
       valueCount: counted.goal_values[0]?.count ?? 0,
       categoryCount: counted.goal_categories[0]?.count ?? 0,
-      smartFilledCount: smartFilledCount(
-        (Array.isArray(counted.smart_answers) ? counted.smart_answers[0] : counted.smart_answers) ??
-          {},
-      ),
+      achievable:
+        (Array.isArray(counted.smart_answers) ? counted.smart_answers[0] : counted.smart_answers)
+          ?.achievable ?? null,
     } as CompletenessInput,
   }
 }

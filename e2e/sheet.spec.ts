@@ -13,33 +13,23 @@ async function keepWish(page: Page, title: string) {
 }
 
 test.describe('Fiche complète (avec Supabase)', () => {
-  test('donner vie à une envie, section par section, puis la relire', async ({ page }) => {
+  test('donner vie à une envie en quatre sections, puis la relire', async ({ page }) => {
     await keepWish(page, 'Dormir une nuit à la belle étoile')
     await page.getByRole('link', { name: 'Compléter la fiche' }).click()
 
-    // 1. Nommer
-    await page.getByLabel(/^Accroche/).fill('Voir la Voie lactée de mes propres yeux.')
-    await page
-      .getByRole('button', { name: /^Continuer/ })
-      .first()
-      .click()
-
-    // 2. Décrire
-    await expect(page).toHaveURL(/\/edit\/describe$/)
+    // 1. L'envie : emoji et catégorie déjà devinés d'après le titre
+    await expect(page).toHaveURL(/\/edit\/name$/)
+    await expect(page.getByLabel(/^Emoji/)).toHaveValue('🏕️')
+    await expect(page.getByRole('checkbox', { name: /Voyage/ })).toBeChecked()
     const editor = page.getByRole('textbox', { name: 'Description' })
     await editor.click()
     await page.keyboard.type('Un plateau du Vercors en août.')
     await page
-      .getByRole('button', { name: /Ajouter la question : Qu’est-ce qui me donne envie/ })
-      .click()
-    await page.keyboard.type('Le silence, surtout.')
-    await page.getByLabel(/^Où, avec qui/).fill('Plateau d’Ambel, avec Léa.')
-    await page
       .getByRole('button', { name: /^Continuer/ })
       .first()
       .click()
 
-    // 3. Le pourquoi
+    // 2. Le pourquoi
     await expect(page).toHaveURL(/\/edit\/why$/)
     await page.getByLabel(/^Pourquoi c’est important pour toi/).fill('Parce que ça me manque.')
     await page.getByText('Liberté', { exact: true }).click()
@@ -48,24 +38,24 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .first()
       .click()
 
-    // 4. Préciser and 5. Qualifier can be skipped
+    // 3. Préciser : ce qu'il faut, et pour quand
     await expect(page).toHaveURL(/\/edit\/smart$/)
-    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
-    await expect(page).toHaveURL(/\/edit\/qualify$/)
-    await page.getByRole('button', { name: 'Passer pour l’instant' }).click()
-    await expect(page).toHaveURL(/\/edit\/first-steps$/)
-
-    // 6. Premières pistes
     await page
-      .getByLabel(/^Quelle serait la toute première petite étape/)
-      .fill('Chercher les zones de bivouac autorisées')
+      .getByRole('textbox', { name: /Qu’est-ce qui rend ça possible/ })
+      .fill('Un duvet chaud et une carte.')
+    await page.getByText('Importante', { exact: true }).click()
+    await page.getByText('Long, plus d’un an', { exact: true }).click()
+    await page.getByText('Été', { exact: true }).click()
     await page
       .getByRole('button', { name: /^Continuer/ })
       .first()
       .click()
 
-    // 7. Relire & garder
-    await expect(page).toHaveURL(/\/edit\/review$/)
+    // 4. Premier pas
+    await expect(page).toHaveURL(/\/edit\/first-steps$/)
+    await page
+      .getByLabel(/^Quelle serait la toute première petite étape/)
+      .fill('Chercher les zones de bivouac autorisées')
     await page.getByText('Envie confirmée', { exact: true }).click()
     await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
 
@@ -80,13 +70,12 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .locator('article')
       .filter({ visible: true })
       .filter({ has: page.getByRole('heading', { level: 1 }) })
-    await expect(pageArticle.getByText('Voir la Voie lactée de mes propres yeux.')).toBeVisible()
-    await expect(
-      pageArticle.getByRole('heading', { name: 'Qu’est-ce qui me donne envie là-dedans ?' }),
-    ).toBeVisible()
-    await expect(pageArticle.getByText('Le silence, surtout.')).toBeVisible()
+    await expect(pageArticle.getByText('Un plateau du Vercors en août.')).toBeVisible()
     await expect(pageArticle.getByText('Parce que ça me manque.')).toBeVisible()
     await expect(pageArticle.getByRole('listitem').filter({ hasText: 'Liberté' })).toBeVisible()
+    await expect(pageArticle.getByText('Un duvet chaud et une carte.')).toBeVisible()
+    await expect(pageArticle.getByText('Plus tard')).toBeVisible()
+    await expect(pageArticle.getByText('À anticiper')).toBeVisible()
     await expect(pageArticle.getByText('Chercher les zones de bivouac autorisées')).toBeVisible()
     await expect(pageArticle.getByText('Envie confirmée')).toBeVisible()
   })
@@ -94,16 +83,16 @@ test.describe('Fiche complète (avec Supabase)', () => {
   test('revenir à une version précédente sans rien perdre', async ({ page }) => {
     await keepWish(page, 'Apprendre le violoncelle')
     const detail = page.url()
-    await page.getByRole('link', { name: 'Compléter la fiche' }).click()
-    await page.getByLabel(/^Accroche/).fill('Première version')
+    await page.goto(`${detail}/edit/why`)
+    await page.getByLabel(/^Pourquoi c’est important pour toi/).fill('Première version')
     await page
       .getByRole('button', { name: /^Continuer/ })
       .first()
       .click()
-    await expect(page).toHaveURL(/\/edit\/describe$/)
+    await expect(page).toHaveURL(/\/edit\/smart$/)
 
-    await page.goto(`${detail}/edit/name`)
-    await page.getByLabel(/^Accroche/).fill('Seconde version')
+    await page.goto(`${detail}/edit/why`)
+    await page.getByLabel(/^Pourquoi c’est important pour toi/).fill('Seconde version')
     await expect(page.getByRole('status').filter({ hasText: 'Enregistré' })).toBeVisible()
     await page.waitForTimeout(1000)
 
@@ -120,39 +109,17 @@ test.describe('Fiche complète (avec Supabase)', () => {
     await expect(page.getByText('Seconde version')).toBeVisible()
   })
 
-  test('préciser (SMART), qualifier, puis laisser partir avec un mot', async ({ page }) => {
+  test('les anciens liens de section mènent au bon endroit, puis laisser partir', async ({
+    page,
+  }) => {
     await keepWish(page, 'Courir 5 km')
     const detail = page.url()
 
-    // 4. Préciser
-    await page.goto(`${detail}/edit/smart`)
-    await page
-      .getByLabel(/^Que veux-tu accomplir précisément/)
-      .fill('Courir 5 km d’affilée dans mon quartier')
-    for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Suivant' }).click()
-    await page.getByLabel(/^Pour quand, ou à quel rythme/).fill('D’ici fin juin')
-    await page.getByRole('button', { name: 'Voir ma phrase' }).click()
-    await expect(page.getByRole('textbox', { name: 'Ta phrase' })).toHaveValue(
-      'D’ici fin juin, courir 5 km d’affilée dans mon quartier.',
-    )
-    await page
-      .getByRole('button', { name: /^Continuer/ })
-      .first()
-      .click()
-
-    // 5. Qualifier
-    await expect(page).toHaveURL(/\/edit\/qualify$/)
-    await page.getByText('Sport & santé', { exact: true }).click()
-    await page.getByText('Exigeant', { exact: true }).click()
-    await page.getByText('Été', { exact: true }).click()
-    const tag = page.getByLabel(/^Tags/)
-    await tag.fill('quartier')
-    const saved = page.waitForResponse((r) => r.url().endsWith('/tags') && r.ok())
-    await tag.press('Enter')
-    await saved
-
-    // 7. Relire & garder : laisser partir, avec un mot
+    await page.goto(`${detail}/edit/qualify`)
+    await expect(page).toHaveURL(/\/edit\/smart$/)
     await page.goto(`${detail}/edit/review`)
+    await expect(page).toHaveURL(/\/edit\/first-steps$/)
+
     await page.getByText('Lâché consciemment', { exact: true }).click()
     await page.getByLabel(/^Un mot pour plus tard/).fill('Mes genoux préfèrent la natation.')
     await page.getByRole('button', { name: 'Garder et revenir à la page' }).click()
@@ -164,12 +131,7 @@ test.describe('Fiche complète (avec Supabase)', () => {
       .locator('article')
       .filter({ visible: true })
       .filter({ has: page.getByRole('heading', { level: 1 }) })
-    await expect(
-      article.getByText('D’ici fin juin, courir 5 km d’affilée dans mon quartier.'),
-    ).toBeVisible()
-    await expect(article.getByText('Exigeant')).toBeVisible()
     await expect(article.getByText('Sport & santé')).toBeVisible()
-    await expect(article.getByText('#quartier')).toBeVisible()
     await expect(
       article.getByText('Tu as choisi de laisser partir cette envie.', { exact: false }),
     ).toBeVisible()

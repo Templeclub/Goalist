@@ -1,12 +1,12 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { z } from 'zod'
 import { SheetEditor, type SheetData } from '@/components/sheet/SheetEditor'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { getViewer } from '@/features/auth/session'
-import { getGoalSheet, listCategories, listTagLabels } from '@/features/goals/queries'
+import { getGoalSheet, listCategories } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
-import { isFlowSection } from '@/features/goals/sections'
+import { isFlowSection, legacySections } from '@/features/goals/sections'
 import { initLocale } from '@/i18n/page-locale'
 
 /** "Donner vie à cette envie" — has its own chrome, outside the app navigation. */
@@ -33,6 +33,8 @@ async function Sheet({
 }) {
   const { id, section } = await params
   await initLocale(params)
+  const legacy = legacySections[section]
+  if (legacy && z.uuid().safeParse(id).success) redirect(`/goals/${id}/edit/${legacy}`)
   if (!isFlowSection(section) || !z.uuid().safeParse(id).success) notFound()
   const viewer = await getViewer()
   const goal = viewer ? await getGoalSheet(id) : null
@@ -43,29 +45,18 @@ async function Sheet({
     id: goal.id,
     version: goal.version,
     title: goal.title,
-    tagline: goal.tagline,
     emoji: goal.emoji,
-    hue: goal.hue as SheetData['hue'],
-    categories: goal.categories,
     status: goal.status,
     descriptionDoc: doc.success ? doc.data : null,
-    imaginedOutcome: goal.imaginedOutcome,
-    whereWith: goal.whereWith,
     why: goal.why,
-    benefits: goal.benefits,
     firstStep: goal.firstStep,
-    notes: goal.notes,
     valueKeys: goal.valueKeys as SheetData['valueKeys'],
-    customValues: goal.customValues,
-    media: goal.media,
     qualify: goal.qualify,
     categoryItems: goal.categoryItems,
-    tags: goal.tags,
-    smart: goal.smart,
+    achievable: goal.smart.achievable,
     statusNote: goal.statusNote,
   }
-  const [availableCategories, tagSuggestions] =
-    section === 'qualify' ? await Promise.all([listCategories(), listTagLabels()]) : [[], []]
+  const availableCategories = section === 'name' ? await listCategories() : []
 
   return (
     <SheetEditor
@@ -74,9 +65,7 @@ async function Sheet({
       key={`${goal.id}-${section}-${goal.version}`}
       data={data}
       section={section}
-      canUploadImages={!viewer!.isAnonymous}
       availableCategories={availableCategories}
-      tagSuggestions={tagSuggestions}
     />
   )
 }

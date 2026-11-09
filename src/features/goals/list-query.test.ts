@@ -5,16 +5,17 @@ describe('list query (URL state)', () => {
   it('parses known values and drops unknown ones', () => {
     const q = parseListQuery({
       status: 'idea,done,abandoned',
-      difficulty: '1,9',
-      quick: 'weekend,nope',
+      horizon: 'short,never',
+      quick: 'soon,nope',
       sort: 'random',
-      energy: 'low',
+      group: 'colour',
     })
     expect(q.status).toEqual(['idea', 'done'])
-    expect(q.difficulty).toEqual([1])
-    expect(q.quick).toEqual(['weekend'])
-    expect(q.sort).toBe('updated')
-    expect(activeFilterCount(q)).toBe(3)
+    expect(q.horizon).toEqual(['short'])
+    expect(q.quick).toEqual(['soon'])
+    expect(q.sort).toBe('priority')
+    expect(q.group).toBe('horizon')
+    expect(activeFilterCount(q)).toBe(2)
   })
 
   it('neutralises PostgREST syntax in the search text', () => {
@@ -23,16 +24,13 @@ describe('list query (URL state)', () => {
 
   it('ignores invalid ids', () => {
     expect(
-      parseListQuery({ category: 'abc,0192f3a4-7b1c-7d2e-8f3a-123456789abc', open: 'x' }),
-    ).toMatchObject({
-      category: ['0192f3a4-7b1c-7d2e-8f3a-123456789abc'],
-      open: undefined,
-    })
+      parseListQuery({ category: 'abc,0192f3a4-7b1c-7d2e-8f3a-123456789abc' }).category,
+    ).toEqual(['0192f3a4-7b1c-7d2e-8f3a-123456789abc'])
   })
 
   it('round-trips to a minimal query string', () => {
-    const q = parseListQuery({ q: 'pain', quick: 'easy_start', sort: 'title' })
-    expect(listQueryToSearch(q)).toBe('?q=pain&quick=easy_start&sort=title')
+    const q = parseListQuery({ q: 'pain', quick: 'prepare_early', sort: 'title', group: 'none' })
+    expect(listQueryToSearch(q)).toBe('?q=pain&quick=prepare_early&sort=title&group=none')
     expect(listQueryToSearch(parseListQuery({}))).toBe('')
     expect(hasAnyFilter(parseListQuery({}))).toBe(false)
   })
