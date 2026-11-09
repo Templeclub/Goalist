@@ -15,10 +15,12 @@ async function keepWish(page: Page, title: string) {
 test.describe('Fiche complète (avec Supabase)', () => {
   test('donner vie à une envie en quatre sections, puis la relire', async ({ page }) => {
     await keepWish(page, 'Dormir une nuit à la belle étoile')
+    // The category is already guessed: "Compléter la fiche" opens the first empty section.
     await page.getByRole('link', { name: 'Compléter la fiche' }).click()
+    await expect(page).toHaveURL(/\/edit\/why$/)
+    await page.goto(page.url().replace(/\/why$/, '/name'))
 
     // 1. L'envie : emoji et catégorie déjà devinés d'après le titre
-    await expect(page).toHaveURL(/\/edit\/name$/)
     await expect(page.getByLabel(/^Emoji/)).toHaveValue('🏕️')
     await expect(page.getByRole('checkbox', { name: /Voyage/ })).toBeChecked()
     const editor = page.getByRole('textbox', { name: 'Description' })

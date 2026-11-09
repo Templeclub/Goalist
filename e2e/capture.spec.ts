@@ -32,7 +32,8 @@ test.describe('Capture et sauvegarde (avec Supabase)', () => {
     await page.getByRole('textbox', { name: 'Ton envie' }).fill('Apprendre le violoncelle')
     await page.getByRole('button', { name: 'Garder' }).click()
     await page.getByRole('button', { name: 'Oui' }).click()
-    await page.getByRole('link', { name: 'Compléter la fiche' }).click()
+    await expect(page.getByRole('link', { name: 'Compléter la fiche' })).toBeVisible()
+    await page.goto(`${page.url()}/edit/name`)
     await expect(page).toHaveURL(/\/edit\/name$/)
 
     // Emoji guessed from the title, editable and saved as you type.

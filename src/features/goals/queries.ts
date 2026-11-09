@@ -326,13 +326,18 @@ export async function listRevisions(goalId: string) {
     .limit(50)
   if (error) throw error
   return data.map((r) => {
-    const goal = (r.snapshot as { goal?: { title?: string; tagline?: string | null } } | null)?.goal
+    const goal = (
+      r.snapshot as {
+        goal?: { title?: string; why?: string | null; tagline?: string | null }
+      } | null
+    )?.goal
     return {
       id: r.id,
       reason: r.reason,
       createdAt: r.created_at,
       title: goal?.title ?? '',
-      tagline: goal?.tagline ?? null,
+      // What tells two versions apart: the why, or the former tagline on older ones.
+      excerpt: goal?.why?.trim() || goal?.tagline || null,
     }
   })
 }
