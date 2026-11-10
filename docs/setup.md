@@ -60,8 +60,8 @@ Authentication → **Sign In / Providers** :
 
 Authentication → **URL Configuration** :
 
-- Site URL : l'URL de production (ex. `https://elan.app`), ou celle de Vercel en attendant.
-- Redirect URLs : `http://localhost:3000/**`, `https://<projet>.vercel.app/**`, `https://*-temple13.vercel.app/**` (aperçus de PR, équipe Vercel `temple13`).
+- Site URL : l'URL de production (ex. `https://boosteur.vercel.app`), ou celle de Vercel en attendant.
+- Redirect URLs : `http://localhost:3000/**`, `https://boosteur.vercel.app/**`, `https://*-temple13.vercel.app/**` (aperçus de PR, équipe Vercel `temple13`).
 
 Authentication → **Attack Protection** :
 
@@ -83,7 +83,19 @@ Database → Extensions : `pg_cron`, `pg_trgm` et `unaccent` doivent apparaître
    - `SUPABASE_SECRET_KEY` (cocher « Sensitive ») : indispensable à la suppression de compte (`src/server/admin/`). Sans elle, « Supprimer mon compte » répond une erreur et rien n'est effacé.
    - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 3. Deploy. Chaque PR aura ensuite son aperçu.
-4. Domaine (quand le nom sera choisi) : Settings → Domains.
+4. Domaine : Settings → **Domains** (voir 3.1).
+
+### 3.1 Changer l'adresse du site (ex. `boosteur.vercel.app`, D-065)
+
+Le code ne contient aucune adresse en dur : seuls les réglages ci-dessous changent.
+
+1. **Vercel** → projet → Settings → **Domains** → Add → `boosteur.vercel.app` (accepté s'il est libre). Le définir comme domaine de production ; garder l'ancien en redirection (« Redirect to » `boosteur.vercel.app`, 308) pour ne casser aucun lien ni aucune app installée. Facultatif : Settings → General → Project Name `boosteur`, pour que les aperçus de PR deviennent `boosteur-git-<branche>-temple13.vercel.app`.
+2. **Vercel** → Settings → Environment Variables → `NEXT_PUBLIC_SITE_URL` = `https://boosteur.vercel.app` (Production), puis redéployer.
+3. **Supabase** → Authentication → URL Configuration : Site URL `https://boosteur.vercel.app` ; ajouter `https://boosteur.vercel.app/**` aux Redirect URLs (garder l'ancienne le temps de la transition ; `https://*-temple13.vercel.app/**` couvre les aperçus, même renommés).
+4. **Cloudflare Turnstile** → le site → Hostnames : ajouter `boosteur.vercel.app`. Sans lui, la première envie sans compte échoue (erreur 110200).
+5. **Google Cloud** → OAuth consent screen : nom de l'app `Boosteur`, logo `public/icons/icon-512.png`, domaine autorisé. L'URI de redirection (`…supabase.co/auth/v1/callback`) ne change pas.
+
+Vérifier ensuite : première envie sans compte, connexion par e-mail et avec Google sur téléphone, lien d'invitation d'un ami.
 
 ## 4. Google (connexion « Continuer avec Google »)
 
