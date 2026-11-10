@@ -8,7 +8,7 @@ Statuts : **Proposée** · **Acceptée** · **Remplacée**.
 
 ---
 
-### D-001 · Nom du produit centralisé — Proposée
+### D-001 · Nom du produit centralisé — Remplacée par D-065 pour le nom
 
 `APP_NAME = "Élan"` dans `src/config/app.ts`, injecté dans les messages via `{appName}`. Le manifeste PWA, les métadonnées et les e-mails le lisent au même endroit.
 
@@ -317,3 +317,14 @@ La dimension sociale prévue au départ (« cercle d'amis », soutenir, contribu
 - **Pseudos** : seul le pseudo d'un ami est lisible, via `my_friends()` et `invite_preview()` (fonctions `security definer` limitées à ces colonnes) ; le reste du profil reste privé.
 - **Fin d'une amitié** : l'un ou l'autre la retire ; l'accès aux cartes partagées et à ce qui s'y est dit disparaît aussitôt, des deux côtés.
 - Tests pgTAP : `supabase/tests/database/friends.test.sql` (39 assertions). Le générateur de types local produit désormais aussi les fonctions SQL.
+
+## Identité
+
+### D-065 · Le produit s'appelle Boosteur — Acceptée
+
+Le nom provisoire « Élan » (D-001) est remplacé par **Boosteur** : on booste ses cartes, comme on ouvre un booster de cartes à collectionner. Le nom reste centralisé dans `APP_NAME` (`src/config/app.ts`) et `{appName}` dans les messages ; le manifeste, les métadonnées et les textes suivent sans autre changement.
+
+- L'export s'appelle désormais `boosteur-export-<date>.zip` (fichier `boosteur-export.json`).
+- Le cache du service worker passe à `boosteur-v1` : l'ancien cache `elan-v1` est supprimé à l'activation.
+- Les clés internes `elan:*` (`localStorage`, `sessionStorage` : thème, animations, captures en attente) **ne changent pas**, pour ne perdre aucune saisie ni aucun réglage gardé sur l'appareil. Elles ne sont jamais affichées.
+- **Logo** (canevas de design, page « Version 3 », mix retenu) : deux cartes en éventail dans le style Arcade Pro — derrière, une carte orange à fenêtre dorée ; devant, une carte holographique portant un « B » violet et une petite étoile dorée ; contour encre et ombre « sticker ». Le « B » est vectorisé (Baloo 2 ExtraBold) pour s'afficher sans la police. Sources : `public/icons/mark.svg` (marque seule, composant `BrandMark`), `src/app/icon.svg` (onglet), `src/app/apple-icon.png`, `public/icons/icon-{192,512}.png` et `icon-maskable-512.png` (marque réduite dans la zone sûre). La marque remplace l'initiale dans la barre latérale et ouvre la page d'accueil publique ; c'est un visuel figé, ses couleurs ne passent donc pas par les jetons.

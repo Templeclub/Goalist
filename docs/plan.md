@@ -1,4 +1,4 @@
-# Plan d'implémentation — Élan (nom provisoire)
+# Plan d'implémentation — Boosteur
 
 > Version 0.2 · 8 novembre 2026 · statut : **validé**, phase 0 en cours
 > Documents liés : [`CLAUDE.md`](../CLAUDE.md) · [`principles.md`](principles.md) · [`design-system.md`](design-system.md) · [`decisions.md`](decisions.md) · [`screens/`](screens/) · [`mockups/maquettes.html`](mockups/maquettes.html)
@@ -87,7 +87,7 @@ elan/
 │  ├─ server/admin/           # seul endroit autorisé à utiliser service_role
 │  ├─ lib/supabase/           # clients server / browser / middleware
 │  ├─ i18n/                   # config next-intl ; messages/fr/*.json, messages/en/*.json
-│  ├─ config/app.ts           # APP_NAME = "Élan" et constantes produit
+│  ├─ config/app.ts           # APP_NAME = "Boosteur" et constantes produit
 │  └─ styles/tokens.css       # tokens sémantiques (clair / sombre)
 ├─ supabase/
 │  ├─ migrations/             # SQL versionné

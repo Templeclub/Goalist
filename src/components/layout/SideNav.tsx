@@ -4,6 +4,7 @@ import { PanelLeft, PanelLeftClose, Plus, Search } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Suspense } from 'react'
 import { Link, usePathname } from '@/i18n/navigation'
+import { BrandMark } from '../brand/BrandMark'
 import { cn } from '@/lib/cn'
 import { IconButton } from '../ui/IconButton'
 import { isActive, navItems } from './nav-items'
@@ -46,13 +47,8 @@ function SideNavView({
         )}
       >
         <span className="flex items-center gap-2.5">
-          <span
-            aria-hidden="true"
-            className="grid size-9 place-items-center rounded-[10px] bg-accent font-display text-lg font-semibold text-ink-on-accent"
-          >
-            {appName.charAt(0)}
-          </span>
-          {!collapsed && <span className="font-display text-lg font-bold">{appName}</span>}
+          <BrandMark size={36} label={collapsed ? appName : ''} />
+          {!collapsed && <span className="font-display text-lg font-extrabold">{appName}</span>}
         </span>
         <IconButton
           label={collapsed ? t('expand') : t('collapse')}

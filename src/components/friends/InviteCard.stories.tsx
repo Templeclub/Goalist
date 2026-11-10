@@ -14,7 +14,7 @@ const meta = {
   title: 'Amis/InviteCard',
   component: InviteCard,
   parameters: { layout: 'padded' },
-  args: { appName: 'Élan', api },
+  args: { appName: 'Boosteur', api },
   decorators: [
     (Story) => (
       <div className="max-w-md">

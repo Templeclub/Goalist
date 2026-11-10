@@ -14,12 +14,13 @@
 - **États d'une carte** (`GoalCard`) : _esquisse_ (bord pointillé, illustration hachurée, « Révéler la carte »), _à convertir_ (fond de la série, rareté, horizon, premier pas), _acquise_ (fond doré pâle, illustration holographique animée — figée si les animations sont réduites —, pastille « Acquise ! », numéro et date), _rangée_ (atténuée, jamais détruite).
 - **Rareté** : 1 à 5 losanges, toujours doublés d'un texte (« Rareté : Épique ») : jamais l'information par la couleur seule.
 - **Boutons et puces** : contour à l'encre, primaire avec ombre décalée qui s'enfonce au clic ; puce cochée pleine (accent) avec ombre.
+- **Logo** (D-065) : deux cartes en éventail — orange à fenêtre dorée derrière, holographique au « B » violet devant. Composant `BrandMark` (`public/icons/mark.svg`) ; icônes d'app, d'onglet et Apple tirées du même dessin.
 
 > Version 0.2 · **direction retenue : A « Atelier »** (D-029). B et C restent décrites pour mémoire. Les trois directions artistiques sont visibles côte à côte, appliquées aux écrans clés, dans [`mockups/maquettes.html`](mockups/maquettes.html) (sélecteur de direction et de thème en haut de page).
 
 ## 1. Intention
 
-Élan doit ressembler à **un beau carnet de projets personnel** : chaleureux, calme, lumineux, légèrement éditorial. Pas un outil de gestion de tâches, pas un tableau de bord.
+Boosteur doit ressembler à **un beau carnet de projets personnel** : chaleureux, calme, lumineux, légèrement éditorial. Pas un outil de gestion de tâches, pas un tableau de bord.
 
 - **Beaucoup d'air, peu d'éléments, un geste principal par écran.**
 - **La page avant le widget** : les envies se lisent comme des pages, pas comme des lignes de tableau.

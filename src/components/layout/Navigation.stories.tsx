@@ -31,7 +31,7 @@ export const Desktop: Story = {
     const [collapsed, setCollapsed] = useState(false)
     return (
       <div className="flex h-[520px] bg-paper">
-        <SideNav appName="Élan" collapsed={collapsed} onCollapsedChange={setCollapsed} />
+        <SideNav appName="Boosteur" collapsed={collapsed} onCollapsedChange={setCollapsed} />
       </div>
     )
   },
