@@ -62,7 +62,8 @@
     "owner": "Carte de {name}",
     "why": "Pourquoi c’est important",
     "firstStep": "Premier pas",
-    "description": "Description"
+    "description": "Description",
+    "readOnly": "Carte de {name}, en lecture seule : tu peux l’encourager, pas la modifier."
   },
   "reactions": {
     "label": "Encourager",
@@ -115,5 +116,15 @@
     "decline": "Pas pour cette fois",
     "reopen": "Revenir dessus"
   },
-  "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant."
+  "failed": "Ça n’a pas pu être enregistré. Réessaie dans un instant.",
+  "profile": {
+    "back": "Amis",
+    "title": "Les cartes de {name}",
+    "since": "Amis depuis le {date}",
+    "count": "{count, plural, =0 {Aucune carte partagée pour l’instant} one {# carte partagée avec toi} other {# cartes partagées avec toi}}",
+    "empty": "{name} n’a encore partagé aucune carte. Chacun choisit ce qu’il partage.",
+    "readOnly": "Ce sont les cartes de {name} : tu peux les regarder et les encourager, seul·e {name} peut les modifier.",
+    "notFound": "Cette personne ne fait pas (ou plus) partie de tes amis.",
+    "open": "Voir les cartes de {name}"
+  }
 }

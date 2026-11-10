@@ -89,6 +89,25 @@ test.describe('Amis (avec Supabase)', () => {
     await bob.getByRole('button', { name: 'Moi aussi' }).click()
     await expect(bob.getByRole('button', { name: /Tu aimerais aussi/ })).toBeVisible()
 
+    // Alice's card stays hers: never in Bob's own cards, and read-only when he opens it.
+    await expect(bob.getByText(/en lecture seule/)).toBeVisible()
+    for (const path of ['/goals', '/home', '/collection']) {
+      await bob.goto(path)
+      await expect(bob.locator('main').filter({ visible: true })).toBeVisible()
+      await expect(bob.getByRole('link', { name: title })).toHaveCount(0)
+    }
+    await bob.goto(new URL(cardUrl).pathname)
+    await bob.waitForURL(/\/friends\/cards\//)
+    await expect(bob.getByRole('link', { name: /Modifier|Compléter/ })).toHaveCount(0)
+
+    // Her profile lists every card she shares with him.
+    await bob.goto('/friends')
+    await bob.getByRole('link', { name: 'Voir les cartes de Alice' }).click()
+    await expect(bob.getByRole('heading', { level: 1, name: 'Les cartes de Alice' })).toBeVisible()
+    await expect(
+      bob.locator('main').filter({ visible: true }).getByRole('link', { name: title }),
+    ).toBeVisible()
+
     // Alice sees it on her side.
     await alice.goto('/friends')
     await expect(alice.getByText(/Bob : Bravo sur/)).toBeVisible()

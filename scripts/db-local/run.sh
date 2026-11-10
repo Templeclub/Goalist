@@ -40,10 +40,11 @@ if [ "${1:-}" = "--types" ]; then
     join information_schema.tables t on t.table_schema = c.table_schema and t.table_name = c.table_name
     where c.table_schema = 'public' and t.table_type = 'BASE TABLE') c" > "$WORK/columns.json"
   # Functions callable by signed-in people (supabase.rpc), with their IN arguments and
-  # their result: a set of rows (RETURNS TABLE) or a single scalar.
+  # their result: a set of rows (RETURNS TABLE) or a single scalar. Arguments with a default are optional.
   "${PSQL[@]}" -t -A -c "select coalesce(json_agg(f order by f.name), '[]') from (
     select p.proname as name,
-      coalesce((select json_agg(json_build_object('name', a.n, 'type', ty.typname) order by a.ord)
+      coalesce((select json_agg(json_build_object('name', a.n, 'type', ty.typname,
+          'optional', a.ord > p.pronargs - p.pronargdefaults) order by a.ord)
         from unnest(p.proargnames, coalesce(p.proallargtypes, p.proargtypes::oid[])) with ordinality a(n, t, ord)
         join pg_type ty on ty.oid = a.t
         where coalesce(p.proargmodes[a.ord], 'i') = 'i'), '[]') as args,

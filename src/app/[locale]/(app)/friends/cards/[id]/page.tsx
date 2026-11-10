@@ -40,8 +40,7 @@ async function FriendCardView({
     getViewer(),
   ])
   const friends = viewer && !viewer.isAnonymous ? await listFriends() : []
-  const card =
-    viewer && z.uuid().safeParse(id).success ? await getFriendCard(id, viewer.id, friends) : null
+  const card = viewer && z.uuid().safeParse(id).success ? await getFriendCard(id, friends) : null
 
   const back = (
     <Link
@@ -75,8 +74,16 @@ async function FriendCardView({
   return (
     <>
       {back}
-      <p className="text-center font-extrabold text-ink-2">
-        {t('card.owner', { name: card.ownerName ?? t('noName') })}
+      <p className="grid justify-items-center gap-0.5 text-center">
+        <Link
+          href={`/friends/${card.ownerId}`}
+          className="inline-flex min-h-11 items-center font-extrabold text-accent-strong hover:underline"
+        >
+          {t('card.owner', { name: card.ownerName ?? t('noName') })}
+        </Link>
+        <span className="text-sm text-ink-2">
+          {t('card.readOnly', { name: card.ownerName ?? t('noName') })}
+        </span>
       </p>
       <GoalCard
         size="hero"

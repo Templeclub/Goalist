@@ -1,6 +1,7 @@
 import 'server-only'
-import { cardColumns, toSummary, type GoalSummary, type Row } from '@/features/goals/queries'
+import { toSummary, type GoalSummary, type Row } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
+import type { Database } from '@/lib/supabase/database.types'
 import { createClient } from '@/lib/supabase/server'
 import type { ReactionKind } from './schema'
 
@@ -11,7 +12,7 @@ export async function listFriends(): Promise<Friend[]> {
   const supabase = await createClient()
   const [{ data: friends }, { data: shared }] = await Promise.all([
     supabase.rpc('my_friends'),
-    supabase.from('goals').select('owner_id').eq('visibility', 'circle').is('deleted_at', null),
+    supabase.rpc('friend_cards').select('owner_id'),
   ])
   const counts = new Map<string, number>()
   for (const g of shared ?? []) counts.set(g.owner_id, (counts.get(g.owner_id) ?? 0) + 1)
@@ -25,25 +26,35 @@ export async function listFriends(): Promise<Friend[]> {
 
 export type FriendCard = GoalSummary & { ownerId: string; ownerName: string | null }
 
-/** Cards friends shared with the viewer, most recently touched first. */
-export async function friendFeed(userId: string, friends: Friend[]): Promise<FriendCard[]> {
+type FriendCardRow = Database['public']['Functions']['friend_cards']['Returns'][number]
+
+/** A row of friend_cards() in the shape the card components read (D-066). */
+function toFriendCard(row: FriendCardRow, friends: Friend[]): FriendCard {
+  const goalCategories = (
+    (row.categories ?? []) as {
+      position: number
+      key: string | null
+      label: string | null
+      hue: number | null
+    }[]
+  ).map(({ position, ...categories }) => ({ position, categories }))
+  return {
+    ...toSummary({ ...row, goal_categories: goalCategories } as unknown as Row),
+    ownerId: row.owner_id,
+    ownerName: friends.find((f) => f.id === row.owner_id)?.name ?? null,
+  }
+}
+
+/**
+ * Cards friends shared with the viewer, most recently touched first; one friend's with `ownerId`.
+ * Read through friend_cards(): a friend's card is never a row of the viewer's own notebook.
+ */
+export async function friendFeed(friends: Friend[], ownerId?: string): Promise<FriendCard[]> {
   if (friends.length === 0) return []
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .from('goals')
-    .select(`${cardColumns}, owner_id`)
-    .neq('owner_id', userId)
-    .eq('visibility', 'circle')
-    .is('deleted_at', null)
-    .order('updated_at', { ascending: false })
-    .limit(60)
+  const { data, error } = await supabase.rpc('friend_cards', ownerId ? { only_owner: ownerId } : {})
   if (error) throw error
-  const names = new Map(friends.map((f) => [f.id, f.name]))
-  return (data as unknown as (Row & { owner_id: string })[]).map((row) => ({
-    ...toSummary(row),
-    ownerId: row.owner_id,
-    ownerName: names.get(row.owner_id) ?? null,
-  }))
+  return (data ?? []).map((row) => toFriendCard(row, friends))
 }
 
 export type ActivityItem = {
@@ -215,32 +226,18 @@ export type FriendCardDetail = FriendCard & {
   descriptionDoc: RichDoc | null
 }
 
-/** A card a friend shared, read-only (null when not visible or when it is the viewer's own). */
+/** A card a friend shared, read-only (null when not shared with the viewer, or their own). */
 export async function getFriendCard(
   goalId: string,
-  userId: string,
   friends: Friend[],
 ): Promise<FriendCardDetail | null> {
   const supabase = await createClient()
-  const { data } = await supabase
-    .from('goals')
-    .select(`${cardColumns}, owner_id, why, first_step, description_doc`)
-    .eq('id', goalId)
-    .is('deleted_at', null)
-    .maybeSingle()
-  if (!data) return null
-  const row = data as unknown as Row & {
-    owner_id: string
-    why: string | null
-    first_step: string | null
-    description_doc: unknown
-  }
-  if (row.owner_id === userId) return null
+  const { data } = await supabase.rpc('friend_cards', { only_goal: goalId })
+  const row = data?.[0]
+  if (!row) return null
   const doc = RichDoc.safeParse(row.description_doc)
   return {
-    ...toSummary(row),
-    ownerId: row.owner_id,
-    ownerName: friends.find((f) => f.id === row.owner_id)?.name ?? null,
+    ...toFriendCard(row, friends),
     why: row.why,
     firstStep: row.first_step,
     descriptionDoc: doc.success ? doc.data : null,

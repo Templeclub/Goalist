@@ -318,6 +318,15 @@ La dimension sociale prévue au départ (« cercle d'amis », soutenir, contribu
 - **Fin d'une amitié** : l'un ou l'autre la retire ; l'accès aux cartes partagées et à ce qui s'y est dit disparaît aussitôt, des deux côtés.
 - Tests pgTAP : `supabase/tests/database/friends.test.sql` (39 assertions). Le générateur de types local produit désormais aussi les fonctions SQL.
 
+### D-066 · Les cartes d'un ami ne sont jamais les miennes — Acceptée
+
+Retour d'usage sur D-064 : une carte partagée apparaissait aussi dans « Mes cartes », l'accueil et la collection de l'ami, s'ouvrait dans l'éditeur comme si elle lui appartenait (la base refusait déjà toute écriture, mais l'écran laissait croire le contraire), et partait dans son export.
+
+- **Séparation à la source** : `public.goals` (et tout ce qui en dépend, dont `goal_categories`) redevient lisible par son seul propriétaire (`goals_select_own`). Chaque requête du carnet ne peut donc renvoyer que ses propres cartes, sans filtre à ne pas oublier.
+- **Lecture des amis** : `friend_cards(only_owner, only_goal)` (`security definer`), limitée aux cartes `circle` non supprimées d'un ami, jamais les siennes, et aux colonnes qu'un ami peut voir (titre, pourquoi, premier pas, description, caractéristiques, séries). Les interactions passent toujours par `is_friend_goal()`.
+- **Écrans** : les cartes des amis ne se voient que dans la section Amis : le fil, le nouveau **profil d'un ami** (`/friends/:friendId`, toutes ses cartes partagées) et la page d'une carte, en lecture seule, avec le nom du propriétaire. L'adresse `/goals/:id` d'une carte d'ami redirige vers sa page en lecture seule.
+- Tests pgTAP (47 assertions dans `friends.test.sql`) : la carte partagée n'est ni dans `goals` ni dans `goal_categories` de l'ami, il ne peut ni la renommer ni la supprimer, `friend_cards()` la montre à lui seul. E2E : elle n'apparaît ni dans ses cartes, ni à l'accueil, ni dans la collection.
+
 ## Identité
 
 ### D-065 · Le produit s'appelle Boosteur — Acceptée
