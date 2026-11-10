@@ -3,7 +3,7 @@
 import { useFormatter, useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { callApi } from '@/features/friends/client-api'
-import { useRouter } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import { Button } from '../ui/Button'
 
 export type FriendItem = { id: string; name: string | null; since: string; sharedCount: number }
@@ -41,7 +41,13 @@ export function FriendList({ friends, api = callApi }: FriendListProps) {
           >
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <p className="truncate font-display text-lg font-extrabold">{name}</p>
+                <Link
+                  href={`/friends/${f.id}`}
+                  aria-label={t('profile.open', { name })}
+                  className="block truncate font-display text-lg font-extrabold text-accent-strong hover:underline"
+                >
+                  {name}
+                </Link>
                 <p className="text-sm text-ink-2">
                   {t('list.shared', { count: f.sharedCount })} ·{' '}
                   {t('list.since', {

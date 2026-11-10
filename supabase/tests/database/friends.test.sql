@@ -1,7 +1,8 @@
--- Friends (D-064): invites, sharing a card with friends, interactions. RLS only.
+-- Friends (D-064, D-066): invites, sharing a card with friends, interactions. RLS only.
+-- A friend reads a shared card through friend_cards(), never as a row of their own notebook.
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(39);
+select plan(47);
 
 insert into auth.users (id, email) values
   ('a0000000-0000-4000-8000-000000000001', 'alice@example.test'),
@@ -93,6 +94,7 @@ reset role;
 -- ---------------------------------------------------------------------------
 select pg_temp.act_as('b0000000-0000-4000-8000-000000000002');
 select is((select count(*)::int from public.goals), 0, 'a private card stays private, even from a friend');
+select is((select count(*)::int from public.friend_cards()), 0, 'nothing is shared yet');
 reset role;
 
 select pg_temp.act_as('a0000000-0000-4000-8000-000000000001');
@@ -107,16 +109,36 @@ select lives_ok(
 reset role;
 
 select pg_temp.act_as('b0000000-0000-4000-8000-000000000002');
-select is((select count(*)::int from public.goals), 1, 'Bob sees the card Alice shared');
-select is((select count(*)::int from public.goal_categories), 1, 'Bob sees its series');
+select is((select count(*)::int from public.friend_cards()), 1, 'Bob sees the card Alice shared');
+select is(
+  (select categories->0->>'key' from public.friend_cards()), 'travel',
+  'Bob sees its series'
+);
+select is(
+  (select count(*)::int from public.friend_cards(only_owner => 'a0000000-0000-4000-8000-000000000001')), 1,
+  'Alice''s profile lists it'
+);
+select is(
+  (select count(*)::int from public.friend_cards(only_goal => 'a1000000-0000-4000-8000-000000000001')), 1,
+  'the card opens on its own'
+);
+select is((select count(*)::int from public.goals), 0, 'the shared card is not in Bob''s own notebook');
+select is((select count(*)::int from public.goal_categories), 0, 'nor are its series rows');
+update public.goals set title = 'Carte de Bob' where id = 'a1000000-0000-4000-8000-000000000001';
+delete from public.goals where id = 'a1000000-0000-4000-8000-000000000001';
+
 reset role;
 
 select pg_temp.act_as('d0000000-0000-4000-8000-000000000004');
-select is((select count(*)::int from public.goals), 0, 'Carol, not a friend, does not see it');
+select is((select count(*)::int from public.friend_cards()), 0, 'Carol, not a friend, does not see it');
+select is(
+  (select count(*)::int from public.friend_cards(only_goal => 'a1000000-0000-4000-8000-000000000001')), 0,
+  'not even with its id'
+);
 reset role;
 
 select pg_temp.act_as('c0000000-0000-4000-8000-000000000003', true);
-select is((select count(*)::int from public.goals), 0, 'an anonymous session does not see it');
+select is((select count(*)::int from public.friend_cards()), 0, 'an anonymous session does not see it');
 reset role;
 
 -- ---------------------------------------------------------------------------
@@ -169,6 +191,11 @@ select is((select count(*)::int from public.contribution_offers), 0, 'Carol does
 reset role;
 
 select pg_temp.act_as('a0000000-0000-4000-8000-000000000001');
+select is(
+  (select title from public.goals where id = 'a1000000-0000-4000-8000-000000000001'),
+  'Dormir à la belle étoile', 'Bob could neither rename nor delete Alice''s card'
+);
+select is((select count(*)::int from public.friend_cards()), 0, 'Alice''s own card is not a friend''s card');
 select throws_ok(
   $$ insert into public.reactions (goal_id, author_id, kind)
      values ('a1000000-0000-4000-8000-000000000001', 'a0000000-0000-4000-8000-000000000001', 'bravo') $$,
@@ -192,7 +219,7 @@ reset role;
 -- ---------------------------------------------------------------------------
 select pg_temp.act_as('b0000000-0000-4000-8000-000000000002');
 delete from public.friendships;
-select is((select count(*)::int from public.goals), 0, 'once friends no more, Bob no longer sees the card');
+select is((select count(*)::int from public.friend_cards()), 0, 'once friends no more, Bob no longer sees the card');
 select is((select count(*)::int from public.reactions), 0, 'nor what was said on it');
 reset role;
 

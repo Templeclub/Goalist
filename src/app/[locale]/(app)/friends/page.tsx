@@ -81,7 +81,7 @@ async function FriendsView() {
 
   const friends = await listFriends()
   const [feed, activity] = await Promise.all([
-    friendFeed(viewer.id, friends),
+    friendFeed(friends),
     myCardsActivity(viewer.id, friends),
   ])
 
@@ -149,9 +149,12 @@ async function FriendsView() {
           <ul className={gridClass}>
             {feed.map((goal) => (
               <li key={goal.id} className="grid content-start gap-1.5">
-                <p className="truncate text-sm font-extrabold text-ink-2">
+                <Link
+                  href={`/friends/${goal.ownerId}`}
+                  className="flex min-h-11 items-center truncate text-sm font-extrabold text-accent-strong hover:underline"
+                >
                   {t('feed.by', { name: goal.ownerName ?? t('noName') })}
-                </p>
+                </Link>
                 <GoalCard
                   size="compact"
                   href={`/friends/cards/${goal.id}`}

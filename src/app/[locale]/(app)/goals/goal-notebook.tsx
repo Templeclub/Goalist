@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronLeft } from 'lucide-react'
-import { getFormatter, getTranslations } from 'next-intl/server'
+import { getFormatter, getLocale, getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { CategoryPill } from '@/components/goal/CategoryPill'
 import { OwnCardSocial } from '@/components/friends/OwnCardSocial'
@@ -10,13 +10,13 @@ import { GoalCard } from '@/components/goal/GoalCard'
 import { RichTextView } from '@/components/sheet/RichTextView'
 import { buttonVariants } from '@/components/ui/Button'
 import { getViewer } from '@/features/auth/session'
-import { cardSocial, listFriends } from '@/features/friends/queries'
+import { cardSocial, getFriendCard, listFriends } from '@/features/friends/queries'
 import { acquiredNumber, getGoalSheet } from '@/features/goals/queries'
 import { RichDoc } from '@/features/goals/rich-text'
 import type { ValueKey } from '@/features/goals/schema'
 import { firstSectionToComplete, sectionForMissing } from '@/features/goals/sections'
 import { factRows } from './[id]/facts'
-import { Link } from '@/i18n/navigation'
+import { Link, redirect } from '@/i18n/navigation'
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
@@ -47,6 +47,12 @@ export async function GoalNotebook({ id, embedded = false }: { id: string; embed
     getViewer(),
   ])
   const goal = viewer && z.uuid().safeParse(id).success ? await getGoalSheet(id) : null
+
+  // A friend's card is never opened as one's own (D-066): send it to its read-only page.
+  if (!goal && viewer && !viewer.isAnonymous && z.uuid().safeParse(id).success) {
+    if (await getFriendCard(id, []))
+      redirect({ href: `/friends/cards/${id}`, locale: await getLocale() })
+  }
 
   if (!goal) {
     return (

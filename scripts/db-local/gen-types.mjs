@@ -81,7 +81,7 @@ function functionsBlock() {
     const args =
       f.args.length === 0
         ? 'never'
-        : `{ ${f.args.map((a) => `${a.name}: ${tsType(a.type)}`).join('; ')} }`
+        : `{ ${f.args.map((a) => `${a.name}${a.optional ? '?' : ''}: ${tsType(a.type)}`).join('; ')} }`
     const returns =
       f.columns.length > 0
         ? `{ ${f.columns.map((c) => `${c.name}: ${tsType(c.type)}`).join('; ')} }[]`

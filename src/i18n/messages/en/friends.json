@@ -62,7 +62,8 @@
     "owner": "{name}’s card",
     "why": "Why it matters",
     "firstStep": "First step",
-    "description": "Description"
+    "description": "Description",
+    "readOnly": "{name}’s card, read-only: you can cheer it on, not change it."
   },
   "reactions": {
     "label": "Cheer on",
@@ -115,5 +116,15 @@
     "decline": "Not this time",
     "reopen": "Reconsider"
   },
-  "failed": "That could not be saved. Try again in a moment."
+  "failed": "That could not be saved. Try again in a moment.",
+  "profile": {
+    "back": "Friends",
+    "title": "{name}’s cards",
+    "since": "Friends since {date}",
+    "count": "{count, plural, =0 {No shared card yet} one {# card shared with you} other {# cards shared with you}}",
+    "empty": "{name} hasn’t shared any card yet. Everyone chooses what they share.",
+    "readOnly": "These are {name}’s cards: you can look at them and cheer them on; only {name} can change them.",
+    "notFound": "This person is not (or no longer) one of your friends.",
+    "open": "See {name}’s cards"
+  }
 }

@@ -717,6 +717,10 @@ export type Database = {
         Args: { target_category_id: string }
         Returns: boolean
       }
+      friend_cards: {
+        Args: { only_owner?: string; only_goal?: string }
+        Returns: { id: string; owner_id: string; title: string; tagline: string; emoji: string; hue: number; horizon: string; preparation: string; budget_level: string; first_step: string; why: string; description_doc: Json; status: string; status_changed_at: string; completeness_level: string; missing_sections: string[]; updated_at: string; created_at: string; version: number; categories: Json }[]
+      }
       goal_shared_with_me: {
         Args: { target_owner_id: string; target_visibility: string }
         Returns: boolean
