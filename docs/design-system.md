@@ -19,7 +19,7 @@
 
 ## 1. Intention
 
-Élan doit ressembler à **un beau carnet de projets personnel** : chaleureux, calme, lumineux, légèrement éditorial. Pas un outil de gestion de tâches, pas un tableau de bord.
+Boosteur doit ressembler à **un beau carnet de projets personnel** : chaleureux, calme, lumineux, légèrement éditorial. Pas un outil de gestion de tâches, pas un tableau de bord.
 
 - **Beaucoup d'air, peu d'éléments, un geste principal par écran.**
 - **La page avant le widget** : les envies se lisent comme des pages, pas comme des lignes de tableau.

@@ -1,5 +1,5 @@
-/** Product name is provisional: change it here only (D-001). */
-export const APP_NAME = 'Élan'
+/** Product name (D-065): change it here only. */
+export const APP_NAME = 'Boosteur'
 
 export const APP_DESCRIPTION_KEY = 'meta.description'
 

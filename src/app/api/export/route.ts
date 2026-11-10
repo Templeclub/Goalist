@@ -40,7 +40,7 @@ type Row = Record<string, unknown> & {
 }
 
 /**
- * Everything the person wrote, as a ZIP: elan-export.json (complete),
+ * Everything the person wrote, as a ZIP: boosteur-export.json (complete),
  * envies/*.md (readable) and images/ (originals). Read through RLS only.
  */
 export async function GET() {
@@ -132,7 +132,7 @@ export async function GET() {
   }
 
   const exportedAt = now.toISOString()
-  files['elan-export.json'] = strToU8(
+  files['boosteur-export.json'] = strToU8(
     JSON.stringify(
       {
         app: APP_NAME,
@@ -153,7 +153,7 @@ export async function GET() {
   return new NextResponse(zip as unknown as BodyInit, {
     headers: {
       'Content-Type': 'application/zip',
-      'Content-Disposition': `attachment; filename="elan-export-${exportedAt.slice(0, 10)}.zip"`,
+      'Content-Disposition': `attachment; filename="boosteur-export-${exportedAt.slice(0, 10)}.zip"`,
       'Cache-Control': 'no-store',
     },
   })

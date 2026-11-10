@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 test.describe('Page publique', () => {
   test('affiche la promesse du carnet en français', async ({ page }) => {
     await page.goto('/')
-    await expect(page).toHaveTitle(/Élan/)
+    await expect(page).toHaveTitle(/Boosteur/)
     await expect(page.locator('html')).toHaveAttribute('lang', 'fr')
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
       'Ce que tu aimerais vraiment, enfin écrit.',

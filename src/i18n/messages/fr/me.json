@@ -47,7 +47,7 @@
     "links": "Liens",
     "images": "Images",
     "kept": "Gardée le",
-    "readme": "Export de ton carnet {appName}, le {date}. Le fichier elan-export.json contient toutes tes données ; le dossier envies/ une page lisible par envie."
+    "readme": "Export de ton carnet {appName}, le {date}. Le fichier boosteur-export.json contient toutes tes données ; le dossier envies/ une page lisible par envie."
   },
   "appearance": {
     "title": "Apparence",

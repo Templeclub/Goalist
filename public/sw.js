@@ -1,10 +1,10 @@
 /*
- * Élan service worker — minimal offline (docs/plan.md §2.3, D-056).
+ * Boosteur service worker — minimal offline (docs/plan.md §2.3, D-056).
  * - Pages: network first, last good copy as fallback, then /offline.
  * - Next.js static assets: cache first (they are content-hashed).
  * - API calls are never cached: the in-app queues retry them.
  */
-const VERSION = 'elan-v1'
+const VERSION = 'boosteur-v1'
 const PAGES = `${VERSION}-pages`
 const ASSETS = `${VERSION}-assets`
 const OFFLINE_URL = '/offline'

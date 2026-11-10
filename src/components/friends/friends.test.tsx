@@ -38,7 +38,7 @@ describe('InviteCard', () => {
       .fn()
       .mockResolvedValueOnce({ code: null })
       .mockResolvedValueOnce({ code: 'alice-invite-code-0001' })
-    renderWithIntl(<InviteCard appName="Élan" api={api} />)
+    renderWithIntl(<InviteCard appName="Boosteur" api={api} />)
     await screen.findByRole('button', { name: 'Créer mon lien d’invitation' })
     await click('Créer mon lien d’invitation')
     expect(api).toHaveBeenLastCalledWith('/api/friends/invite', 'POST')

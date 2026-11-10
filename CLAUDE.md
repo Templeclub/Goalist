@@ -1,10 +1,10 @@
-# CLAUDE.md — Élan (nom provisoire)
+# CLAUDE.md — Boosteur
 
 Ce fichier guide tout travail de développement sur ce dépôt. À lire avant chaque session.
 
 ## Vision
 
-Élan est une PWA mobile-first pour **mettre par écrit ses envies, projets et objectifs**, puis les **nommer, décrire et qualifier** à son rythme. Écrire une envie, c'est déjà s'engager : l'outil doit rendre ce geste facile, agréable et complet.
+Boosteur est une PWA mobile-first pour **mettre par écrit ses envies, projets et objectifs**, puis les **nommer, décrire et qualifier** à son rythme. Écrire une envie, c'est déjà s'engager : l'outil doit rendre ce geste facile, agréable et complet.
 
 Le périmètre actuel couvre la capture (express et fiche guidée en 4 sections : l'envie, le pourquoi, préciser, premier pas), la collection de cartes (cartes à convertir, rareté, conversion, collection des cartes acquises), les recommandations d'accueil, les amis (invitation par lien, cartes partagées, encouragements, messages, « moi aussi », aide) et le compte. Communauté ouverte, tableau de bord, rappels et check-ins viendront plus tard : le modèle de données les anticipe, le code ne les implémente pas.
 
