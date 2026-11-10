@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { hasLocale } from 'next-intl'
 import { use } from 'react'
+import { BrandMark } from '@/components/brand/BrandMark'
 import { GoalCard } from '@/components/goal/GoalCard'
 import { buttonVariants } from '@/components/ui/Button'
 import { Link } from '@/i18n/navigation'
@@ -19,6 +20,10 @@ export default function LandingPage({ params }: PageProps<'/[locale]'>) {
     <main className="paper-dots min-h-dvh px-[max(1.25rem,env(safe-area-inset-left))] py-12 md:py-20">
       <div className="mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-[1.2fr_1fr]">
         <div className="grid gap-5">
+          <p className="flex items-center gap-2.5">
+            <BrandMark size={44} />
+            <span className="font-display text-2xl font-extrabold">{APP_NAME}</span>
+          </p>
           <p className="label-caps">{t('eyebrow')}</p>
           <h1 className="font-display text-3xl font-bold tracking-[-0.015em] md:text-[3.25rem] md:leading-[1.02]">
             {t('title')}
